@@ -53,7 +53,7 @@
             this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1469, 33);
+            this.menuStrip1.Size = new System.Drawing.Size(1414, 33);
             this.menuStrip1.TabIndex = 2;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -106,7 +106,7 @@
             this.chList.HideSelection = false;
             this.chList.Location = new System.Drawing.Point(12, 178);
             this.chList.Name = "chList";
-            this.chList.Size = new System.Drawing.Size(572, 635);
+            this.chList.Size = new System.Drawing.Size(572, 591);
             this.chList.TabIndex = 5;
             this.chList.UseCompatibleStateImageBehavior = false;
             this.chList.DoubleClick += new System.EventHandler(this.listView1_DoubleClick);
@@ -130,14 +130,14 @@
             this.axWindowsMediaPlayer1.Location = new System.Drawing.Point(422, 60);
             this.axWindowsMediaPlayer1.Name = "axWindowsMediaPlayer1";
             this.axWindowsMediaPlayer1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axWindowsMediaPlayer1.OcxState")));
-            this.axWindowsMediaPlayer1.Size = new System.Drawing.Size(529, 424);
+            this.axWindowsMediaPlayer1.Size = new System.Drawing.Size(476, 272);
             this.axWindowsMediaPlayer1.TabIndex = 8;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1469, 840);
+            this.ClientSize = new System.Drawing.Size(1414, 796);
             this.Controls.Add(this.axWindowsMediaPlayer1);
             this.Controls.Add(this.chList);
             this.Controls.Add(this.menuStrip1);
