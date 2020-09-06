@@ -20,8 +20,6 @@ namespace AmiIptvPlayer
             
             InitializeComponent();
            
-            //vlcControl.MediaPlayer = _mp;
-
             chList.View = View.Details;
 
         }
@@ -33,7 +31,7 @@ namespace AmiIptvPlayer
             chList.Items.Add(i);
             chList.FullRowSelect = true;
             axWindowsMediaPlayer1.URL = "http://test";
-            axWindowsMediaPlayer1.Ctlcontrols.play();
+            //axWindowsMediaPlayer1.Ctlcontrols.play();
 
             //chList.Items.Add(new ListViewItem(new string[] { "2", "La 2HD" }));
         }
@@ -51,7 +49,11 @@ namespace AmiIptvPlayer
         {
             Preferences pref = new Preferences();
             pref.ShowDialog();
-
+            Channels channels = Channels.Get();
+            if (channels.RePaint())
+            {
+                Console.Write("Repaint");
+            }
         }
 
         private void quitToolStripMenuItem_Click(object sender, EventArgs e)
