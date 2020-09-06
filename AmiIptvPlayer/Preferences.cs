@@ -26,7 +26,13 @@ namespace AmiIptvPlayer
 
         private void btnOk_Click(object sender, EventArgs e)
         {
-            System.Configuration.ConfigurationSettings.AppSettings.Set("Url", txtURL.Text);
+            string lastList = System.Configuration.ConfigurationSettings.AppSettings.Get("Url");
+            if (lastList != txtURL.Text)
+            {
+                System.Configuration.ConfigurationSettings.AppSettings.Set("Url", txtURL.Text);
+                Channels channels = Channels.Get();
+                channels.RefreshList(txtURL.Text);
+            }
             System.Configuration.ConfigurationSettings.AppSettings.Set("Epg", txtEPG.Text);
             this.Close();
             this.Dispose();
