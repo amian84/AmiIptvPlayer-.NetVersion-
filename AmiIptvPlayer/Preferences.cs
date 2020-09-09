@@ -31,7 +31,8 @@ namespace AmiIptvPlayer
             {
                 System.Configuration.ConfigurationSettings.AppSettings.Set("Url", txtURL.Text);
                 Channels channels = Channels.Get();
-                channels.RefreshList(txtURL.Text);
+                channels.SetUrl(txtURL.Text);
+                channels.SetNeedRefresh(true);
             }
             System.Configuration.ConfigurationSettings.AppSettings.Set("Epg", txtEPG.Text);
             this.Close();
