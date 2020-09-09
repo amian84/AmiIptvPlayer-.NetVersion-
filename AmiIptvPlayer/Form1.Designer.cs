@@ -39,8 +39,12 @@
             this.chNumber = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.axWindowsMediaPlayer1 = new AxWMPLib.AxWindowsMediaPlayer();
+            this.loadingPanel = new System.Windows.Forms.Panel();
+            this.pgBar = new System.Windows.Forms.ProgressBar();
+            this.label1 = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.axWindowsMediaPlayer1)).BeginInit();
+            this.loadingPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -133,11 +137,42 @@
             this.axWindowsMediaPlayer1.Size = new System.Drawing.Size(476, 272);
             this.axWindowsMediaPlayer1.TabIndex = 8;
             // 
+            // loadingPanel
+            // 
+            this.loadingPanel.Controls.Add(this.label1);
+            this.loadingPanel.Controls.Add(this.pgBar);
+            this.loadingPanel.Location = new System.Drawing.Point(352, 175);
+            this.loadingPanel.Name = "loadingPanel";
+            this.loadingPanel.Size = new System.Drawing.Size(742, 459);
+            this.loadingPanel.TabIndex = 9;
+            this.loadingPanel.Visible = false;
+            // 
+            // pgBar
+            // 
+            this.pgBar.Location = new System.Drawing.Point(102, 239);
+            this.pgBar.Name = "pgBar";
+            this.pgBar.Size = new System.Drawing.Size(555, 84);
+            this.pgBar.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
+            this.pgBar.TabIndex = 0;
+            this.pgBar.UseWaitCursor = true;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(277, 111);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(195, 46);
+            this.label1.TabIndex = 1;
+            this.label1.Text = "Loading...";
+            this.label1.Click += new System.EventHandler(this.label1_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1414, 796);
+            this.Controls.Add(this.loadingPanel);
             this.Controls.Add(this.axWindowsMediaPlayer1);
             this.Controls.Add(this.chList);
             this.Controls.Add(this.menuStrip1);
@@ -148,6 +183,8 @@
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.axWindowsMediaPlayer1)).EndInit();
+            this.loadingPanel.ResumeLayout(false);
+            this.loadingPanel.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -165,6 +202,9 @@
         private System.Windows.Forms.ColumnHeader chNumber;
         private System.Windows.Forms.ColumnHeader chName;
         private AxWMPLib.AxWindowsMediaPlayer axWindowsMediaPlayer1;
+        private System.Windows.Forms.Panel loadingPanel;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ProgressBar pgBar;
     }
 }
 
