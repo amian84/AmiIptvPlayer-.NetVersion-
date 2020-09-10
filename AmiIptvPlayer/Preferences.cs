@@ -26,6 +26,18 @@ namespace AmiIptvPlayer
 
         private void btnOk_Click(object sender, EventArgs e)
         {
+            Ok();
+            
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            this.Close();
+            this.Dispose();
+        }
+
+        private void Ok()
+        {
             string lastList = System.Configuration.ConfigurationSettings.AppSettings.Get("Url");
             if (lastList != txtURL.Text)
             {
@@ -39,10 +51,20 @@ namespace AmiIptvPlayer
             this.Dispose();
         }
 
-        private void btnCancel_Click(object sender, EventArgs e)
+        private void txtURL_KeyPress(object sender, KeyPressEventArgs e)
         {
-            this.Close();
-            this.Dispose();
+            if (e.KeyChar == (char)13)
+            {
+                Ok();
+            }
+        }
+
+        private void txtEPG_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)13)
+            {
+                Ok();
+            }
         }
     }
 }

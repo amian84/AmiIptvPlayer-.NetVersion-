@@ -61,6 +61,7 @@
             this.txtURL.Name = "txtURL";
             this.txtURL.Size = new System.Drawing.Size(389, 26);
             this.txtURL.TabIndex = 2;
+            this.txtURL.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtURL_KeyPress);
             // 
             // txtEPG
             // 
@@ -68,6 +69,7 @@
             this.txtEPG.Name = "txtEPG";
             this.txtEPG.Size = new System.Drawing.Size(389, 26);
             this.txtEPG.TabIndex = 3;
+            this.txtEPG.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtEPG_KeyPress);
             // 
             // btnOk
             // 

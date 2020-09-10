@@ -16,6 +16,11 @@ namespace AmiIptvPlayer
         public string TVGGroup { get; set; }
         public string TVGLogo { get; set; }
         public string URL { get; set; }
+        public int ChNumber { get; set; }
+
+        public ChannelInfo()
+        {
+        }
 
         public ChannelInfo(M3uPlaylistEntry channelEntry)
         {
@@ -23,7 +28,7 @@ namespace AmiIptvPlayer
             string extraInfoForParser = "";
             foreach (KeyValuePair<string, string> entry in channelEntry.CustomProperties)
             {
-                extraInfoForParser += entry.Key + entry.Value;
+                extraInfoForParser += entry.Key + ":" + entry.Value;
             }
             string regexTVGName = "tvg-name=\"(.*?)\"";
             string regexTVGLogo = "tvg-logo=\"(.*?)\"";
@@ -35,6 +40,7 @@ namespace AmiIptvPlayer
             TVGLogo = MatchAndResult(extraInfoForParser, regexTVGLogo);
             TVGGroup = MatchAndResult(extraInfoForParser, regexTVGGroup);
             TVGId = MatchAndResult(extraInfoForParser, regexTVGId);
+
         }
         private string MatchAndResult (string toSearch, string pattern)
         {

@@ -1,8 +1,10 @@
 ﻿
+using Newtonsoft.Json;
 using PlaylistsNET.Content;
 using PlaylistsNET.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -25,6 +27,21 @@ namespace AmiIptvPlayer
             return instance;
         }
 
+        public static Channels LoadFromJSON()
+        {
+            if (instance == null)
+            {
+                instance = new Channels();
+            }
+            using (StreamReader r = new StreamReader("channelCache.json"))
+            {
+                string json = r.ReadToEnd();
+                List<ChannelInfo> items = JsonConvert.DeserializeObject<List<ChannelInfo>>(json);
+                instance.FillFromListChannelInfo(items);
+            }
+            return instance;
+        }
+
         public ChannelInfo GetChannel(int chNumber)
         {
             if (channelsInfo.ContainsKey(chNumber))
@@ -32,6 +49,17 @@ namespace AmiIptvPlayer
                 return channelsInfo[chNumber];
             }
             return null;
+        }
+
+        public void FillFromListChannelInfo(List<ChannelInfo> channels)
+        {
+            channelsInfo.Clear();
+            int channelNumber = 0;
+            foreach (ChannelInfo channel in channels)
+            {
+                channelsInfo.Add(channelNumber, channel);
+                channelNumber++;
+            }
         }
 
         public Dictionary<int, ChannelInfo> GetChannelsDic(){
@@ -71,6 +99,11 @@ namespace AmiIptvPlayer
                 channelsInfo.Add(channelNumber, channelInfo);
                 channelNumber++;
 
+            }
+            using (StreamWriter file = File.CreateText("channelCache.json"))
+            {
+                JsonSerializer serializer = new JsonSerializer();
+                serializer.Serialize(file, channelsInfo.Values);
             }
             needRefresh = false;
             
