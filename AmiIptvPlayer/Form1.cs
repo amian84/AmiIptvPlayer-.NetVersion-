@@ -24,7 +24,7 @@ namespace AmiIptvPlayer
             lbEPG.Visible = true;
             lbEPG.BringToFront();
             
-            if (File.Exists("channelCache.json"))
+            if (File.Exists(System.Environment.GetEnvironmentVariable("USERPROFILE") + "\\channelCache.json"))
             {
                 Channels channels = Channels.LoadFromJSON();
                 fillChannelList();

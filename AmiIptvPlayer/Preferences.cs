@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
 using System.Drawing;
 using System.Linq;
@@ -13,15 +14,17 @@ namespace AmiIptvPlayer
 {
     public partial class Preferences : Form
     {
+        public Configuration config = null;
         public Preferences()
         {
+            config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
             InitializeComponent();
         }
 
         private void Preferences_Load(object sender, EventArgs e)
         {
-            txtURL.Text = System.Configuration.ConfigurationSettings.AppSettings.Get("Url");
-            txtEPG.Text = System.Configuration.ConfigurationSettings.AppSettings.Get("Epg");
+            txtURL.Text = config.AppSettings.Settings["Url"].Value;
+            txtEPG.Text = config.AppSettings.Settings["Epg"].Value;
         }
 
         private void btnOk_Click(object sender, EventArgs e)
@@ -38,15 +41,18 @@ namespace AmiIptvPlayer
 
         private void Ok()
         {
-            string lastList = System.Configuration.ConfigurationSettings.AppSettings.Get("Url");
+            
+            string lastList = config.AppSettings.Settings["Url"].Value;
             if (lastList != txtURL.Text)
             {
-                System.Configuration.ConfigurationSettings.AppSettings.Set("Url", txtURL.Text);
+                config.AppSettings.Settings["Url"].Value = txtURL.Text;
                 Channels channels = Channels.Get();
                 channels.SetUrl(txtURL.Text);
                 channels.SetNeedRefresh(true);
+                config.Save(ConfigurationSaveMode.Modified);
+                ConfigurationManager.RefreshSection("appSettings");
             }
-            System.Configuration.ConfigurationSettings.AppSettings.Set("Epg", txtEPG.Text);
+            
             this.Close();
             this.Dispose();
         }

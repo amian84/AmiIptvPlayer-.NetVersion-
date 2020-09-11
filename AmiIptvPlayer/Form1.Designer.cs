@@ -140,7 +140,7 @@
             this.loadingPanel.Controls.Add(this.pgBar);
             this.loadingPanel.Location = new System.Drawing.Point(459, 221);
             this.loadingPanel.Name = "loadingPanel";
-            this.loadingPanel.Size = new System.Drawing.Size(635, 413);
+            this.loadingPanel.Size = new System.Drawing.Size(799, 516);
             this.loadingPanel.TabIndex = 9;
             this.loadingPanel.Visible = false;
             // 
