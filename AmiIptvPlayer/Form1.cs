@@ -157,5 +157,21 @@ namespace AmiIptvPlayer
             txtFilter.Clear();
             chList.Items.AddRange(lstChannels.Select(c => new ListViewItem(new string[] { c.ChNumber.ToString(), c.Title })).ToArray());
         }
+
+        private void refreshListToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Channels channels = Channels.Get();
+            loadingPanel.Visible = true;
+            loadingPanel.BringToFront();
+            new System.Threading.Thread(delegate ()
+            {
+                channels.RefreshList();
+                fillChannelList();
+                loadingPanel.Invoke((System.Threading.ThreadStart)delegate {
+                    loadingPanel.Visible = false;
+                });
+
+            }).Start();
+        }
     }
 }

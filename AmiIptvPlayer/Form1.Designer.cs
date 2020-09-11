@@ -50,6 +50,7 @@
             this.btnFilter = new System.Windows.Forms.Button();
             this.btnClear = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
+            this.refreshListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.loadingPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.logoChannel)).BeginInit();
@@ -75,6 +76,7 @@
             // 
             this.FileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.settingsToolStripMenuItem,
+            this.refreshListToolStripMenuItem,
             this.quitToolStripMenuItem});
             this.FileToolStripMenuItem.Name = "FileToolStripMenuItem";
             this.FileToolStripMenuItem.Size = new System.Drawing.Size(50, 29);
@@ -255,6 +257,13 @@
             this.label2.TabIndex = 22;
             this.label2.Text = "Filter list:";
             // 
+            // refreshListToolStripMenuItem
+            // 
+            this.refreshListToolStripMenuItem.Name = "refreshListToolStripMenuItem";
+            this.refreshListToolStripMenuItem.Size = new System.Drawing.Size(252, 30);
+            this.refreshListToolStripMenuItem.Text = "Refresh List";
+            this.refreshListToolStripMenuItem.Click += new System.EventHandler(this.refreshListToolStripMenuItem_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -312,6 +321,7 @@
         private System.Windows.Forms.Button btnFilter;
         private System.Windows.Forms.Button btnClear;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.ToolStripMenuItem refreshListToolStripMenuItem;
     }
 }
 
