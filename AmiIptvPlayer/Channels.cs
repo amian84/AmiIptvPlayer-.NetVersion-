@@ -83,28 +83,34 @@ namespace AmiIptvPlayer
                 url = _url;
             }
             string contents;
-            using (var wc = new WebClient())
+            try
             {
-                contents = wc.DownloadString(url);
+                using (var wc = new WebClient())
+                {
+                    contents = wc.DownloadString(url);
+                }
+
+                var parser = PlaylistParserFactory.GetPlaylistParser(".m3u");
+                IBasePlaylist playlist = parser.GetFromString(contents);
+                M3uPlaylist m3uList = (M3uPlaylist)playlist;
+                channelsInfo.Clear();
+                int channelNumber = 0;
+                foreach (M3uPlaylistEntry entry in m3uList.PlaylistEntries)
+                {
+                    ChannelInfo channelInfo = new ChannelInfo(entry);
+                    channelsInfo.Add(channelNumber, channelInfo);
+                    channelNumber++;
+
+                }
+                using (StreamWriter file = File.CreateText(System.Environment.GetEnvironmentVariable("USERPROFILE") + "\\channelCache.json"))
+                {
+                    JsonSerializer serializer = new JsonSerializer();
+                    serializer.Serialize(file, channelsInfo.Values);
+                }
+            } catch (Exception ex) {
+                Console.WriteLine("Some error occur");
             }
             
-            var parser = PlaylistParserFactory.GetPlaylistParser(".m3u");
-            IBasePlaylist playlist = parser.GetFromString(contents);
-            M3uPlaylist m3uList = (M3uPlaylist)playlist;
-            channelsInfo.Clear();
-            int channelNumber = 0;
-            foreach(M3uPlaylistEntry entry in m3uList.PlaylistEntries)
-            {
-                ChannelInfo channelInfo = new ChannelInfo(entry);
-                channelsInfo.Add(channelNumber, channelInfo);
-                channelNumber++;
-
-            }
-            using (StreamWriter file = File.CreateText(System.Environment.GetEnvironmentVariable("USERPROFILE") + "\\channelCache.json"))
-            {
-                JsonSerializer serializer = new JsonSerializer();
-                serializer.Serialize(file, channelsInfo.Values);
-            }
             needRefresh = false;
             
         }
