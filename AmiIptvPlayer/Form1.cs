@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
+using System.Configuration;
 using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Net;
 using System.Windows.Forms;
-using static System.Windows.Forms.ListView;
+
 
 namespace AmiIptvPlayer
 {
@@ -100,6 +99,38 @@ namespace AmiIptvPlayer
                 }).Start();
                 
             }
+            EPG_DB epgDB = EPG_DB.Get();
+            if (epgDB.Refresh)
+            {
+                loadingPanel.Visible = true;
+                loadingPanel.BringToFront();
+                new System.Threading.Thread(delegate ()
+                {
+                    Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+                    try
+                    {
+                        using (var client = new WebClient())
+                        {
+                            
+                            client.DownloadFile(config.AppSettings.Settings["Epg"].Value, "epg.xml");
+                        }
+                    } catch (Exception ex)
+                    {
+                        MessageBox.Show(
+                            "Error: " + ex.Message + ". URL=" + config.AppSettings.Settings["Epg"].Value,
+                            "Error",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error
+                        );
+                    }
+                    
+                    epgDB.Refresh = false;
+                    loadingPanel.Invoke((System.Threading.ThreadStart)delegate {
+                        loadingPanel.Visible = false;
+                    });
+
+                }).Start();
+            }
         }
         
         private void fillChannelList()
@@ -124,10 +155,6 @@ namespace AmiIptvPlayer
                 chList.Items.AddRange(lstChannels.Select(c =>  new ListViewItem(new string[] { c.ChNumber.ToString(), c.Title })).ToArray());
                 
             });
-
-
-            
-            
         }
 
         private void quitToolStripMenuItem_Click(object sender, EventArgs e)
