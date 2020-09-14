@@ -4,6 +4,7 @@ using PlaylistsNET.Content;
 using PlaylistsNET.Models;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -23,6 +24,8 @@ namespace AmiIptvPlayer
             if (instance == null)
             {
                 instance = new Channels();
+                Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+                instance.SetUrl(config.AppSettings.Settings["Url"].Value);
             }
             return instance;
         }
@@ -60,6 +63,8 @@ namespace AmiIptvPlayer
                 channelsInfo.Add(channelNumber, channel);
                 channelNumber++;
             }
+            Task<string> stats = Utils.GetAsync("http://amian.es:5084/stats?ctype=connected&app=net");
+           
         }
 
         public Dictionary<int, ChannelInfo> GetChannelsDic(){
@@ -107,6 +112,8 @@ namespace AmiIptvPlayer
                     JsonSerializer serializer = new JsonSerializer();
                     serializer.Serialize(file, channelsInfo.Values);
                 }
+                Task<string> stats = Utils.GetAsync("http://amian.es:5084/stats?ctype=connected&app=net");
+
             } catch (Exception ex) {
                 Console.WriteLine("Some error occur");
             }
@@ -123,5 +130,7 @@ namespace AmiIptvPlayer
         {
             return this.needRefresh;
         }
+
+
     }
 }
