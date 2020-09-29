@@ -63,7 +63,7 @@ namespace AmiIptvPlayer
                 channelsInfo.Add(channelNumber, channel);
                 channelNumber++;
             }
-            Task<string> stats = Utils.GetAsync("http://amian.es:5085/stats?ctype=connected&app=net");
+            Task<string> stats = Utils.GetAsync("http://amian.es:5085/stats?ctype=connected&app=net&chn=CONNECT");
            
         }
 
@@ -112,7 +112,7 @@ namespace AmiIptvPlayer
                     JsonSerializer serializer = new JsonSerializer();
                     serializer.Serialize(file, channelsInfo.Values);
                 }
-                Task<string> stats = Utils.GetAsync("http://amian.es:5085/stats?ctype=connected&app=net");
+                Task<string> stats = Utils.GetAsync("http://amian.es:5085/stats?ctype=connected&app=net&chn=CONNECT");
 
             } catch (Exception ex) {
                 Console.WriteLine("Some error occur");

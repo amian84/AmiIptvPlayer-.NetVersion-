@@ -9,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
@@ -109,6 +110,16 @@ namespace AmiIptvPlayer
                     player.Stop();
                     Thread.Sleep(500);
                     player.Load(channel.URL);
+                    try
+                    {
+                        string chName = channel.TVGName.Length < 100 ? channel.TVGName : channel.TVGName.Substring(0, 99);
+                        Task<string> stats = Utils.GetAsync("http://amian.es:5085/stats?ctype=connected&app=net&chn=" + chName);
+                    } catch (Exception ex)
+                    {
+                        Console.WriteLine("ERROR SENDING STATS");
+                    }
+
+                    
                     isMKV = channel.URL.Contains(".mkv");
                     
                     isPaused = false;
@@ -144,6 +155,7 @@ namespace AmiIptvPlayer
             {
                 player.MediaLoaded -= MediaLoaded;
                 player.MediaUnloaded -= StopPlayEvent;
+                Thread.Sleep(500);
                 System.Windows.Forms.Application.Exit();
             }
             else
@@ -440,8 +452,9 @@ namespace AmiIptvPlayer
         }
         private void exit()
         {
-            player.Stop();
             exitApp = true;
+            player.Stop();
+            
             
         }
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
