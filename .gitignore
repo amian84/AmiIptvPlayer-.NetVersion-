@@ -132,3 +132,4 @@ $RECYCLE.BIN/
 .vs/*
 _NCrunch*
 *_TemporaryKey.pfx
+/AmiIptvPlayer/Properties/app.manifest
