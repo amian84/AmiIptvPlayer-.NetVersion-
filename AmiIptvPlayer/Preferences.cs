@@ -1,4 +1,6 @@
-﻿using System;
+﻿using PlaylistsNET.Utils;
+using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Windows.Forms;
 
@@ -8,6 +10,7 @@ namespace AmiIptvPlayer
     public partial class Preferences : Form
     {
         public Configuration config = null;
+        
         public Preferences()
         {
             config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
@@ -18,7 +21,14 @@ namespace AmiIptvPlayer
         {
             txtURL.Text = config.AppSettings.Settings["Url"].Value;
             txtEPG.Text = config.AppSettings.Settings["Epg"].Value;
+            string audioConf = config.AppSettings.Settings["audio"].Value;
+            audio.SelectedItem = Utils.audios[audioConf];
+            string subConf = config.AppSettings.Settings["sub"].Value;
+            sub.SelectedItem = Utils.subs[subConf];
+
         }
+
+        
 
         private void btnOk_Click(object sender, EventArgs e)
         {
@@ -53,6 +63,8 @@ namespace AmiIptvPlayer
                 epgDB.Refresh = true;
                 ConfigurationManager.RefreshSection("appSettings");
             }
+            config.AppSettings.Settings["audio"].Value = Utils.GetAudioConfName(audio.SelectedItem.ToString());
+            config.AppSettings.Settings["sub"].Value = Utils.GetSubConfName(sub.SelectedItem.ToString());
             config.Save(ConfigurationSaveMode.Modified);
             this.Close();
             this.Dispose();
@@ -73,5 +85,7 @@ namespace AmiIptvPlayer
                 Ok();
             }
         }
+
+        
     }
 }
