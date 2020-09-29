@@ -28,10 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.FileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.refreshListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.quitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -43,19 +45,24 @@
             this.pgBar = new System.Windows.Forms.ProgressBar();
             this.logoChannel = new System.Windows.Forms.PictureBox();
             this.lbChName = new System.Windows.Forms.Label();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.lbEPG = new System.Windows.Forms.Label();
-            this.axWindowsMediaPlayer1 = new AxWMPLib.AxWindowsMediaPlayer();
             this.txtFilter = new System.Windows.Forms.TextBox();
             this.btnFilter = new System.Windows.Forms.Button();
             this.btnClear = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
-            this.refreshListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.panelvideo = new System.Windows.Forms.Panel();
+            this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
+            this.btnPlayPause = new System.Windows.Forms.Button();
+            this.btnStop = new System.Windows.Forms.Button();
+            this.seekBar = new System.Windows.Forms.TrackBar();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.lbEPG = new System.Windows.Forms.Label();
+            this.lbDuration = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.loadingPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.logoChannel)).BeginInit();
-            this.tableLayoutPanel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.axWindowsMediaPlayer1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.seekBar)).BeginInit();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -85,14 +92,21 @@
             // settingsToolStripMenuItem
             // 
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(160, 30);
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(185, 30);
             this.settingsToolStripMenuItem.Text = "Settings";
             this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
+            // 
+            // refreshListToolStripMenuItem
+            // 
+            this.refreshListToolStripMenuItem.Name = "refreshListToolStripMenuItem";
+            this.refreshListToolStripMenuItem.Size = new System.Drawing.Size(185, 30);
+            this.refreshListToolStripMenuItem.Text = "Refresh List";
+            this.refreshListToolStripMenuItem.Click += new System.EventHandler(this.refreshListToolStripMenuItem_Click);
             // 
             // quitToolStripMenuItem
             // 
             this.quitToolStripMenuItem.Name = "quitToolStripMenuItem";
-            this.quitToolStripMenuItem.Size = new System.Drawing.Size(160, 30);
+            this.quitToolStripMenuItem.Size = new System.Drawing.Size(185, 30);
             this.quitToolStripMenuItem.Text = "Quit";
             this.quitToolStripMenuItem.Click += new System.EventHandler(this.quitToolStripMenuItem_Click);
             // 
@@ -140,9 +154,9 @@
             // 
             this.loadingPanel.Controls.Add(this.label1);
             this.loadingPanel.Controls.Add(this.pgBar);
-            this.loadingPanel.Location = new System.Drawing.Point(459, 221);
+            this.loadingPanel.Location = new System.Drawing.Point(427, 193);
             this.loadingPanel.Name = "loadingPanel";
-            this.loadingPanel.Size = new System.Drawing.Size(799, 516);
+            this.loadingPanel.Size = new System.Drawing.Size(25, 12);
             this.loadingPanel.TabIndex = 9;
             this.loadingPanel.Visible = false;
             // 
@@ -183,44 +197,6 @@
             this.lbChName.Size = new System.Drawing.Size(0, 37);
             this.lbChName.TabIndex = 11;
             // 
-            // tableLayoutPanel1
-            // 
-            this.tableLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.tableLayoutPanel1.ColumnCount = 1;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Controls.Add(this.lbEPG, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.axWindowsMediaPlayer1, 0, 0);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(590, 69);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 2;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 74.78006F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25.21994F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(821, 722);
-            this.tableLayoutPanel1.TabIndex = 16;
-            // 
-            // lbEPG
-            // 
-            this.lbEPG.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.lbEPG.AutoSize = true;
-            this.lbEPG.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbEPG.Location = new System.Drawing.Point(3, 539);
-            this.lbEPG.Name = "lbEPG";
-            this.lbEPG.Size = new System.Drawing.Size(815, 29);
-            this.lbEPG.TabIndex = 15;
-            // 
-            // axWindowsMediaPlayer1
-            // 
-            this.axWindowsMediaPlayer1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.axWindowsMediaPlayer1.Enabled = true;
-            this.axWindowsMediaPlayer1.Location = new System.Drawing.Point(3, 3);
-            this.axWindowsMediaPlayer1.Name = "axWindowsMediaPlayer1";
-            this.axWindowsMediaPlayer1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axWindowsMediaPlayer1.OcxState")));
-            this.axWindowsMediaPlayer1.Size = new System.Drawing.Size(815, 533);
-            this.axWindowsMediaPlayer1.TabIndex = 14;
-            // 
             // txtFilter
             // 
             this.txtFilter.Location = new System.Drawing.Point(25, 193);
@@ -257,23 +233,87 @@
             this.label2.TabIndex = 22;
             this.label2.Text = "Filter list:";
             // 
-            // refreshListToolStripMenuItem
+            // panelvideo
             // 
-            this.refreshListToolStripMenuItem.Name = "refreshListToolStripMenuItem";
-            this.refreshListToolStripMenuItem.Size = new System.Drawing.Size(252, 30);
-            this.refreshListToolStripMenuItem.Text = "Refresh List";
-            this.refreshListToolStripMenuItem.Click += new System.EventHandler(this.refreshListToolStripMenuItem_Click);
+            this.panelvideo.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.panelvideo.ForeColor = System.Drawing.Color.Black;
+            this.panelvideo.Location = new System.Drawing.Point(607, 82);
+            this.panelvideo.Name = "panelvideo";
+            this.panelvideo.Size = new System.Drawing.Size(767, 387);
+            this.panelvideo.TabIndex = 23;
+            this.panelvideo.DoubleClick += new System.EventHandler(this.panelvideo_DoubleClick);
+            // 
+            // btnPlayPause
+            // 
+            this.btnPlayPause.Location = new System.Drawing.Point(604, 481);
+            this.btnPlayPause.Name = "btnPlayPause";
+            this.btnPlayPause.Size = new System.Drawing.Size(110, 35);
+            this.btnPlayPause.TabIndex = 27;
+            this.btnPlayPause.Text = "Play/Pause";
+            this.btnPlayPause.UseVisualStyleBackColor = true;
+            this.btnPlayPause.Click += new System.EventHandler(this.btnPlayPause_Click);
+            // 
+            // btnStop
+            // 
+            this.btnStop.Location = new System.Drawing.Point(738, 481);
+            this.btnStop.Name = "btnStop";
+            this.btnStop.Size = new System.Drawing.Size(110, 35);
+            this.btnStop.TabIndex = 27;
+            this.btnStop.Text = "Stop";
+            this.btnStop.UseVisualStyleBackColor = true;
+            this.btnStop.Click += new System.EventHandler(this.btnStop_Click);
+            // 
+            // seekBar
+            // 
+            this.seekBar.LargeChange = 0;
+            this.seekBar.Location = new System.Drawing.Point(607, 522);
+            this.seekBar.Name = "seekBar";
+            this.seekBar.Size = new System.Drawing.Size(764, 69);
+            this.seekBar.TabIndex = 28;
+            this.seekBar.TickStyle = System.Windows.Forms.TickStyle.None;
+            this.seekBar.MouseDown += new System.Windows.Forms.MouseEventHandler(this.seekBar_MouseDown);
+            this.seekBar.MouseUp += new System.Windows.Forms.MouseEventHandler(this.seekBar_MouseUp);
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.lbEPG);
+            this.panel1.Location = new System.Drawing.Point(604, 574);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(770, 211);
+            this.panel1.TabIndex = 25;
+            // 
+            // lbEPG
+            // 
+            this.lbEPG.AutoSize = true;
+            this.lbEPG.Location = new System.Drawing.Point(14, 13);
+            this.lbEPG.Name = "lbEPG";
+            this.lbEPG.Size = new System.Drawing.Size(0, 20);
+            this.lbEPG.TabIndex = 1;
+            // 
+            // lbDuration
+            // 
+            this.lbDuration.AutoSize = true;
+            this.lbDuration.Location = new System.Drawing.Point(892, 488);
+            this.lbDuration.Name = "lbDuration";
+            this.lbDuration.Size = new System.Drawing.Size(120, 20);
+            this.lbDuration.TabIndex = 29;
+            this.lbDuration.Text = "Video Time: --/--";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1433, 846);
+            this.Controls.Add(this.panelvideo);
+            this.Controls.Add(this.lbDuration);
+            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.btnStop);
+            this.Controls.Add(this.seekBar);
+            this.Controls.Add(this.btnPlayPause);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.btnClear);
             this.Controls.Add(this.btnFilter);
             this.Controls.Add(this.txtFilter);
-            this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.lbChName);
             this.Controls.Add(this.logoChannel);
             this.Controls.Add(this.chList);
@@ -284,15 +324,17 @@
             this.MaximizeBox = false;
             this.Name = "Form1";
             this.Text = "AmiIptvPlayer";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.loadingPanel.ResumeLayout(false);
             this.loadingPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.logoChannel)).EndInit();
-            this.tableLayoutPanel1.ResumeLayout(false);
-            this.tableLayoutPanel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.axWindowsMediaPlayer1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.seekBar)).EndInit();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -314,14 +356,19 @@
         private System.Windows.Forms.ProgressBar pgBar;
         private System.Windows.Forms.PictureBox logoChannel;
         private System.Windows.Forms.Label lbChName;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.Label lbEPG;
-        private AxWMPLib.AxWindowsMediaPlayer axWindowsMediaPlayer1;
         private System.Windows.Forms.TextBox txtFilter;
         private System.Windows.Forms.Button btnFilter;
         private System.Windows.Forms.Button btnClear;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ToolStripMenuItem refreshListToolStripMenuItem;
+        private System.Windows.Forms.Panel panelvideo;
+        private System.Windows.Forms.BindingSource bindingSource1;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Label lbEPG;
+        private System.Windows.Forms.TrackBar seekBar;
+        private System.Windows.Forms.Button btnStop;
+        private System.Windows.Forms.Button btnPlayPause;
+        private System.Windows.Forms.Label lbDuration;
     }
 }
 

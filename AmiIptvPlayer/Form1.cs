@@ -1,4 +1,6 @@
-﻿using System;
+﻿
+using Mpv.NET.Player;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -6,22 +8,73 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Threading;
 using System.Windows.Forms;
-
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace AmiIptvPlayer
 {
+
     public partial class Form1 : Form
     {
-        private List<ChannelInfo> lstChannels =  new List<ChannelInfo>();
+        private enum TrackType
+        {
+            AUDIO,
+            SUB
+        }
+        private struct TrackInfo
+        {
+            public TrackInfo(TrackType ttype)
+            {
+                TType = ttype;
+                Title = "";
+                Lang = "";
+                ID = -1;
+            }
+            public long ID { get; set; }
+            public TrackType TType { get; }
+            public string Title { get; set; }
+            public string Lang { get; set; }
+            public override string ToString() => $"({TType}: {Title}, {Lang})";
+        }
+
+        private bool exitApp = false;
+        private MpvPlayer player;
+        private Rectangle originalSizePanel;
+        private Rectangle originalSizeWin;
+        private Tuple<int, int> originalPositionWin;
+        private bool isFullScreen = false;
+        private bool isPaused = true;
+        private bool isMKV = false;
+        private bool positioncchangedevent = false;
+        private List<ChannelInfo> lstChannels = new List<ChannelInfo>();
         public Form1()
         {
             InitializeComponent();
+            originalSizePanel = panelvideo.Bounds;
+            originalSizeWin = this.Bounds;
+            originalPositionWin = new Tuple<int, int>(this.Top, this.Left);
+            player = new MpvPlayer(panelvideo.Handle);
 
             chList.View = View.Details;
             lbEPG.Text = "EPG: Not implemented yet, will try develop that feature ASAP";
             lbEPG.Visible = true;
             lbEPG.BringToFront();
+
+
+        }
+        private void setProperty(string prop, string value)
+        {
+            player.API.SetPropertyString(prop, value);
+        }
+        
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            chList.FullRowSelect = true;
+            player.MediaUnloaded += StopPlayEvent;
+            player.MediaLoaded += MediaLoaded;
+            player.Volume = 100;
             
             if (File.Exists(System.Environment.GetEnvironmentVariable("USERPROFILE") + "\\channelCache.json"))
             {
@@ -37,14 +90,7 @@ namespace AmiIptvPlayer
                 chList.Items.Add(i);
                 lstChannels.Add(ch);
             }
-            
-        }
 
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            chList.FullRowSelect = true;
-            axWindowsMediaPlayer1.URL = "http://test";
-            
         }
 
         private void listView1_DoubleClick(object sender, EventArgs e)
@@ -54,14 +100,19 @@ namespace AmiIptvPlayer
             {
                 ListViewItem item = chList.SelectedItems[0];
                 ChannelInfo channel = channels.GetChannel(int.Parse(item.SubItems[0].Text));
-                if (channel ==  null)
+                if (channel == null)
                 {
                     MessageBox.Show(item.SubItems[1].Text);
                 }
                 else
                 {
-                    axWindowsMediaPlayer1.URL = channel.URL;
-                    axWindowsMediaPlayer1.Ctlcontrols.play();
+                    player.Stop();
+                    Thread.Sleep(500);
+                    player.Load(channel.URL);
+                    isMKV = channel.URL.Contains(".mkv");
+                    
+                    isPaused = false;
+                    
                     try
                     {
                         logoChannel.Load(channel.TVGLogo);
@@ -79,6 +130,179 @@ namespace AmiIptvPlayer
             }
         }
 
+
+        private void StopPlayEvent(object sender, EventArgs e)
+        {
+            if (positioncchangedevent)
+            {
+                player.PositionChanged -= PositionChanged;
+                positioncchangedevent = false;
+
+            }
+            
+            if (exitApp)
+            {
+                player.MediaLoaded -= MediaLoaded;
+                player.MediaUnloaded -= StopPlayEvent;
+                System.Windows.Forms.Application.Exit();
+            }
+            else
+            {
+                lbDuration.Text = "Video Time: --/--";
+            }
+
+        }
+
+        private void PositionChanged(object sender, EventArgs e)
+        {
+            if (seekBar.Enabled)
+            {
+                seekBar.Invoke((System.Threading.ThreadStart)delegate
+                {
+
+                    seekBar.Value = Convert.ToInt32(player.Position.TotalSeconds);
+                });
+                string durationText = (player.Duration.Hours < 10 ? "0" + player.Duration.Hours.ToString() : player.Duration.Hours.ToString())
+                    + ":" + (player.Duration.Minutes < 10 ? "0" + player.Duration.Minutes.ToString() : player.Duration.Minutes.ToString())
+                    + ":" + (player.Duration.Seconds < 10 ? "0" + player.Duration.Seconds.ToString() : player.Duration.Seconds.ToString());
+                string positionText = (player.Position.Hours < 10 ? "0" + player.Position.Hours.ToString() : player.Position.Hours.ToString())
+                    + ":" + (player.Position.Minutes < 10 ? "0" + player.Position.Minutes.ToString() : player.Position.Minutes.ToString())
+                    + ":" + (player.Position.Seconds < 10 ? "0" + player.Position.Seconds.ToString() : player.Position.Seconds.ToString());
+                lbDuration.Invoke((System.Threading.ThreadStart)delegate
+                {
+                    lbDuration.Text = "Video Time: " + positionText + " / " + durationText;
+                });
+                
+            }
+            
+            
+        }
+
+        private void ParseTracksAndSetDefaults()
+        {
+            long tracks = player.API.GetPropertyLong("track-list/count");
+            Dictionary<TrackType, List<TrackInfo>> tracksParser = new Dictionary<TrackType, List<TrackInfo>>();
+            for (long i = 0; i < tracks; i++)
+            {
+                var id = player.API.GetPropertyLong("track-list/" + i + "/id");
+                var ttype = player.API.GetPropertyString("track-list/" + i + "/type");
+                if (ttype != "video")
+                {
+                    var lang = "";
+                    try
+                    {
+                        lang = player.API.GetPropertyString("track-list/" + i + "/lang");
+                    } catch (Exception ex)
+                    {
+                        lang = "spa";
+                    }
+                    var title = "";
+                    TrackType TKInfoType = TrackType.AUDIO;
+                    if (ttype == "sub")
+                    {
+                        TKInfoType = TrackType.SUB;
+                    }
+                    if (!tracksParser.ContainsKey(TKInfoType))
+                    {
+                        tracksParser[TKInfoType] = new List<TrackInfo>();
+                    }
+                    try
+                    {
+                        title = player.API.GetPropertyString("track-list/" + i + "/title");
+                    }
+                    catch (Exception ex)
+                    {
+                        if (TKInfoType == TrackType.AUDIO)
+                        {
+                            if (Utils.audios.ContainsKey(lang))
+                            {
+                                title = Utils.audios[lang];
+                            }
+                            else
+                            {
+                                title = lang;
+                            }
+                         
+                        }
+                        else
+                        {
+                            if (Utils.subs.ContainsKey(lang))
+                            {
+                                title = Utils.subs[lang];
+                            }
+                            else
+                            {
+                                title = lang;
+                            }
+                        }
+                    }
+
+
+                    TrackInfo TKInfo = new TrackInfo(TKInfoType);
+                    TKInfo.Title = title;
+                    TKInfo.Lang = lang;
+                    TKInfo.ID = id;
+                    tracksParser[TKInfoType].Add(TKInfo);
+                }
+            }
+            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            string audioConf = config.AppSettings.Settings["audio"].Value;
+            string subConf = config.AppSettings.Settings["sub"].Value;
+            foreach (TrackInfo tkinfo in tracksParser[TrackType.AUDIO])
+            {
+                if (tkinfo.Lang == audioConf)
+                {
+                    player.API.SetPropertyLong("aid", tkinfo.ID);
+                    break;
+                }
+            }
+            if (subConf != "none")
+            {
+                foreach (TrackInfo tkinfo in tracksParser[TrackType.SUB])
+                {
+                    if (tkinfo.Lang == subConf)
+                    {
+                        player.API.SetPropertyLong("sid", tkinfo.ID);
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                player.API.SetPropertyString("sid", "no");
+            }
+            
+        }
+
+
+        private void MediaLoaded(object sender, EventArgs e)
+        {
+            
+            if (isMKV && player.Duration.TotalSeconds > 0)
+            {
+                ParseTracksAndSetDefaults();
+                seekBar.Invoke((System.Threading.ThreadStart)delegate {
+                    seekBar.Enabled = true;
+                    seekBar.Value = 0;
+                    seekBar.Maximum = Convert.ToInt32(player.Duration.TotalSeconds);
+                });
+                if (!positioncchangedevent)
+                {
+                    player.PositionChanged += PositionChanged;
+                    positioncchangedevent = true;
+
+                }
+                
+            }
+            else
+            {
+                seekBar.Invoke((System.Threading.ThreadStart)delegate {
+                    seekBar.Enabled = false;
+                });
+            }
+            player.Resume();
+        }
+
         private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Preferences pref = new Preferences();
@@ -87,6 +311,7 @@ namespace AmiIptvPlayer
             if (channels.NeedRefresh())
             {
                 loadingPanel.Visible = true;
+                loadingPanel.Size = new Size(799, 516);
                 loadingPanel.BringToFront();
                 new System.Threading.Thread(delegate ()
                 {
@@ -94,6 +319,7 @@ namespace AmiIptvPlayer
                     fillChannelList();
                     loadingPanel.Invoke((System.Threading.ThreadStart)delegate {
                         loadingPanel.Visible = false;
+                        loadingPanel.Size = new Size(20, 20);
                     });
                     
                 }).Start();
@@ -103,6 +329,7 @@ namespace AmiIptvPlayer
             if (epgDB.Refresh)
             {
                 loadingPanel.Visible = true;
+                loadingPanel.Size = new Size(799, 516);
                 loadingPanel.BringToFront();
                 new System.Threading.Thread(delegate ()
                 {
@@ -127,6 +354,7 @@ namespace AmiIptvPlayer
                     epgDB.Refresh = false;
                     loadingPanel.Invoke((System.Threading.ThreadStart)delegate {
                         loadingPanel.Visible = false;
+                        loadingPanel.Size = new Size(20, 20);
                     });
 
                 }).Start();
@@ -159,7 +387,7 @@ namespace AmiIptvPlayer
 
         private void quitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            System.Windows.Forms.Application.Exit();
+            exit();
         }
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
@@ -199,6 +427,97 @@ namespace AmiIptvPlayer
                 });
 
             }).Start();
+        }
+
+        private void panelvideo_DoubleClick(object sender, EventArgs e)
+        {
+            if (player.IsMediaLoaded)
+            {
+                GoFullscreen(!isFullScreen);
+                isFullScreen = !isFullScreen;
+            }
+            
+        }
+        private void exit()
+        {
+            player.Stop();
+            exitApp = true;
+            
+        }
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            exit();
+        }
+
+        private void GoFullscreen(bool fullscreen)
+        {
+            if (fullscreen)
+            {
+                this.WindowState = FormWindowState.Normal;
+                this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+                Screen screen = Screen.FromControl(this);
+                originalPositionWin = new Tuple<int, int>(this.Top, this.Left);
+                this.Bounds = screen.Bounds;
+                panelvideo.Bounds = this.Bounds;
+                panelvideo.Top = 0;
+                panelvideo.Left = 0;
+                panelvideo.BringToFront();
+            }
+            else
+            {
+                this.WindowState = FormWindowState.Normal;
+                this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Sizable;
+                panelvideo.Bounds = originalSizePanel;
+                this.Bounds = originalSizeWin;
+                this.Top = originalPositionWin.Item1;
+                this.Left = originalPositionWin.Item2;
+            }
+        }
+
+        private void trackBar1_Scroll(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnPlayPause_Click(object sender, EventArgs e)
+        {
+            if (player.IsMediaLoaded)
+            {
+                if (isPaused)
+                {
+                    player.Resume(); 
+                    isPaused = false;
+                }
+                else
+                {
+                    player.Pause();
+                    isPaused = true;
+                }
+            }
+            
+        }
+
+        private void btnStop_Click(object sender, EventArgs e)
+        {
+            player.Stop();
+            isPaused = true;
+        }
+        
+        private void seekBar_MouseDown(object sender, MouseEventArgs e)
+        {
+            player.PositionChanged -= PositionChanged;
+            positioncchangedevent = false;
+        }
+
+        private void seekBar_MouseUp(object sender, MouseEventArgs e)
+        {
+            player.SeekAsync(seekBar.Value);
+            //player.Position.Seconds = seekBar.Value;
+            if (!positioncchangedevent)
+            {
+                player.PositionChanged += PositionChanged;
+                positioncchangedevent = true;
+            }
         }
     }
 }
