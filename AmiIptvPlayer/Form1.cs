@@ -2,6 +2,7 @@
 using Mpv.NET.Player;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Configuration;
 using System.Data;
 using System.Drawing;
@@ -61,6 +62,7 @@ namespace AmiIptvPlayer
             lbEPG.Text = "EPG: Not implemented yet, will try develop that feature ASAP";
             lbEPG.Visible = true;
             lbEPG.BringToFront();
+            logoChannel.WaitOnLoad = false;
 
 
         }
@@ -92,6 +94,12 @@ namespace AmiIptvPlayer
                 lstChannels.Add(ch);
             }
 
+            if (File.Exists(System.Environment.GetEnvironmentVariable("USERPROFILE") + "\\amiiptvepg.xml"))
+            {
+                EPG_DB epg = EPG_DB.Get();
+                epg.ParseDB();
+            }
+
         }
 
         private void listView1_DoubleClick(object sender, EventArgs e)
@@ -108,6 +116,9 @@ namespace AmiIptvPlayer
                 else
                 {
                     player.Stop();
+                    isMKV = channel.URL.Contains(".mkv");
+
+                    isPaused = false;
                     Thread.Sleep(500);
                     player.Load(channel.URL);
                     try
@@ -119,18 +130,11 @@ namespace AmiIptvPlayer
                         Console.WriteLine("ERROR SENDING STATS");
                     }
 
+                    logoChannel.LoadCompleted -= logoLoaded;
                     
-                    isMKV = channel.URL.Contains(".mkv");
-                    
-                    isPaused = false;
-                    
-                    try
-                    {
-                        logoChannel.Load(channel.TVGLogo);
-                    } catch (Exception ex)
-                    {
-                        logoChannel.Image = Image.FromFile("./resources/images/nochannel.png");
-                    }
+                    logoChannel.Image = Image.FromFile("./resources/images/nochannel.png");
+                    logoChannel.LoadAsync(channel.TVGLogo);
+                    logoChannel.LoadCompleted += logoLoaded;
                     string title = channel.Title;
                     if (title.Length > 20)
                     {
@@ -141,6 +145,13 @@ namespace AmiIptvPlayer
             }
         }
 
+        private void logoLoaded(object sender, AsyncCompletedEventArgs e)
+        {
+            if (e.Error!=null)
+            {
+                logoChannel.Image = Image.FromFile("./resources/images/nochannel.png");
+            }
+        }
 
         private void StopPlayEvent(object sender, EventArgs e)
         {
@@ -351,7 +362,7 @@ namespace AmiIptvPlayer
                         using (var client = new WebClient())
                         {
                             
-                            client.DownloadFile(config.AppSettings.Settings["Epg"].Value, "epg.xml");
+                            client.DownloadFile(config.AppSettings.Settings["Epg"].Value, System.Environment.GetEnvironmentVariable("USERPROFILE") + "\\amiiptvepg.xml");
                         }
                     } catch (Exception ex)
                     {
@@ -364,10 +375,12 @@ namespace AmiIptvPlayer
                     }
                     
                     epgDB.Refresh = false;
+                    
                     loadingPanel.Invoke((System.Threading.ThreadStart)delegate {
                         loadingPanel.Visible = false;
                         loadingPanel.Size = new Size(20, 20);
                     });
+                    epgDB.ParseDB();
 
                 }).Start();
             }
@@ -454,6 +467,7 @@ namespace AmiIptvPlayer
         {
             exitApp = true;
             player.Stop();
+            Thread.Sleep(500);
             
             
         }
