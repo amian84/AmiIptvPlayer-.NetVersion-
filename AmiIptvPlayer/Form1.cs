@@ -78,7 +78,8 @@ namespace AmiIptvPlayer
             player.MediaUnloaded += StopPlayEvent;
             player.MediaLoaded += MediaLoaded;
             player.Volume = 100;
-            
+            EPG_DB epg = EPG_DB.Get();
+            epg.epgEventFinish += FinishLoadEpg;
             if (File.Exists(System.Environment.GetEnvironmentVariable("USERPROFILE") + "\\channelCache.json"))
             {
                 Channels channels = Channels.LoadFromJSON();
@@ -93,13 +94,26 @@ namespace AmiIptvPlayer
                 chList.Items.Add(i);
                 lstChannels.Add(ch);
             }
-
-            if (File.Exists(System.Environment.GetEnvironmentVariable("USERPROFILE") + "\\amiiptvepg.xml"))
+            if (File.Exists(System.Environment.GetEnvironmentVariable("USERPROFILE") + "\\amiiptvepgCache.json"))
             {
-                EPG_DB epg = EPG_DB.Get();
+                epg = EPG_DB.LoadFromJSON();
+            }
+            else if (File.Exists(System.Environment.GetEnvironmentVariable("USERPROFILE") + "\\amiiptvepg.xml"))
+            {
+                
                 epg.ParseDB();
             }
+            //player.API.SetOptionString("hwdec", "auto");
 
+        }
+
+        private void FinishLoadEpg(EPG_DB epg, EPGEventArgs e)
+        {
+            if (e.Error)
+            {
+                MessageBox.Show("Error processing EPG, please check your url", "EPG ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            
         }
 
         private void listView1_DoubleClick(object sender, EventArgs e)
@@ -133,14 +147,54 @@ namespace AmiIptvPlayer
                     logoChannel.LoadCompleted -= logoLoaded;
                     
                     logoChannel.Image = Image.FromFile("./resources/images/nochannel.png");
-                    logoChannel.LoadAsync(channel.TVGLogo);
-                    logoChannel.LoadCompleted += logoLoaded;
+                    if (!string.IsNullOrEmpty(channel.TVGLogo))
+                    {
+                        logoChannel.LoadAsync(channel.TVGLogo);
+                        logoChannel.LoadCompleted += logoLoaded;
+                    }
+                    
                     string title = channel.Title;
                     if (title.Length > 20)
                     {
                         title = title.Substring(0, 20) + "...";
                     }
                     lbChName.Text = title;
+                    EPG_DB epg = EPG_DB.Get();
+                    if (epg.Loaded)
+                    {
+                        PrgInfo prg = epg.GetCurrentProgramm(channel);
+                        if (prg != null)
+                        {
+                            string epgSTR = "Title: " + prg.Title;
+                            epgSTR += "\nDescription: " + prg.Description;
+                            epgSTR += "\nRatings: " + prg.Rating;
+                            epgSTR += "\nStarts: " + prg.Stars;
+                            epgSTR += "\nCategories: ";
+                            if (prg.Categories.Count > 0)
+                            {
+                                foreach (string category in prg.Categories)
+                                {
+                                    epgSTR += category + ",";
+                                }
+                                if (epgSTR.EndsWith(","))
+                                {
+                                    epgSTR.Remove(epgSTR.Length - 1);
+                                }
+                            }
+
+                            epgSTR += "\nStart Time: " + prg.StartTime.ToShortTimeString();
+                            epgSTR += "\nStop Time: " + prg.StopTime.ToShortTimeString();
+                            lbEPG.Text = epgSTR;
+                        }
+                        else
+                        {
+                            lbEPG.Text = "No EPG data available";
+                        }
+                    }
+                    else
+                    {
+                        lbEPG.Text = "No EPG data available";
+                    }
                 }
             }
         }
@@ -276,6 +330,7 @@ namespace AmiIptvPlayer
                 if (tkinfo.Lang == audioConf)
                 {
                     player.API.SetPropertyLong("aid", tkinfo.ID);
+                    
                     break;
                 }
             }
@@ -467,6 +522,8 @@ namespace AmiIptvPlayer
         {
             exitApp = true;
             player.Stop();
+            EPG_DB epg = EPG_DB.Get();
+            epg.epgEventFinish -= FinishLoadEpg;
             Thread.Sleep(500);
             
             
