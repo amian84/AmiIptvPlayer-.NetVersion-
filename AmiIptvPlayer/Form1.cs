@@ -12,6 +12,7 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using WMPLib;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace AmiIptvPlayer
@@ -49,6 +50,7 @@ namespace AmiIptvPlayer
         private bool isPaused = true;
         private bool isMKV = false;
         private bool positioncchangedevent = false;
+        private PrgInfo currentPrg = null;
         private List<ChannelInfo> lstChannels = new List<ChannelInfo>();
         public Form1()
         {
@@ -59,9 +61,7 @@ namespace AmiIptvPlayer
             player = new MpvPlayer(panelvideo.Handle);
 
             chList.View = View.Details;
-            lbEPG.Text = "EPG: Not implemented yet, will try develop that feature ASAP";
-            lbEPG.Visible = true;
-            lbEPG.BringToFront();
+            logoEPG.WaitOnLoad = false;
             logoChannel.WaitOnLoad = false;
 
 
@@ -80,6 +80,7 @@ namespace AmiIptvPlayer
             player.Volume = 100;
             EPG_DB epg = EPG_DB.Get();
             epg.epgEventFinish += FinishLoadEpg;
+            DefaultEpgLabels();
             if (File.Exists(System.Environment.GetEnvironmentVariable("USERPROFILE") + "\\channelCache.json"))
             {
                 Channels channels = Channels.LoadFromJSON();
@@ -94,14 +95,23 @@ namespace AmiIptvPlayer
                 chList.Items.Add(i);
                 lstChannels.Add(ch);
             }
-            if (File.Exists(System.Environment.GetEnvironmentVariable("USERPROFILE") + "\\amiiptvepgCache.json"))
+            DateTime creation = File.GetCreationTime(System.Environment.GetEnvironmentVariable("USERPROFILE") + "\\amiiptvepgCache.json");
+            if (creation.Day < DateTime.Now.Day - 1)
             {
-                epg = EPG_DB.LoadFromJSON();
+                DownloadEPGFile(epg);
             }
-            else if (File.Exists(System.Environment.GetEnvironmentVariable("USERPROFILE") + "\\amiiptvepg.xml"))
+            else
             {
-                
-                epg.ParseDB();
+                if (File.Exists(System.Environment.GetEnvironmentVariable("USERPROFILE") + "\\amiiptvepgCache.json"))
+                {
+                    epg = EPG_DB.LoadFromJSON();
+                }
+                else if (File.Exists(System.Environment.GetEnvironmentVariable("USERPROFILE") + "\\amiiptvepg.xml"))
+                {
+
+                    epg.ParseDB();
+                }
+
             }
             //player.API.SetOptionString("hwdec", "auto");
 
@@ -114,6 +124,40 @@ namespace AmiIptvPlayer
                 MessageBox.Show("Error processing EPG, please check your url", "EPG ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             
+        }
+
+        private void DownloadEPGFile(EPG_DB epgDB)
+        {
+            new System.Threading.Thread(delegate ()
+            {
+                Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+                try
+                {
+                    using (var client = new WebClient())
+                    {
+
+                        client.DownloadFile(config.AppSettings.Settings["Epg"].Value, System.Environment.GetEnvironmentVariable("USERPROFILE") + "\\amiiptvepg.xml");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(
+                        "Error: " + ex.Message + ". URL=" + config.AppSettings.Settings["Epg"].Value,
+                        "Error",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error
+                    );
+                }
+
+                epgDB.Refresh = false;
+
+                loadingPanel.Invoke((System.Threading.ThreadStart)delegate {
+                    loadingPanel.Visible = false;
+                    loadingPanel.Size = new Size(20, 20);
+                });
+                epgDB.ParseDB();
+
+            }).Start();
         }
 
         private void listView1_DoubleClick(object sender, EventArgs e)
@@ -165,11 +209,16 @@ namespace AmiIptvPlayer
                         PrgInfo prg = epg.GetCurrentProgramm(channel);
                         if (prg != null)
                         {
-                            string epgSTR = "Title: " + prg.Title;
-                            epgSTR += "\nDescription: " + prg.Description;
-                            epgSTR += "\nRatings: " + prg.Rating;
-                            epgSTR += "\nStarts: " + prg.Stars;
-                            epgSTR += "\nCategories: ";
+                            lbTitleEPG.Text = prg.Title;
+                            string description = prg.Description;
+                            if (description.Length > 200 || description.Split('\n').Length > 3)
+                            {
+                                description = description.Substring(0, 190) + "...\n (Click to show more description)";
+                            }
+                            lbDescription.Text = description;
+                            //epgSTR += "\nRatings: " + prg.Rating;
+                            lbStars.Text = prg.Stars;
+                            /*epgSTR += "\nCategories: ";
                             if (prg.Categories.Count > 0)
                             {
                                 foreach (string category in prg.Categories)
@@ -181,22 +230,43 @@ namespace AmiIptvPlayer
                                     epgSTR.Remove(epgSTR.Length - 1);
                                 }
                             }
+                            */
+                            lbStartTime.Text = prg.StartTime.ToShortTimeString();
+                            lbEndTime.Text = prg.StopTime.ToShortTimeString();
+                            logoEPG.LoadCompleted -= logoEPGLoaded;
 
-                            epgSTR += "\nStart Time: " + prg.StartTime.ToShortTimeString();
-                            epgSTR += "\nStop Time: " + prg.StopTime.ToShortTimeString();
-                            lbEPG.Text = epgSTR;
+                            logoEPG.Image = Image.FromFile("./resources/images/nochannel.png");
+                            if (!string.IsNullOrEmpty(prg.Logo))
+                            {
+                                logoEPG.LoadAsync(prg.Logo);
+                                logoEPG.LoadCompleted += logoEPGLoaded;
+                            }
+                            currentPrg = prg;
+
                         }
                         else
                         {
-                            lbEPG.Text = "No EPG data available";
+                            DefaultEpgLabels();
+
+
                         }
                     }
                     else
                     {
-                        lbEPG.Text = "No EPG data available";
+                        DefaultEpgLabels();
                     }
                 }
             }
+        }
+
+
+        private void DefaultEpgLabels()
+        {
+            lbTitleEPG.Text = "-";
+            lbDescription.Text = "-";
+            lbEndTime.Text = "-";
+            lbStars.Text = "-";
+            lbStartTime.Text = "-";
         }
 
         private void logoLoaded(object sender, AsyncCompletedEventArgs e)
@@ -204,6 +274,14 @@ namespace AmiIptvPlayer
             if (e.Error!=null)
             {
                 logoChannel.Image = Image.FromFile("./resources/images/nochannel.png");
+            }
+        }
+
+        private void logoEPGLoaded(object sender, AsyncCompletedEventArgs e)
+        {
+            if (e.Error != null)
+            {
+                logoEPG.Image = Image.FromFile("./resources/images/nochannel.png");
             }
         }
 
@@ -409,35 +487,7 @@ namespace AmiIptvPlayer
                 loadingPanel.Visible = true;
                 loadingPanel.Size = new Size(799, 516);
                 loadingPanel.BringToFront();
-                new System.Threading.Thread(delegate ()
-                {
-                    Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-                    try
-                    {
-                        using (var client = new WebClient())
-                        {
-                            
-                            client.DownloadFile(config.AppSettings.Settings["Epg"].Value, System.Environment.GetEnvironmentVariable("USERPROFILE") + "\\amiiptvepg.xml");
-                        }
-                    } catch (Exception ex)
-                    {
-                        MessageBox.Show(
-                            "Error: " + ex.Message + ". URL=" + config.AppSettings.Settings["Epg"].Value,
-                            "Error",
-                            MessageBoxButtons.OK,
-                            MessageBoxIcon.Error
-                        );
-                    }
-                    
-                    epgDB.Refresh = false;
-                    
-                    loadingPanel.Invoke((System.Threading.ThreadStart)delegate {
-                        loadingPanel.Visible = false;
-                        loadingPanel.Size = new Size(20, 20);
-                    });
-                    epgDB.ParseDB();
-
-                }).Start();
+                DownloadEPGFile(epgDB);
             }
         }
         
@@ -602,6 +652,39 @@ namespace AmiIptvPlayer
                 player.PositionChanged += PositionChanged;
                 positioncchangedevent = true;
             }
+        }
+
+        private void logoEPG_Click(object sender, EventArgs e)
+        {
+            Form form = new Form();
+            
+            form.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            form.TopMost = true;
+            
+
+            PictureBox pb = new PictureBox();
+            pb.ImageLocation = ((PictureBox)sender).ImageLocation;
+            pb.Size = ((PictureBox)sender).Image.Size;
+            pb.Width += 20;
+            pb.Height += 40;
+            form.Size = pb.Size;
+            //pb.SizeMode = PictureBoxSizeMode.Zoom;
+
+            form.Controls.Add(pb);
+            form.ShowDialog();
+
+        }
+
+        private void lbDescription_Click(object sender, EventArgs e)
+        {
+            LongDescription lDescriptionForm = new LongDescription();
+            string desc = "Description not available.";
+            if (currentPrg != null)
+            {
+                desc = currentPrg.Description;
+            }
+            lDescriptionForm.SetTextDes(desc);
+            lDescriptionForm.ShowDialog();
         }
     }
 }
