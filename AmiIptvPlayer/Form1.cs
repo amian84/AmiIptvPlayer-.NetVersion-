@@ -113,7 +113,7 @@ namespace AmiIptvPlayer
                 }
 
             }
-            //player.API.SetOptionString("hwdec", "auto");
+            player.API.SetPropertyString("deinterlace", "yes");
 
         }
 
