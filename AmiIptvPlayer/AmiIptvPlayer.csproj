@@ -29,8 +29,8 @@
     <InstallUrl>http://amian.es/amiiptv/</InstallUrl>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>30</ApplicationRevision>
-    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <ApplicationRevision>9</ApplicationRevision>
+    <ApplicationVersion>1.1.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
@@ -99,7 +99,6 @@
     </Compile>
     <Compile Include="ChannelInfo.cs" />
     <Compile Include="Channels.cs" />
-    <Compile Include="DBProgramms.cs" />
     <Compile Include="EPG_DB.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
@@ -162,7 +161,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="DLLs\mpv-1.dll" />
+    <None Include="DLLs\mpv-1.dll" />
+    <Content Include="resources\images\info.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="resources\images\nochannel.ico" />
     <Content Include="resources\images\nochannel.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
