@@ -46,12 +46,19 @@ namespace AmiIptvPlayer
             }
             using (StreamReader r = new StreamReader(System.Environment.GetEnvironmentVariable("USERPROFILE") + "\\amiiptvepgCache.json"))
             {
-                string json = r.ReadToEnd();
-                _instance.DB = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<int, Dictionary<int, Dictionary<int, List<PrgInfo>>>>>>(json);
-                EPGEventArgs epgEvent = new EPGEventArgs();
-                epgEvent.Error = false;
-                _instance.epgEventFinish(_instance, epgEvent);
-                _instance.Loaded = true;
+                try
+                {
+                    string json = r.ReadToEnd();
+                    _instance.DB = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<int, Dictionary<int, Dictionary<int, List<PrgInfo>>>>>>(json);
+                    EPGEventArgs epgEvent = new EPGEventArgs();
+                    epgEvent.Error = false;
+                    _instance.epgEventFinish(_instance, epgEvent);
+                    _instance.Loaded = true;
+                }catch (Exception ex)
+                {
+                    File.Delete(System.Environment.GetEnvironmentVariable("USERPROFILE") + "\\amiiptvepgCache.json");
+                }
+                
             }
             return _instance;
         }
@@ -152,6 +159,7 @@ namespace AmiIptvPlayer
                 Loaded = true;
             }catch (Exception ex)
             {
+                File.Delete(System.Environment.GetEnvironmentVariable("USERPROFILE") + "\\amiiptvepg.xml");
                 epgEvent.Error = true;
                 epgEventFinish(this, epgEvent);
                 Loaded = false;
