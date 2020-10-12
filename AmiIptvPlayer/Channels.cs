@@ -11,12 +11,35 @@ using System.Threading.Tasks;
 
 namespace AmiIptvPlayer
 {
+    public struct GrpInfo
+    {
+        public string Title { get; set; }
+        public bool Show { get; set; }
+        public override bool Equals(Object obj)
+        {
+            if (obj.GetType() != typeof(GrpInfo))
+            {
+                return false;
+            }
+            else
+            {
+                return this.Title == ((GrpInfo)obj).Title;
+            }
+        }
+
+        public override int GetHashCode()
+        {
+            return 434131217 + EqualityComparer<string>.Default.GetHashCode(Title);
+        }
+    }
+
     public class Channels
     {
         private static Channels instance;
         private string url;
         private bool needRefresh = false;
         private Dictionary<int, ChannelInfo> channelsInfo = new Dictionary<int, ChannelInfo>();
+        private Dictionary<GrpInfo, List<ChannelInfo>> groupsInfo = new Dictionary<GrpInfo, List<ChannelInfo>>();
         public static Channels Get()
         {
             if (instance == null)
@@ -59,6 +82,19 @@ namespace AmiIptvPlayer
             foreach (ChannelInfo channel in channels)
             {
                 channelsInfo.Add(channelNumber, channel);
+                channel.ChNumber = channelNumber;
+                GrpInfo groupInfo = new GrpInfo();
+                groupInfo.Title = channel.TVGGroup;
+                if (channel.ChannelType == ChType.UNKNOWN)
+                {
+                    channel.CalculateType();
+                }
+                groupInfo.Show = channel.ChannelType == ChType.SHOW;
+                if (!groupsInfo.ContainsKey(groupInfo))
+                {
+                    groupsInfo[groupInfo] = new List<ChannelInfo>();
+                }
+                groupsInfo[groupInfo].Add(channel);
                 channelNumber++;
             }
             Task<string> stats = Utils.GetAsync("http://amian.es:5085/stats?ctype=connected&app=net&chn=CONNECT");
@@ -97,13 +133,23 @@ namespace AmiIptvPlayer
                 IBasePlaylist playlist = parser.GetFromString(contents);
                 M3uPlaylist m3uList = (M3uPlaylist)playlist;
                 channelsInfo.Clear();
+                groupsInfo.Clear();
                 int channelNumber = 0;
                 foreach (M3uPlaylistEntry entry in m3uList.PlaylistEntries)
                 {
                     ChannelInfo channelInfo = new ChannelInfo(entry);
                     channelsInfo.Add(channelNumber, channelInfo);
+                    channelInfo.ChNumber = channelNumber;
+                    GrpInfo groupInfo = new GrpInfo();
+                    groupInfo.Title = channelInfo.TVGGroup;
+                    groupInfo.Show = channelInfo.ChannelType == ChType.SHOW;
+                    if (!groupsInfo.ContainsKey(groupInfo))
+                    {
+                        groupsInfo[groupInfo] = new List<ChannelInfo>();
+                    }
+                    groupsInfo[groupInfo].Add(channelInfo);
                     channelNumber++;
-
+                    
                 }
                 using (StreamWriter file = File.CreateText(System.Environment.GetEnvironmentVariable("USERPROFILE") + "\\channelCache.json"))
                 {
