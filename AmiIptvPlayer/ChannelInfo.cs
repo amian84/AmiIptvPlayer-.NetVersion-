@@ -4,6 +4,15 @@ using System.Text.RegularExpressions;
 
 namespace AmiIptvPlayer
 {
+
+    public enum ChType
+    {
+        UNKNOWN,
+        CHANNEL,
+        MOVIE,
+        SHOW
+    }
+
     public class ChannelInfo
     {
         public string Title { get; set; }
@@ -13,6 +22,7 @@ namespace AmiIptvPlayer
         public string TVGLogo { get; set; }
         public string URL { get; set; }
         public int ChNumber { get; set; }
+        public ChType ChannelType { get; set; }
 
         public ChannelInfo()
         {
@@ -36,7 +46,23 @@ namespace AmiIptvPlayer
             TVGLogo = MatchAndResult(extraInfoForParser, regexTVGLogo);
             TVGGroup = MatchAndResult(extraInfoForParser, regexTVGGroup);
             TVGId = MatchAndResult(extraInfoForParser, regexTVGId);
+            CalculateType();
 
+        }
+        public void CalculateType()
+        {
+            if (URL.EndsWith(".mkv") || URL.EndsWith(".avi") || URL.EndsWith(".mp4"))
+            {
+                ChannelType = ChType.MOVIE;
+                if (Regex.IsMatch(Title, @"S\d\d\s*?E\d\d$"))
+                {
+                    ChannelType = ChType.SHOW;
+                }
+            }
+            else
+            {
+                ChannelType = ChType.CHANNEL;
+            }
         }
         private string MatchAndResult (string toSearch, string pattern)
         {
