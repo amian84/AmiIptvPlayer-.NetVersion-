@@ -48,7 +48,7 @@ namespace AmiIptvPlayer
         private Tuple<int, int> originalPositionWin;
         private bool isFullScreen = false;
         private bool isPaused = true;
-        private bool isMKV = false;
+        private bool isChannel = true;
         private bool positioncchangedevent = false;
         private PrgInfo currentPrg = null;
         private List<ChannelInfo> lstChannels = new List<ChannelInfo>();
@@ -103,6 +103,19 @@ namespace AmiIptvPlayer
                 i.SubItems.Add("Please load iptv list");
                 chList.Items.Add(i);
                 lstChannels.Add(ch);
+            }
+
+            DateTime creationCacheChannel = File.GetCreationTime(System.Environment.GetEnvironmentVariable("USERPROFILE") + "\\channelCache.json");
+            if (File.Exists(System.Environment.GetEnvironmentVariable("USERPROFILE") + "\\channelCache.json")
+                && creationCacheChannel.Day < DateTime.Now.Day - 1)
+            {
+                RefreshChList(false);
+            }
+
+
+            if (File.Exists(System.Environment.GetEnvironmentVariable("USERPROFILE") + "\\amiiptvepgCache.json"))
+            {
+                epg = EPG_DB.LoadFromJSON();
             }
 
             DateTime creation = File.GetCreationTime(System.Environment.GetEnvironmentVariable("USERPROFILE") + "\\amiiptvepgCache.json");
@@ -169,6 +182,10 @@ namespace AmiIptvPlayer
 
                         string tempFile = Path.GetTempFileName();
                         client.DownloadFile(url, tempFile);
+                        if (File.Exists(System.Environment.GetEnvironmentVariable("USERPROFILE") + "\\amiiptvepg.xml"))
+                        {
+                            File.Delete(System.Environment.GetEnvironmentVariable("USERPROFILE") + "\\amiiptvepg.xml");
+                        }
                         File.Move(tempFile, System.Environment.GetEnvironmentVariable("USERPROFILE") + "\\amiiptvepg.xml");
 
                         epgDB.Refresh = false;
@@ -211,7 +228,7 @@ namespace AmiIptvPlayer
                 else
                 {
                     player.Stop();
-                    isMKV = channel.URL.Contains(".mkv");
+                    isChannel = channel.ChannelType == ChType.CHANNEL;
 
                     isPaused = false;
                     Thread.Sleep(500);
@@ -240,25 +257,20 @@ namespace AmiIptvPlayer
                         title = title.Substring(0, 20) + "...";
                     }
                     lbChName.Text = title;
-                    EPG_DB epg = EPG_DB.Get();
-                    if (epg.Loaded)
+                    if (channel.ChannelType == ChType.CHANNEL)
                     {
-                        PrgInfo prg = epg.GetCurrentProgramm(channel);
-                        if (prg != null)
+                        EPG_DB epg = EPG_DB.Get();
+                        if (epg.Loaded)
                         {
-                            lbTitleEPG.Text = prg.Title;
-                            string description = prg.Description;
-                            if (description.Length > 200 || description.Split('\n').Length > 3)
+                            PrgInfo prg = epg.GetCurrentProgramm(channel);
+                            if (prg != null)
                             {
-                                description = description.Substring(0, 190) + " ...";
+                                FillChannelInfo(prg);
                             }
-                            lbDescription.Text = description;
-                            lbStars.Text = prg.Stars;
-                            lbStartTime.Text = prg.StartTime.ToShortTimeString();
-                            lbEndTime.Text = prg.StopTime.ToShortTimeString();
-                            
-                            currentPrg = prg;
-
+                            else
+                            {
+                                DefaultEpgLabels();
+                            }
                         }
                         else
                         {
@@ -268,11 +280,29 @@ namespace AmiIptvPlayer
                     else
                     {
                         DefaultEpgLabels();
+                        dynamic result = Utils.GetFilmInfo(channel, "es");
+                        var hola = 1;
                     }
+                    
                 }
             }
         }
 
+        private void FillChannelInfo(PrgInfo prg)
+        {
+            lbTitleEPG.Text = prg.Title;
+            string description = prg.Description;
+            if (description.Length > 200 || description.Split('\n').Length > 3)
+            {
+                description = description.Substring(0, 190) + " ...";
+            }
+            lbDescription.Text = description;
+            lbStars.Text = prg.Stars;
+            lbStartTime.Text = prg.StartTime.ToShortTimeString();
+            lbEndTime.Text = prg.StopTime.ToShortTimeString();
+
+            currentPrg = prg;
+        }
 
         private void DefaultEpgLabels()
         {
@@ -453,7 +483,7 @@ namespace AmiIptvPlayer
         private void MediaLoaded(object sender, EventArgs e)
         {
             
-            if (isMKV && player.Duration.TotalSeconds > 0)
+            if (!isChannel && player.Duration.TotalSeconds > 0)
             {
                 ParseTracksAndSetDefaults();
                 seekBar.Invoke((System.Threading.ThreadStart)delegate {
@@ -520,11 +550,7 @@ namespace AmiIptvPlayer
             {
                 int chNumber = elem.Key;
                 ChannelInfo channel = elem.Value;
-                channel.ChNumber = chNumber;
                 lstChannels.Add(channel);
-                /*ListViewItem i = new ListViewItem(chNumber.ToString());
-                i.SubItems.Add(channel.Title);
-                listChannels.Add(i);*/
             }
             chList.Invoke((System.Threading.ThreadStart)delegate {
                 chList.Items.Clear();
@@ -564,9 +590,17 @@ namespace AmiIptvPlayer
 
         private void refreshListToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            RefreshChList(true);
+        }
+
+        private void RefreshChList(bool showLoading)
+        {
             Channels channels = Channels.Get();
-            loadingPanel.Visible = true;
-            loadingPanel.BringToFront();
+            if (showLoading)
+            {
+                loadingPanel.Visible = true;
+                loadingPanel.BringToFront();
+            }
             new System.Threading.Thread(delegate ()
             {
                 channels.RefreshList();
@@ -695,6 +729,12 @@ namespace AmiIptvPlayer
             {
                 btnFilter_Click(btnFilter, null);
             }
+        }
+
+        private void refreshEPGToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            
+            DownloadEPGFile(EPG_DB.Get(), config.AppSettings.Settings["Epg"].Value);
         }
     }
 }
