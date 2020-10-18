@@ -42,7 +42,7 @@ namespace AmiIptvPlayer
             string regexTVGId = "tvg-id=\"(.*?)\"";
             string regexTitle = "[,](?!.*[,])(.*?)$";
             TVGName = MatchAndResult(extraInfoForParser, regexTVGName);
-            Title = MatchAndResult(extraInfoForParser, regexTitle);
+            Title = Utils.DecodeToUTF8(MatchAndResult(extraInfoForParser, regexTitle));
             TVGLogo = MatchAndResult(extraInfoForParser, regexTVGLogo);
             TVGGroup = MatchAndResult(extraInfoForParser, regexTVGGroup);
             TVGId = MatchAndResult(extraInfoForParser, regexTVGId);
