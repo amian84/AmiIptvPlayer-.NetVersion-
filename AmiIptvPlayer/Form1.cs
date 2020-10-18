@@ -55,6 +55,7 @@ namespace AmiIptvPlayer
         private List<ChannelInfo> lstChannels = new List<ChannelInfo>();
         private Configuration config;
         private JArray fillFilmResults = null;
+        private ChType currentCh;
         public Form1()
         {
             InitializeComponent();
@@ -261,6 +262,7 @@ namespace AmiIptvPlayer
                     }
                     lbChName.Text = title;
                     SetEPG(channel);
+                    currentCh = channel.ChannelType;
                 }
             }
         }
@@ -295,12 +297,46 @@ namespace AmiIptvPlayer
                 VisibleEPGLabes(false);
                 dynamic result = Utils.GetFilmInfo(channel, "es");
                 fillFilmResults = result["results"];
+                JObject filmMatch = null;
                 if (result["results"].Count > 0)
                 {
-                    var filmMatch = result["results"][0];
+                    filmMatch = result["results"][0];
+                }
+                if (filmMatch!= null)
+                {
+                    FillMoviesEPG(filmMatch, channel.ChannelType);
                 }
                 var hola = 1;
             }
+        }
+
+        private void FillMoviesEPG(JObject filmMatch, ChType channelType)
+        {
+            string title = "";
+            string description = "";
+            string stars = "";
+            string year = "";
+            if (channelType == ChType.MOVIE) {
+                title = filmMatch["title"].ToString();
+                description = filmMatch["overview"].ToString();
+                stars = filmMatch["vote_average"].ToString();
+                year = filmMatch["release_date"].ToString().Split('-')[0];
+            }
+            else
+            {
+                title = filmMatch["name"].ToString();
+                description = filmMatch["overview"].ToString();
+                stars = filmMatch["vote_average"].ToString();
+                year = filmMatch["first_air_date"].ToString().Split('-')[0];
+            }
+            lbTitleEPG.Text = title;
+            if (description.Length > 200 || description.Split('\n').Length > 3)
+            {
+                description = description.Substring(0, 190) + " ...";
+            }
+            lbDescription.Text = description;
+            lbStars.Text = stars;
+            lbYear.Text = year;
         }
 
         private void VisibleEPGLabes(bool visible)
@@ -310,7 +346,8 @@ namespace AmiIptvPlayer
             lbEndTime.Visible = visible;
             label8.Visible = visible;
             btnFixId.Visible = !visible;
-
+            label9.Visible = !visible;
+            lbYear.Visible = !visible;
         }
 
         private void FillChannelInfo(PrgInfo prg)
@@ -325,7 +362,7 @@ namespace AmiIptvPlayer
             lbStars.Text = prg.Stars;
             lbStartTime.Text = prg.StartTime.ToShortTimeString();
             lbEndTime.Text = prg.StopTime.ToShortTimeString();
-
+            
             currentPrg = prg;
         }
 
@@ -336,6 +373,7 @@ namespace AmiIptvPlayer
             lbEndTime.Text = "-";
             lbStars.Text = "-";
             lbStartTime.Text = "-";
+            lbYear.Text = "-";
             currentPrg = null;
         }
 
@@ -585,6 +623,7 @@ namespace AmiIptvPlayer
             });
         }
 
+
         private void quitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             exit();
@@ -599,18 +638,72 @@ namespace AmiIptvPlayer
 
         private void btnFilter_Click(object sender, EventArgs e)
         {
-            chList.Items.Clear(); // clear list items before adding 
-                                  // filter the items match with search key and add result to list view 
-            chList.Items.AddRange(lstChannels.Where(i => string.IsNullOrEmpty(txtFilter.Text) || i.Title.ToLower().Contains(txtFilter.Text.ToLower()))
-                .Select(c => new ListViewItem(new string[] { c.ChNumber.ToString(), c.Title })).ToArray());
-        }
+            new System.Threading.Thread(delegate ()
+            {
+                txtLoadCh.Invoke((System.Threading.ThreadStart)delegate
+                {
+                    txtLoadCh.Text = "Laoding channels... please wait a moment";
+                    txtLoadCh.BringToFront();
+                    txtLoadCh.Visible = true;
+                });
 
-        
+                chList.Invoke((System.Threading.ThreadStart)delegate
+                {
+                    chList.BeginUpdate();
+                    chList.Items.Clear(); // clear list items before adding 
+                    chList.EndUpdate();
+                });
+                
+                ListViewItem[] list = lstChannels.Where(i => string.IsNullOrEmpty(txtFilter.Text) || i.Title.ToLower().Contains(txtFilter.Text.ToLower()))
+               .Select(c => new ListViewItem(new string[] { c.ChNumber.ToString(), c.Title })).ToArray();
+                chList.Invoke((System.Threading.ThreadStart)delegate
+                {
+                    chList.BeginUpdate();
+                    chList.Items.AddRange(list);
+                    chList.EndUpdate();
+                });
+                txtLoadCh.Invoke((System.Threading.ThreadStart)delegate
+                {
+                    txtLoadCh.Text = "Laoding channels... please wait a moment";
+                    txtLoadCh.Visible = false;
+                });
+            }).Start();
+        }
+                
         private void btnClear_Click_1(object sender, EventArgs e)
         {
-            chList.Items.Clear();
-            txtFilter.Clear();
-            chList.Items.AddRange(lstChannels.Select(c => new ListViewItem(new string[] { c.ChNumber.ToString(), c.Title })).ToArray());
+            new System.Threading.Thread(delegate ()
+            {
+                txtLoadCh.Invoke((System.Threading.ThreadStart)delegate
+                {
+                    txtLoadCh.Text = "Laoding channels... please wait a moment";
+                    txtLoadCh.BringToFront();
+                    txtLoadCh.Visible = true;
+                });
+                 chList.Invoke((System.Threading.ThreadStart)delegate
+                {
+                    chList.BeginUpdate();
+                    chList.Items.Clear(); // clear list items before adding 
+                    chList.EndUpdate();
+                });
+                ListViewItem[] list = lstChannels.Select(c => new ListViewItem(new string[] { c.ChNumber.ToString(), c.Title })).ToArray();
+               
+                chList.Invoke((System.Threading.ThreadStart)delegate
+                {
+                    chList.BeginUpdate();
+                    chList.Items.AddRange(list);
+                    chList.EndUpdate();
+                });
+                txtFilter.Invoke((System.Threading.ThreadStart)delegate
+                {
+                    txtFilter.Clear();
+                });
+                txtLoadCh.Invoke((System.Threading.ThreadStart)delegate
+                {
+                    txtLoadCh.Text = "Laoding channels... please wait a moment";
+                    txtLoadCh.Visible = false;
+                });
+            }).Start();
         }
 
         private void refreshListToolStripMenuItem_Click(object sender, EventArgs e)
@@ -763,6 +856,35 @@ namespace AmiIptvPlayer
         {
             
             DownloadEPGFile(EPG_DB.Get(), config.AppSettings.Settings["Epg"].Value);
+        }
+
+        private void btnFixId_Click(object sender, EventArgs e)
+        {
+            List<SearchIdent> listSearch = new List<SearchIdent>();
+            foreach(JObject obj in fillFilmResults)
+            {
+                string title = "";
+                string year = "";
+                if (currentCh == ChType.MOVIE)
+                {
+                    title = obj["title"].ToString();
+                    year = obj["release_date"].ToString().Split('-')[0];
+                }
+                else
+                {
+                    title = obj["name"].ToString();
+                    year = obj["first_air_date"].ToString().Split('-')[0];                   
+                }
+                SearchIdent se = new SearchIdent();
+                se.Title = title;
+                se.Year = year;
+                listSearch.Add(se);
+            }
+            FixIdent fixident = new FixIdent();
+            
+            fixident.SetSearch(listSearch);
+            fixident.SetSearchText(Utils.LastSearch);
+            fixident.ShowDialog();
         }
     }
 }

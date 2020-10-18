@@ -1,3 +1,4 @@
+using Json.Net;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -6,11 +7,13 @@ using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace AmiIptvPlayer
 {
     public class Utils
     {
+        public static string LastSearch = "";
         public static string PosterBasePath = "https://image.tmdb.org/t/p/original";
         public static Dictionary<string, string> audios = new Dictionary<string, string>
         {
@@ -75,26 +78,45 @@ namespace AmiIptvPlayer
 
         public static dynamic GetFilmInfo(ChannelInfo channel, string lang)
         {
-            
-            string apiUrl = "https://api.themoviedb.org/3/search/$$FTYPE$$?api_key=$$APIKEY$$&language=$$LANG$$&query=$$NAME$$&page=1&include_adult=false";
+            string name = channel.Title;
+            string movie_date = "";
+            if (Regex.IsMatch(name, @"\(\d\d\d\d\)\s*?$")){
+                movie_date = name.Substring(name.Length - 6, name.Length - (name.Length - 6)).Trim();
+                name = name.Substring(0, name.Length - 7);                
+            }
+            if (Regex.IsMatch(name, @"\-\s*?\d\d\d\d\s*?$"))
+            {
+                movie_date = name.Substring(name.Length - 5, name.Length - (name.Length - 5)).Trim();
+                name = name.Substring(0, name.Length - 7);                
+            }
+            LastSearch = name;
+            return GetFilmInfo(channel.ChannelType, name, movie_date, lang);
+        }
+
+        public static dynamic GetFilmInfo(ChType chType, string title, string year, string lang)
+        {
+            string apiUrl = "https://api.themoviedb.org/3/search/$$FTYPE$$?api_key=$$APIKEY$$&language=$$LANG$$&query=$$NAME$$&$$YEAR$$page=1&include_adult=false";
             string apiKey = "9e92adff436095fb58d51262de09385a";
             string ftype = "movie";
-            string name = channel.Title;
-            if (Regex.IsMatch(name, @"\(\d\d\d\d\)\s*?$")){
-                name = name.Substring(0, name.Length - 7);
-            }
-            if (channel.ChannelType == ChType.SHOW)
+            string yearStr = "year=$$YEAR$$";
+            string name = title;
+            string movie_date = year;
+            if (chType == ChType.SHOW)
             {
                 ftype = "tv";
-                name = channel.TVGGroup;
+                yearStr = "first_air_date_year=$$YEAR$$";
             }
             apiUrl = apiUrl.Replace("$$FTYPE$$", ftype).Replace("$$APIKEY$$", apiKey).Replace("$$LANG$$", lang);
-
+            if (!string.IsNullOrEmpty(movie_date) && Regex.IsMatch(movie_date, @"\d\d\d\d"))
+            {
+                apiUrl = apiUrl.Replace("$$YEAR$$", yearStr).Replace("$$YEAR$$", movie_date + "&");
+            }
             string nameWithPercent = name.Replace(" ", "%20");
             apiUrl = apiUrl.Replace("$$NAME$$", nameWithPercent);
-            string result =  GetUrl(apiUrl);
+            string result = GetUrl(apiUrl);
             return JsonConvert.DeserializeObject(result);
         }
+
 
         public static string DecodeToUTF8(string strParam)
         {

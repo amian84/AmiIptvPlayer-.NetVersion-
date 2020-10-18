@@ -51,11 +51,11 @@
             this.btnClear = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.panelvideo = new System.Windows.Forms.Panel();
-            this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             this.btnPlayPause = new System.Windows.Forms.Button();
             this.btnStop = new System.Windows.Forms.Button();
             this.seekBar = new System.Windows.Forms.TrackBar();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btnFixId = new System.Windows.Forms.Button();
             this.logoEPG = new System.Windows.Forms.PictureBox();
             this.lbEndTime = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
@@ -72,14 +72,17 @@
             this.lbVersion = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.lbProcessingEPG = new System.Windows.Forms.Label();
-            this.btnFixId = new System.Windows.Forms.Button();
+            this.label9 = new System.Windows.Forms.Label();
+            this.lbYear = new System.Windows.Forms.Label();
+            this.txtLoadCh = new System.Windows.Forms.TextBox();
+            this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             this.menuStrip1.SuspendLayout();
             this.loadingPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.logoChannel)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.seekBar)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.logoEPG)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -161,7 +164,7 @@
             this.chList.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.chList.HideSelection = false;
             this.chList.Location = new System.Drawing.Point(8, 150);
-            this.chList.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.chList.Margin = new System.Windows.Forms.Padding(2);
             this.chList.Name = "chList";
             this.chList.Size = new System.Drawing.Size(383, 475);
             this.chList.TabIndex = 5;
@@ -182,7 +185,7 @@
             this.loadingPanel.Controls.Add(this.label1);
             this.loadingPanel.Controls.Add(this.pgBar);
             this.loadingPanel.Location = new System.Drawing.Point(285, 125);
-            this.loadingPanel.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.loadingPanel.Margin = new System.Windows.Forms.Padding(2);
             this.loadingPanel.Name = "loadingPanel";
             this.loadingPanel.Size = new System.Drawing.Size(17, 8);
             this.loadingPanel.TabIndex = 9;
@@ -202,7 +205,7 @@
             // pgBar
             // 
             this.pgBar.Location = new System.Drawing.Point(68, 154);
-            this.pgBar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.pgBar.Margin = new System.Windows.Forms.Padding(2);
             this.pgBar.Name = "pgBar";
             this.pgBar.Size = new System.Drawing.Size(370, 55);
             this.pgBar.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
@@ -212,7 +215,7 @@
             // logoChannel
             // 
             this.logoChannel.Location = new System.Drawing.Point(17, 32);
-            this.logoChannel.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.logoChannel.Margin = new System.Windows.Forms.Padding(2);
             this.logoChannel.Name = "logoChannel";
             this.logoChannel.Size = new System.Drawing.Size(77, 68);
             this.logoChannel.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -232,7 +235,7 @@
             // txtFilter
             // 
             this.txtFilter.Location = new System.Drawing.Point(17, 125);
-            this.txtFilter.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtFilter.Margin = new System.Windows.Forms.Padding(2);
             this.txtFilter.Name = "txtFilter";
             this.txtFilter.Size = new System.Drawing.Size(139, 20);
             this.txtFilter.TabIndex = 17;
@@ -241,7 +244,7 @@
             // btnFilter
             // 
             this.btnFilter.Location = new System.Drawing.Point(166, 122);
-            this.btnFilter.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnFilter.Margin = new System.Windows.Forms.Padding(2);
             this.btnFilter.Name = "btnFilter";
             this.btnFilter.Size = new System.Drawing.Size(50, 24);
             this.btnFilter.TabIndex = 18;
@@ -252,7 +255,7 @@
             // btnClear
             // 
             this.btnClear.Location = new System.Drawing.Point(231, 122);
-            this.btnClear.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnClear.Margin = new System.Windows.Forms.Padding(2);
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(50, 24);
             this.btnClear.TabIndex = 21;
@@ -275,7 +278,7 @@
             this.panelvideo.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.panelvideo.ForeColor = System.Drawing.Color.Black;
             this.panelvideo.Location = new System.Drawing.Point(405, 54);
-            this.panelvideo.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panelvideo.Margin = new System.Windows.Forms.Padding(2);
             this.panelvideo.Name = "panelvideo";
             this.panelvideo.Size = new System.Drawing.Size(511, 252);
             this.panelvideo.TabIndex = 23;
@@ -284,7 +287,7 @@
             // btnPlayPause
             // 
             this.btnPlayPause.Location = new System.Drawing.Point(403, 314);
-            this.btnPlayPause.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnPlayPause.Margin = new System.Windows.Forms.Padding(2);
             this.btnPlayPause.Name = "btnPlayPause";
             this.btnPlayPause.Size = new System.Drawing.Size(74, 23);
             this.btnPlayPause.TabIndex = 27;
@@ -295,7 +298,7 @@
             // btnStop
             // 
             this.btnStop.Location = new System.Drawing.Point(492, 314);
-            this.btnStop.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnStop.Margin = new System.Windows.Forms.Padding(2);
             this.btnStop.Name = "btnStop";
             this.btnStop.Size = new System.Drawing.Size(74, 23);
             this.btnStop.TabIndex = 27;
@@ -307,7 +310,7 @@
             // 
             this.seekBar.LargeChange = 0;
             this.seekBar.Location = new System.Drawing.Point(405, 340);
-            this.seekBar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.seekBar.Margin = new System.Windows.Forms.Padding(2);
             this.seekBar.Name = "seekBar";
             this.seekBar.Size = new System.Drawing.Size(509, 45);
             this.seekBar.TabIndex = 28;
@@ -317,6 +320,8 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.lbYear);
+            this.panel1.Controls.Add(this.label9);
             this.panel1.Controls.Add(this.btnFixId);
             this.panel1.Controls.Add(this.logoEPG);
             this.panel1.Controls.Add(this.lbEndTime);
@@ -330,15 +335,27 @@
             this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.lbTitleEPG);
             this.panel1.Location = new System.Drawing.Point(403, 373);
-            this.panel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel1.Margin = new System.Windows.Forms.Padding(2);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(513, 210);
             this.panel1.TabIndex = 25;
             // 
+            // btnFixId
+            // 
+            this.btnFixId.Location = new System.Drawing.Point(318, 171);
+            this.btnFixId.Margin = new System.Windows.Forms.Padding(2);
+            this.btnFixId.Name = "btnFixId";
+            this.btnFixId.Size = new System.Drawing.Size(140, 24);
+            this.btnFixId.TabIndex = 19;
+            this.btnFixId.Text = "Fix Identification";
+            this.btnFixId.UseVisualStyleBackColor = true;
+            this.btnFixId.Visible = false;
+            this.btnFixId.Click += new System.EventHandler(this.btnFixId_Click);
+            // 
             // logoEPG
             // 
             this.logoEPG.Location = new System.Drawing.Point(491, 2);
-            this.logoEPG.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.logoEPG.Margin = new System.Windows.Forms.Padding(2);
             this.logoEPG.Name = "logoEPG";
             this.logoEPG.Size = new System.Drawing.Size(20, 19);
             this.logoEPG.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -503,16 +520,37 @@
             this.lbProcessingEPG.TabIndex = 33;
             this.lbProcessingEPG.Text = "NO";
             // 
-            // btnFixId
+            // label9
             // 
-            this.btnFixId.Location = new System.Drawing.Point(318, 150);
-            this.btnFixId.Margin = new System.Windows.Forms.Padding(2);
-            this.btnFixId.Name = "btnFixId";
-            this.btnFixId.Size = new System.Drawing.Size(140, 24);
-            this.btnFixId.TabIndex = 19;
-            this.btnFixId.Text = "Fix Identification";
-            this.btnFixId.UseVisualStyleBackColor = true;
-            this.btnFixId.Visible = false;
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("Verdana", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.Location = new System.Drawing.Point(4, 174);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(105, 16);
+            this.label9.TabIndex = 20;
+            this.label9.Text = "Year release:";
+            this.label9.Visible = false;
+            // 
+            // lbYear
+            // 
+            this.lbYear.AutoSize = true;
+            this.lbYear.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbYear.Location = new System.Drawing.Point(110, 176);
+            this.lbYear.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lbYear.Name = "lbYear";
+            this.lbYear.Size = new System.Drawing.Size(12, 14);
+            this.lbYear.TabIndex = 21;
+            this.lbYear.Text = "-";
+            this.lbYear.Visible = false;
+            // 
+            // txtLoadCh
+            // 
+            this.txtLoadCh.Location = new System.Drawing.Point(8, 150);
+            this.txtLoadCh.Multiline = true;
+            this.txtLoadCh.Name = "txtLoadCh";
+            this.txtLoadCh.Size = new System.Drawing.Size(383, 475);
+            this.txtLoadCh.TabIndex = 34;
+            this.txtLoadCh.Visible = false;
             // 
             // Form1
             // 
@@ -538,9 +576,10 @@
             this.Controls.Add(this.chList);
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.loadingPanel);
+            this.Controls.Add(this.txtLoadCh);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.MaximizeBox = false;
             this.Name = "Form1";
             this.Text = "AmiIptvPlayer";
@@ -551,11 +590,11 @@
             this.loadingPanel.ResumeLayout(false);
             this.loadingPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.logoChannel)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.seekBar)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.logoEPG)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -606,6 +645,9 @@
         private System.Windows.Forms.Label lbProcessingEPG;
         private System.Windows.Forms.ToolStripMenuItem refreshEPGToolStripMenuItem;
         private System.Windows.Forms.Button btnFixId;
+        private System.Windows.Forms.Label lbYear;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.TextBox txtLoadCh;
     }
 }
 
