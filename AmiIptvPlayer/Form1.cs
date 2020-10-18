@@ -1,5 +1,6 @@
 ﻿
 using Mpv.NET.Player;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -53,6 +54,7 @@ namespace AmiIptvPlayer
         private PrgInfo currentPrg = null;
         private List<ChannelInfo> lstChannels = new List<ChannelInfo>();
         private Configuration config;
+        private JArray fillFilmResults = null;
         public Form1()
         {
             InitializeComponent();
@@ -89,10 +91,11 @@ namespace AmiIptvPlayer
             epg.epgEventFinish += FinishLoadEpg;
             DefaultEpgLabels();
             logoEPG.Image = Image.FromFile("./resources/images/info.png");
-            
+            Channels channels = Channels.Get();
+            channels.SetUrl(config.AppSettings.Settings["Url"].Value);
             if (File.Exists(System.Environment.GetEnvironmentVariable("USERPROFILE") + "\\channelCache.json"))
             {
-                Channels channels = Channels.LoadFromJSON();
+                channels = Channels.LoadFromJSON();
                 fillChannelList();
             }
             else
@@ -105,7 +108,7 @@ namespace AmiIptvPlayer
                 lstChannels.Add(ch);
             }
 
-            DateTime creationCacheChannel = File.GetCreationTime(System.Environment.GetEnvironmentVariable("USERPROFILE") + "\\channelCache.json");
+            DateTime creationCacheChannel = File.GetLastWriteTimeUtc(System.Environment.GetEnvironmentVariable("USERPROFILE") + "\\channelCache.json");
             if (File.Exists(System.Environment.GetEnvironmentVariable("USERPROFILE") + "\\channelCache.json")
                 && creationCacheChannel.Day < DateTime.Now.Day - 1)
             {
@@ -118,7 +121,7 @@ namespace AmiIptvPlayer
                 epg = EPG_DB.LoadFromJSON();
             }
 
-            DateTime creation = File.GetCreationTime(System.Environment.GetEnvironmentVariable("USERPROFILE") + "\\amiiptvepgCache.json");
+            DateTime creation = File.GetLastWriteTimeUtc(System.Environment.GetEnvironmentVariable("USERPROFILE") + "\\amiiptvepgCache.json");
             if (File.Exists(System.Environment.GetEnvironmentVariable("USERPROFILE") + "\\amiiptvepgCache.json")
                 && creation.Day < DateTime.Now.Day - 1)
             {
@@ -257,35 +260,57 @@ namespace AmiIptvPlayer
                         title = title.Substring(0, 20) + "...";
                     }
                     lbChName.Text = title;
-                    if (channel.ChannelType == ChType.CHANNEL)
+                    SetEPG(channel);
+                }
+            }
+        }
+
+        private void SetEPG(ChannelInfo channel)
+        {
+            if (channel.ChannelType == ChType.CHANNEL)
+            {
+                VisibleEPGLabes(true);
+                
+                EPG_DB epg = EPG_DB.Get();
+                if (epg.Loaded)
+                {
+                    PrgInfo prg = epg.GetCurrentProgramm(channel);
+                    if (prg != null)
                     {
-                        EPG_DB epg = EPG_DB.Get();
-                        if (epg.Loaded)
-                        {
-                            PrgInfo prg = epg.GetCurrentProgramm(channel);
-                            if (prg != null)
-                            {
-                                FillChannelInfo(prg);
-                            }
-                            else
-                            {
-                                DefaultEpgLabels();
-                            }
-                        }
-                        else
-                        {
-                            DefaultEpgLabels();
-                        }
+                        FillChannelInfo(prg);
                     }
                     else
                     {
                         DefaultEpgLabels();
-                        dynamic result = Utils.GetFilmInfo(channel, "es");
-                        var hola = 1;
                     }
-                    
+                }
+                else
+                {
+                    DefaultEpgLabels();
                 }
             }
+            else
+            {
+                DefaultEpgLabels();
+                VisibleEPGLabes(false);
+                dynamic result = Utils.GetFilmInfo(channel, "es");
+                fillFilmResults = result["results"];
+                if (result["results"].Count > 0)
+                {
+                    var filmMatch = result["results"][0];
+                }
+                var hola = 1;
+            }
+        }
+
+        private void VisibleEPGLabes(bool visible)
+        {
+            label6.Visible = visible;
+            lbStartTime.Visible = visible;
+            lbEndTime.Visible = visible;
+            label8.Visible = visible;
+            btnFixId.Visible = !visible;
+
         }
 
         private void FillChannelInfo(PrgInfo prg)
@@ -604,7 +629,10 @@ namespace AmiIptvPlayer
             new System.Threading.Thread(delegate ()
             {
                 channels.RefreshList();
-                fillChannelList();
+                if (channels.NeedRefresh())
+                {
+                    fillChannelList();
+                }
                 loadingPanel.Invoke((System.Threading.ThreadStart)delegate {
                     loadingPanel.Visible = false;
                 });
