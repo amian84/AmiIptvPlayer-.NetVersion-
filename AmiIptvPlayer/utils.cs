@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
@@ -93,6 +94,13 @@ namespace AmiIptvPlayer
             apiUrl = apiUrl.Replace("$$NAME$$", nameWithPercent);
             string result =  GetUrl(apiUrl);
             return JsonConvert.DeserializeObject(result);
+        }
+
+        public static string DecodeToUTF8(string strParam)
+        {
+            byte[] bytes = Encoding.Default.GetBytes(strParam);
+            strParam = Encoding.UTF8.GetString(bytes);
+            return strParam;
         }
     }
 }
