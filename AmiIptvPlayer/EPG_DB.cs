@@ -44,6 +44,7 @@ namespace AmiIptvPlayer
             {
                 _instance = new EPG_DB();
             }
+            bool deleteJson = false;
             using (StreamReader r = new StreamReader(System.Environment.GetEnvironmentVariable("USERPROFILE") + "\\amiiptvepgCache.json"))
             {
                 try
@@ -56,10 +57,18 @@ namespace AmiIptvPlayer
                     _instance.Loaded = true;
                 }catch (Exception ex)
                 {
-                    File.Delete(System.Environment.GetEnvironmentVariable("USERPROFILE") + "\\amiiptvepgCache.json");
+                    deleteJson = true;
+                    _instance.Loaded = false;
+                    Console.WriteLine("Error trying read epg json: " + ex.ToString());
+                    
                 }
                 
             }
+            if (deleteJson)
+            {
+                File.Delete(System.Environment.GetEnvironmentVariable("USERPROFILE") + "\\amiiptvepgCache.json");
+            }
+            
             return _instance;
         }
 
