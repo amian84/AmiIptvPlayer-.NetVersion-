@@ -137,25 +137,28 @@ namespace AmiIptvPlayer
                 int channelNumber = 0;
                 foreach (M3uPlaylistEntry entry in m3uList.PlaylistEntries)
                 {
-                    ChannelInfo channelInfo = new ChannelInfo(entry);
-                    channelsInfo.Add(channelNumber, channelInfo);
-                    channelInfo.ChNumber = channelNumber;
-                    GrpInfo groupInfo = new GrpInfo();
-                    groupInfo.Title = channelInfo.TVGGroup;
-                    groupInfo.Show = channelInfo.ChannelType == ChType.SHOW;
-                    if (!groupsInfo.ContainsKey(groupInfo))
+                    if (entry.CustomProperties.Count > 0)
                     {
-                        groupsInfo[groupInfo] = new List<ChannelInfo>();
+                        ChannelInfo channelInfo = new ChannelInfo(entry);
+                        channelsInfo.Add(channelNumber, channelInfo);
+                        channelInfo.ChNumber = channelNumber;
+                        GrpInfo groupInfo = new GrpInfo();
+                        groupInfo.Title = channelInfo.TVGGroup;
+                        groupInfo.Show = channelInfo.ChannelType == ChType.SHOW;
+                        if (!groupsInfo.ContainsKey(groupInfo))
+                        {
+                            groupsInfo[groupInfo] = new List<ChannelInfo>();
+                        }
+                        groupsInfo[groupInfo].Add(channelInfo);
+                        channelNumber++;
                     }
-                    groupsInfo[groupInfo].Add(channelInfo);
-                    channelNumber++;
-                    
                 }
                 using (StreamWriter file = File.CreateText(System.Environment.GetEnvironmentVariable("USERPROFILE") + "\\channelCache.json"))
                 {
                     JsonSerializer serializer = new JsonSerializer();
                     serializer.Serialize(file, channelsInfo.Values);
                 }
+                needRefresh = true;
                 Task<string> stats = Utils.GetAsync("http://amian.es:5085/stats?ctype=connected&app=net&chn=CONNECT");
 
             } catch (Exception ex) {
