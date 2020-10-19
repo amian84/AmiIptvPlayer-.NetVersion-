@@ -1,5 +1,6 @@
 using Json.Net;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -44,11 +45,11 @@ namespace AmiIptvPlayer
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(uri);
             request.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
 
-            using (HttpWebResponse response = (HttpWebResponse) request.GetResponse())
+            using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
             using (Stream stream = response.GetResponseStream())
             using (StreamReader reader = new StreamReader(stream))
             {
-                return  reader.ReadToEnd();
+                return reader.ReadToEnd();
             }
         }
 
@@ -76,6 +77,31 @@ namespace AmiIptvPlayer
             return "none";
         }
 
+        public static List<SearchIdent> TransformJArrayToSearchIdent (JArray fillFilmResults) {
+            List<SearchIdent> listSearch = new List<SearchIdent>();
+            foreach(JObject obj in fillFilmResults)
+            {
+                string title = "";
+                string year = "";
+                if (Form1.Get().GetCurrentChannel().ChannelType == ChType.MOVIE)
+                {
+                    title = obj["title"].ToString();
+                    year = obj["release_date"].ToString().Split('-')[0];
+                }
+                else
+                {
+                    title = obj["name"].ToString();
+                    year = obj["first_air_date"].ToString().Split('-')[0];                   
+                }
+                SearchIdent se = new SearchIdent();
+                se.Title = title;
+                se.Year = year;
+                se.SearchData = obj;
+                listSearch.Add(se);
+            }
+            return listSearch;
+        }
+
         public static dynamic GetFilmInfo(ChannelInfo channel, string lang)
         {
             string name = channel.Title;
@@ -88,6 +114,11 @@ namespace AmiIptvPlayer
             {
                 movie_date = name.Substring(name.Length - 5, name.Length - (name.Length - 5)).Trim();
                 name = name.Substring(0, name.Length - 7);                
+            }
+            if (Regex.IsMatch(name, @"\s*?S\d\d\sE\d\d\s*?$"))
+            {
+                movie_date = null;
+                name = name.Substring(0, name.Length - 7);
             }
             LastSearch = name;
             return GetFilmInfo(channel.ChannelType, name, movie_date, lang);

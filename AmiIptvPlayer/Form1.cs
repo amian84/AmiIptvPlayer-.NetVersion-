@@ -21,6 +21,7 @@ namespace AmiIptvPlayer
 
     public partial class Form1 : Form
     {
+        private static Form1 _instance;
         private enum TrackType
         {
             AUDIO,
@@ -55,7 +56,9 @@ namespace AmiIptvPlayer
         private List<ChannelInfo> lstChannels = new List<ChannelInfo>();
         private Configuration config;
         private JArray fillFilmResults = null;
-        private ChType currentCh;
+        private JObject filmInfo = null;
+        private ChannelInfo currentChannel;
+        private ChType currentChType;
         public Form1()
         {
             InitializeComponent();
@@ -67,7 +70,7 @@ namespace AmiIptvPlayer
             chList.View = View.Details;
             logoEPG.WaitOnLoad = false;
             logoChannel.WaitOnLoad = false;
-             
+            _instance = this; 
 
         }
         private void setProperty(string prop, string value)
@@ -126,7 +129,7 @@ namespace AmiIptvPlayer
             if (File.Exists(System.Environment.GetEnvironmentVariable("USERPROFILE") + "\\amiiptvepgCache.json")
                 && creation.Day < DateTime.Now.Day - 1)
             {
-                DownloadEPGFile(epg, config.AppSettings.Settings["Epg"].Value);
+                //DownloadEPGFile(epg, config.AppSettings.Settings["Epg"].Value);
                 
             }
             else
@@ -261,8 +264,9 @@ namespace AmiIptvPlayer
                         title = title.Substring(0, 20) + "...";
                     }
                     lbChName.Text = title;
+                    currentChannel = channel;
+                    currentChType = channel.ChannelType;
                     SetEPG(channel);
-                    currentCh = channel.ChannelType;
                 }
             }
         }
@@ -302,11 +306,25 @@ namespace AmiIptvPlayer
                 {
                     filmMatch = result["results"][0];
                 }
-                if (filmMatch!= null)
-                {
-                    FillMoviesEPG(filmMatch, channel.ChannelType);
-                }
-                var hola = 1;
+                filmInfo = filmMatch;
+                DrawMovieInfo();
+            }
+        }
+
+        public JObject GetFilmInfo()
+        {
+            return filmInfo;
+        }
+
+        public void DrawMovieInfo(JObject info = null)
+        {
+            if (info != null)
+            {
+                filmInfo = info;
+            }
+            if (filmInfo != null)
+            {
+                FillMoviesEPG(filmInfo, currentChType);
             }
         }
 
@@ -393,8 +411,14 @@ namespace AmiIptvPlayer
             }
         }
 
+        public ChannelInfo GetCurrentChannel()
+        {
+            return currentChannel;
+        }
+
         private void StopPlayEvent(object sender, EventArgs e)
         {
+            //currentChannel = null;
             if (positioncchangedevent)
             {
                 player.PositionChanged -= PositionChanged;
@@ -836,6 +860,19 @@ namespace AmiIptvPlayer
                 lDescriptionForm.SetData(currentPrg);
                 lDescriptionForm.ShowDialog();
             }
+            else
+            {
+                if (currentChannel!= null && (currentChType == ChType.MOVIE || currentChType == ChType.SHOW))
+                {
+                    if (filmInfo != null)
+                    {
+                        LongDescription lDescriptionForm = new LongDescription();
+                        lDescriptionForm.FillMovieData();
+                        lDescriptionForm.ShowDialog();
+                    }
+                    
+                }
+            }
         }
         
         private void logoEPG_MouseHover(object sender, EventArgs e)
@@ -857,31 +894,18 @@ namespace AmiIptvPlayer
             
             DownloadEPGFile(EPG_DB.Get(), config.AppSettings.Settings["Epg"].Value);
         }
-
+        public static Form1 Get()
+        {
+            if (_instance == null)
+            {
+                _instance = new Form1();
+            }
+            return _instance;
+        }
         private void btnFixId_Click(object sender, EventArgs e)
         {
-            List<SearchIdent> listSearch = new List<SearchIdent>();
-            foreach(JObject obj in fillFilmResults)
-            {
-                string title = "";
-                string year = "";
-                if (currentCh == ChType.MOVIE)
-                {
-                    title = obj["title"].ToString();
-                    year = obj["release_date"].ToString().Split('-')[0];
-                }
-                else
-                {
-                    title = obj["name"].ToString();
-                    year = obj["first_air_date"].ToString().Split('-')[0];                   
-                }
-                SearchIdent se = new SearchIdent();
-                se.Title = title;
-                se.Year = year;
-                listSearch.Add(se);
-            }
+            List<SearchIdent> listSearch = Utils.TransformJArrayToSearchIdent(fillFilmResults);
             FixIdent fixident = new FixIdent();
-            
             fixident.SetSearch(listSearch);
             fixident.SetSearchText(Utils.LastSearch);
             fixident.ShowDialog();
