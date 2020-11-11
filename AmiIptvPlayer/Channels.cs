@@ -163,9 +163,10 @@ namespace AmiIptvPlayer
 
             } catch (Exception ex) {
                 Console.WriteLine("Some error occur");
+                needRefresh = false;
             }
             
-            needRefresh = false;
+            
             
         }
         public void SetNeedRefresh(bool value)
