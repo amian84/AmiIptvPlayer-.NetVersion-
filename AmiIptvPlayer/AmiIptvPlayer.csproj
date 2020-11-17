@@ -29,7 +29,7 @@
     <InstallUrl>http://amian.es/amiiptv/</InstallUrl>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>13</ApplicationRevision>
+    <ApplicationRevision>15</ApplicationRevision>
     <ApplicationVersion>1.1.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -55,16 +55,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>0A66B80B649973021A95C999366DE2276DC74B30</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>6BFE579D62979F4C8B0A5C4C0058784416CDB29E</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>AmiIptvPlayer_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>AmiIptvPlayer_1_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>false</SignManifests>
+    <SignManifests>true</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>resources\images\nochannel.ico</ApplicationIcon>
@@ -118,6 +118,12 @@
     <Compile Include="LongDescription.Designer.cs">
       <DependentUpon>LongDescription.cs</DependentUpon>
     </Compile>
+    <Compile Include="MPVPlayer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MPVPlayer.Designer.cs">
+      <DependentUpon>MPVPlayer.cs</DependentUpon>
+    </Compile>
     <Compile Include="Preferences.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -128,6 +134,12 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SearchIdent.cs" />
+    <Compile Include="URLInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="URLInfo.Designer.cs">
+      <DependentUpon>URLInfo.cs</DependentUpon>
+    </Compile>
     <Compile Include="Utils.cs" />
     <EmbeddedResource Include="AboutUs.resx">
       <DependentUpon>AboutUs.cs</DependentUpon>
@@ -140,6 +152,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="LongDescription.resx">
       <DependentUpon>LongDescription.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MPVPlayer.resx">
+      <DependentUpon>MPVPlayer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Preferences.resx">
       <DependentUpon>Preferences.cs</DependentUpon>
@@ -154,6 +169,10 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="URLInfo.resx">
+      <DependentUpon>URLInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="AmiIptvPlayer_1_TemporaryKey.pfx" />
     <None Include="AmiIptvPlayer_TemporaryKey.pfx" />
     <None Include="app.manifest" />
     <None Include="Properties\app.manifest" />
@@ -171,8 +190,23 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="resources\images\pause.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="resources\images\play.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="resources\images\stop.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="resources\images\unmute.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="DLLs\mpv-1.dll" />
     <Content Include="resources\images\info.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="resources\images\mute.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="resources\images\nochannel.ico" />
