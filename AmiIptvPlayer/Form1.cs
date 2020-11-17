@@ -27,6 +27,18 @@ namespace AmiIptvPlayer
             AUDIO,
             SUB
         }
+
+        private class ComboboxItem
+        {
+            public string Text { get; set; }
+            public long Value { get; set; }
+
+            public override string ToString()
+            {
+                return Text;
+            }
+        }
+
         private struct TrackInfo
         {
             public TrackInfo(TrackType ttype)
@@ -59,6 +71,7 @@ namespace AmiIptvPlayer
         private JObject filmInfo = null;
         private ChannelInfo currentChannel;
         private ChType currentChType;
+        private Dictionary<TrackType, List<TrackInfo>> tracksParser;
         public Form1()
         {
             InitializeComponent();
@@ -81,7 +94,7 @@ namespace AmiIptvPlayer
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            
             lbVersion.Text = ApplicationDeployment.IsNetworkDeployed
                ? ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString()
                : Assembly.GetExecutingAssembly().GetName().Version.ToString();
@@ -91,6 +104,16 @@ namespace AmiIptvPlayer
             player.MediaUnloaded += StopPlayEvent;
             player.MediaLoaded += MediaLoaded;
             player.Volume = 100;
+            trVolumen.Value = Convert.ToInt32(player.Volume /2);
+            btnMuteUnmute.BackgroundImage = Image.FromFile("./resources/images/unmute.png");
+            btnMuteUnmute.BackgroundImageLayout = ImageLayout.Stretch;
+
+            btnPlayPause.BackgroundImage = Image.FromFile("./resources/images/play.png");
+            btnPlayPause.BackgroundImageLayout = ImageLayout.Stretch;
+
+            btnStop.BackgroundImage = Image.FromFile("./resources/images/stop.png");
+            btnStop.BackgroundImageLayout = ImageLayout.Stretch;
+
             EPG_DB epg = EPG_DB.Get();
             epg.epgEventFinish += FinishLoadEpg;
             DefaultEpgLabels();
@@ -425,7 +448,8 @@ namespace AmiIptvPlayer
                 positioncchangedevent = false;
 
             }
-            
+            btnPlayPause.BackgroundImage = Image.FromFile("./resources/images/play.png");
+            btnPlayPause.BackgroundImageLayout = ImageLayout.Stretch;
             if (exitApp)
             {
                 player.MediaLoaded -= MediaLoaded;
@@ -472,11 +496,14 @@ namespace AmiIptvPlayer
         private void ParseTracksAndSetDefaults()
         {
             long tracks = player.API.GetPropertyLong("track-list/count");
-            Dictionary<TrackType, List<TrackInfo>> tracksParser = new Dictionary<TrackType, List<TrackInfo>>();
+            tracksParser = new Dictionary<TrackType, List<TrackInfo>>();
+            tracksParser[TrackType.SUB] = new List<TrackInfo>();
+            tracksParser[TrackType.AUDIO] = new List<TrackInfo>();
             for (long i = 0; i < tracks; i++)
             {
                 var id = player.API.GetPropertyLong("track-list/" + i + "/id");
                 var ttype = player.API.GetPropertyString("track-list/" + i + "/type");
+                
                 if (ttype != "video")
                 {
                     var lang = "";
@@ -536,32 +563,123 @@ namespace AmiIptvPlayer
                     tracksParser[TKInfoType].Add(TKInfo);
                 }
             }
+
+            cmbLangs.Invoke((System.Threading.ThreadStart)delegate
+            {
+                if (tracksParser[TrackType.AUDIO].Count > 0)
+                {
+                    cmbLangs.Enabled = true;
+                }
+                else
+                {
+                    cmbLangs.Enabled = false;
+                }
+                cmbLangs.Items.Clear();
+            });
+            ComboboxItem noneSub = new ComboboxItem();
+            ComboboxItem subCandidate = new ComboboxItem();
+            cmbSubs.Invoke((System.Threading.ThreadStart)delegate
+            {
+                if (tracksParser[TrackType.SUB].Count > 0)
+                {
+                    cmbSubs.Enabled = true;
+                }
+                else
+                {
+                    cmbSubs.Enabled = false;
+                }
+
+                
+
+                cmbSubs.Items.Clear();
+
+                noneSub.Text = "None";
+                noneSub.Value = -1;
+                cmbSubs.Items.Add(noneSub);
+            });
+
+            
             Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
             string audioConf = config.AppSettings.Settings["audio"].Value;
             string subConf = config.AppSettings.Settings["sub"].Value;
+            bool found = false;
             foreach (TrackInfo tkinfo in tracksParser[TrackType.AUDIO])
             {
-                if (tkinfo.Lang == audioConf)
+                ComboboxItem item = new ComboboxItem();
+                if (!cmbLangs.Enabled)
+                {
+                    cmbLangs.Invoke((System.Threading.ThreadStart)delegate
+                    {
+                        cmbLangs.Enabled = true;
+                    });
+                    
+                }
+                cmbLangs.Invoke((System.Threading.ThreadStart)delegate
+                {
+                    
+                    item.Text = tkinfo.Title + " (" + tkinfo.ID + ")";
+                    item.Value = tkinfo.ID;
+                    cmbLangs.Items.Add(item);
+                });
+                
+                if (tkinfo.Lang == audioConf && !found)
                 {
                     player.API.SetPropertyLong("aid", tkinfo.ID);
-                    
-                    break;
+                    cmbLangs.Invoke((System.Threading.ThreadStart)delegate
+                    {
+
+                        cmbLangs.SelectedItem = item;
+                    });
+                    found = true;
                 }
             }
+
+            found = false;
+            foreach (TrackInfo tkinfo in tracksParser[TrackType.SUB])
+            {
+                
+                cmbSubs.Invoke((System.Threading.ThreadStart)delegate
+                {
+                    if (!cmbSubs.Enabled)
+                    {
+                        cmbSubs.Enabled = true;                        
+                    }
+                    ComboboxItem item = new ComboboxItem();
+                    item.Text = tkinfo.Title + " (" + tkinfo.ID + ")";
+                    item.Value = tkinfo.ID;
+                    cmbSubs.Items.Add(item);
+                    if (tkinfo.Lang == subConf && !found)
+                    {
+                        subCandidate = item;
+                        found = true;
+                    }
+                });
+                
+            }
+
             if (subConf != "none")
             {
+                found = false;
                 foreach (TrackInfo tkinfo in tracksParser[TrackType.SUB])
                 {
-                    if (tkinfo.Lang == subConf)
+                    if (tkinfo.Lang == subConf && !found)
                     {
                         player.API.SetPropertyLong("sid", tkinfo.ID);
-                        break;
+                        cmbSubs.Invoke((System.Threading.ThreadStart)delegate
+                        {
+                            cmbSubs.SelectedValue = subCandidate;
+                        });
+                        found = true;
                     }
                 }
             }
             else
             {
                 player.API.SetPropertyString("sid", "no");
+                cmbSubs.Invoke((System.Threading.ThreadStart)delegate
+                {
+                    cmbSubs.SelectedItem = noneSub;
+                });
             }
             
         }
@@ -588,11 +706,25 @@ namespace AmiIptvPlayer
             }
             else
             {
+                cmbLangs.Invoke((System.Threading.ThreadStart)delegate
+                {
+                    cmbLangs.Enabled = false;
+                    cmbLangs.Items.Clear();
+                });
+                cmbSubs.Invoke((System.Threading.ThreadStart)delegate
+                {
+                    cmbSubs.Enabled = false;
+                    cmbSubs.Items.Clear();
+                    
+                });
                 seekBar.Invoke((System.Threading.ThreadStart)delegate {
                     seekBar.Enabled = false;
+                    seekBar.Value = 0;
                 });
             }
             player.Resume();
+            btnPlayPause.BackgroundImage = Image.FromFile("./resources/images/pause.png");
+            btnPlayPause.BackgroundImageLayout = ImageLayout.Stretch;
         }
 
         private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -806,10 +938,6 @@ namespace AmiIptvPlayer
             }
         }
 
-        private void trackBar1_Scroll(object sender, EventArgs e)
-        {
-
-        }
 
         private void btnPlayPause_Click(object sender, EventArgs e)
         {
@@ -817,11 +945,15 @@ namespace AmiIptvPlayer
             {
                 if (isPaused)
                 {
+                    btnPlayPause.BackgroundImage = Image.FromFile("./resources/images/pause.png");
+                    btnPlayPause.BackgroundImageLayout = ImageLayout.Stretch;
                     player.Resume(); 
                     isPaused = false;
                 }
                 else
                 {
+                    btnPlayPause.BackgroundImage = Image.FromFile("./resources/images/play.png");
+                    btnPlayPause.BackgroundImageLayout = ImageLayout.Stretch;
                     player.Pause();
                     isPaused = true;
                 }
@@ -837,13 +969,21 @@ namespace AmiIptvPlayer
         
         private void seekBar_MouseDown(object sender, MouseEventArgs e)
         {
-            player.PositionChanged -= PositionChanged;
-            positioncchangedevent = false;
+            if (positioncchangedevent)
+            {
+                player.PositionChanged -= PositionChanged;
+                positioncchangedevent = false;
+            }
+            
         }
 
         private void seekBar_MouseUp(object sender, MouseEventArgs e)
         {
-            player.SeekAsync(seekBar.Value);
+            if (player.IsMediaLoaded)
+            {
+                player.SeekAsync(seekBar.Value);
+            }
+            
             //player.Position.Seconds = seekBar.Value;
             if (!positioncchangedevent)
             {
@@ -909,6 +1049,67 @@ namespace AmiIptvPlayer
             fixident.SetSearch(listSearch);
             fixident.SetSearchText(Utils.LastSearch);
             fixident.ShowDialog();
+        }
+
+        private void btnMuteUnmute_Click(object sender, EventArgs e)
+        {
+            if (player.Volume != 0)
+            {
+                player.Volume = 0;
+                trVolumen.Enabled = false;
+                btnMuteUnmute.BackgroundImage = Image.FromFile("./resources/images/mute.png");
+                btnMuteUnmute.BackgroundImageLayout = ImageLayout.Stretch;
+            }
+            else
+            {
+                player.Volume = trVolumen.Value * 2;
+                trVolumen.Enabled = true;
+                btnMuteUnmute.BackgroundImage = Image.FromFile("./resources/images/unmute.png");
+                btnMuteUnmute.BackgroundImageLayout = ImageLayout.Stretch;
+            }
+        }
+
+        private void trVolumen_MouseUp(object sender, MouseEventArgs e)
+        {
+            player.Volume = trVolumen.Value * 2;
+        }
+
+        private void cmbLangs_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            long id = ((ComboboxItem)cmbLangs.SelectedItem).Value;
+            foreach (TrackInfo tkinfo in tracksParser[TrackType.AUDIO])
+            {
+                if (tkinfo.ID == id)
+                {
+                    player.API.SetPropertyLong("aid", tkinfo.ID);
+                    break;
+                }
+            }
+        }
+
+        private void cmbSubs_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            long id = ((ComboboxItem)cmbSubs.SelectedItem).Value;
+            foreach (TrackInfo tkinfo in tracksParser[TrackType.SUB])
+            {
+                if (tkinfo.ID == id)
+                {
+                    player.API.SetPropertyLong("sid", tkinfo.ID);
+                    break;
+                }
+            }
+        }
+
+
+        private void btnURLInfo_Click(object sender, EventArgs e)
+        {
+            if (currentChannel != null)
+            {
+                URLInfo uRLInfo = new URLInfo();
+                uRLInfo.setURL(currentChannel.URL);
+                uRLInfo.StartPosition = FormStartPosition.CenterParent;
+                uRLInfo.ShowDialog();
+            }
         }
     }
 }
