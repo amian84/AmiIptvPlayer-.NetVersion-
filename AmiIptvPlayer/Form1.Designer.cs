@@ -50,10 +50,6 @@
             this.btnFilter = new System.Windows.Forms.Button();
             this.btnClear = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
-            this.panelvideo = new System.Windows.Forms.Panel();
-            this.btnPlayPause = new System.Windows.Forms.Button();
-            this.btnStop = new System.Windows.Forms.Button();
-            this.seekBar = new System.Windows.Forms.TrackBar();
             this.panel1 = new System.Windows.Forms.Panel();
             this.lbYear = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
@@ -69,28 +65,21 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.lbTitleEPG = new System.Windows.Forms.Label();
-            this.lbDuration = new System.Windows.Forms.Label();
             this.lbVersionText = new System.Windows.Forms.Label();
             this.lbVersion = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.lbProcessingEPG = new System.Windows.Forms.Label();
             this.txtLoadCh = new System.Windows.Forms.TextBox();
-            this.btnMuteUnmute = new System.Windows.Forms.Button();
-            this.trVolumen = new System.Windows.Forms.TrackBar();
-            this.cmbLangs = new System.Windows.Forms.ComboBox();
-            this.cmbSubs = new System.Windows.Forms.ComboBox();
-            this.label10 = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
             this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             this.btnURLInfo = new System.Windows.Forms.Button();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.cmbGroups = new System.Windows.Forms.ComboBox();
+            this.label10 = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.loadingPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.logoChannel)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.seekBar)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.logoEPG)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trVolumen)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -105,7 +94,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(4, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(929, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1022, 24);
             this.menuStrip1.TabIndex = 2;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -172,10 +161,10 @@
             this.chName});
             this.chList.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.chList.HideSelection = false;
-            this.chList.Location = new System.Drawing.Point(8, 150);
+            this.chList.Location = new System.Drawing.Point(8, 197);
             this.chList.Margin = new System.Windows.Forms.Padding(2);
             this.chList.Name = "chList";
-            this.chList.Size = new System.Drawing.Size(383, 519);
+            this.chList.Size = new System.Drawing.Size(383, 616);
             this.chList.TabIndex = 5;
             this.chList.UseCompatibleStateImageBehavior = false;
             this.chList.DoubleClick += new System.EventHandler(this.listView1_DoubleClick);
@@ -193,10 +182,10 @@
             // 
             this.loadingPanel.Controls.Add(this.label1);
             this.loadingPanel.Controls.Add(this.pgBar);
-            this.loadingPanel.Location = new System.Drawing.Point(285, 125);
+            this.loadingPanel.Location = new System.Drawing.Point(0, 26);
             this.loadingPanel.Margin = new System.Windows.Forms.Padding(2);
             this.loadingPanel.Name = "loadingPanel";
-            this.loadingPanel.Size = new System.Drawing.Size(17, 8);
+            this.loadingPanel.Size = new System.Drawing.Size(13, 10);
             this.loadingPanel.TabIndex = 9;
             this.loadingPanel.Visible = false;
             // 
@@ -204,7 +193,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(185, 72);
+            this.label1.Location = new System.Drawing.Point(417, 297);
             this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(134, 31);
@@ -213,7 +202,7 @@
             // 
             // pgBar
             // 
-            this.pgBar.Location = new System.Drawing.Point(68, 154);
+            this.pgBar.Location = new System.Drawing.Point(300, 379);
             this.pgBar.Margin = new System.Windows.Forms.Padding(2);
             this.pgBar.Name = "pgBar";
             this.pgBar.Size = new System.Drawing.Size(370, 55);
@@ -243,7 +232,7 @@
             // 
             // txtFilter
             // 
-            this.txtFilter.Location = new System.Drawing.Point(17, 125);
+            this.txtFilter.Location = new System.Drawing.Point(17, 169);
             this.txtFilter.Margin = new System.Windows.Forms.Padding(2);
             this.txtFilter.Name = "txtFilter";
             this.txtFilter.Size = new System.Drawing.Size(139, 20);
@@ -252,7 +241,7 @@
             // 
             // btnFilter
             // 
-            this.btnFilter.Location = new System.Drawing.Point(166, 122);
+            this.btnFilter.Location = new System.Drawing.Point(175, 165);
             this.btnFilter.Margin = new System.Windows.Forms.Padding(2);
             this.btnFilter.Name = "btnFilter";
             this.btnFilter.Size = new System.Drawing.Size(50, 24);
@@ -263,7 +252,7 @@
             // 
             // btnClear
             // 
-            this.btnClear.Location = new System.Drawing.Point(231, 122);
+            this.btnClear.Location = new System.Drawing.Point(238, 166);
             this.btnClear.Margin = new System.Windows.Forms.Padding(2);
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(50, 24);
@@ -275,56 +264,12 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(21, 107);
+            this.label2.Location = new System.Drawing.Point(21, 151);
             this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(47, 13);
             this.label2.TabIndex = 22;
             this.label2.Text = "Filter list:";
-            // 
-            // panelvideo
-            // 
-            this.panelvideo.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.panelvideo.ForeColor = System.Drawing.Color.Black;
-            this.panelvideo.Location = new System.Drawing.Point(405, 54);
-            this.panelvideo.Margin = new System.Windows.Forms.Padding(2);
-            this.panelvideo.Name = "panelvideo";
-            this.panelvideo.Size = new System.Drawing.Size(511, 252);
-            this.panelvideo.TabIndex = 23;
-            this.panelvideo.DoubleClick += new System.EventHandler(this.panelvideo_DoubleClick);
-            // 
-            // btnPlayPause
-            // 
-            this.btnPlayPause.Location = new System.Drawing.Point(403, 389);
-            this.btnPlayPause.Margin = new System.Windows.Forms.Padding(2);
-            this.btnPlayPause.Name = "btnPlayPause";
-            this.btnPlayPause.Size = new System.Drawing.Size(27, 27);
-            this.btnPlayPause.TabIndex = 27;
-            this.btnPlayPause.UseVisualStyleBackColor = true;
-            this.btnPlayPause.Click += new System.EventHandler(this.btnPlayPause_Click);
-            // 
-            // btnStop
-            // 
-            this.btnStop.Location = new System.Drawing.Point(436, 389);
-            this.btnStop.Margin = new System.Windows.Forms.Padding(2);
-            this.btnStop.Name = "btnStop";
-            this.btnStop.Size = new System.Drawing.Size(27, 27);
-            this.btnStop.TabIndex = 27;
-            this.btnStop.UseVisualStyleBackColor = true;
-            this.btnStop.Click += new System.EventHandler(this.btnStop_Click);
-            // 
-            // seekBar
-            // 
-            this.seekBar.Enabled = false;
-            this.seekBar.LargeChange = 0;
-            this.seekBar.Location = new System.Drawing.Point(415, 310);
-            this.seekBar.Margin = new System.Windows.Forms.Padding(2);
-            this.seekBar.Name = "seekBar";
-            this.seekBar.Size = new System.Drawing.Size(509, 45);
-            this.seekBar.TabIndex = 28;
-            this.seekBar.TickStyle = System.Windows.Forms.TickStyle.None;
-            this.seekBar.MouseDown += new System.Windows.Forms.MouseEventHandler(this.seekBar_MouseDown);
-            this.seekBar.MouseUp += new System.Windows.Forms.MouseEventHandler(this.seekBar_MouseUp);
             // 
             // panel1
             // 
@@ -342,10 +287,10 @@
             this.panel1.Controls.Add(this.label4);
             this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.lbTitleEPG);
-            this.panel1.Location = new System.Drawing.Point(403, 424);
+            this.panel1.Location = new System.Drawing.Point(403, 551);
             this.panel1.Margin = new System.Windows.Forms.Padding(2);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(513, 210);
+            this.panel1.Size = new System.Drawing.Size(594, 210);
             this.panel1.TabIndex = 25;
             // 
             // lbYear
@@ -385,7 +330,7 @@
             // 
             // logoEPG
             // 
-            this.logoEPG.Location = new System.Drawing.Point(491, 2);
+            this.logoEPG.Location = new System.Drawing.Point(562, 2);
             this.logoEPG.Margin = new System.Windows.Forms.Padding(2);
             this.logoEPG.Name = "logoEPG";
             this.logoEPG.Size = new System.Drawing.Size(20, 19);
@@ -501,20 +446,10 @@
             this.lbTitleEPG.TabIndex = 1;
             this.lbTitleEPG.Text = "-";
             // 
-            // lbDuration
-            // 
-            this.lbDuration.AutoSize = true;
-            this.lbDuration.Location = new System.Drawing.Point(400, 344);
-            this.lbDuration.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lbDuration.Name = "lbDuration";
-            this.lbDuration.Size = new System.Drawing.Size(83, 13);
-            this.lbDuration.TabIndex = 29;
-            this.lbDuration.Text = "Video Time: --/--";
-            // 
             // lbVersionText
             // 
             this.lbVersionText.AutoSize = true;
-            this.lbVersionText.Location = new System.Drawing.Point(816, 643);
+            this.lbVersionText.Location = new System.Drawing.Point(892, 770);
             this.lbVersionText.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lbVersionText.Name = "lbVersionText";
             this.lbVersionText.Size = new System.Drawing.Size(45, 13);
@@ -524,7 +459,7 @@
             // lbVersion
             // 
             this.lbVersion.AutoSize = true;
-            this.lbVersion.Location = new System.Drawing.Point(872, 643);
+            this.lbVersion.Location = new System.Drawing.Point(948, 770);
             this.lbVersion.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lbVersion.Name = "lbVersion";
             this.lbVersion.Size = new System.Drawing.Size(40, 13);
@@ -534,7 +469,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(790, 662);
+            this.label7.Location = new System.Drawing.Point(866, 789);
             this.label7.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(71, 13);
@@ -544,7 +479,7 @@
             // lbProcessingEPG
             // 
             this.lbProcessingEPG.AutoSize = true;
-            this.lbProcessingEPG.Location = new System.Drawing.Point(872, 662);
+            this.lbProcessingEPG.Location = new System.Drawing.Point(948, 789);
             this.lbProcessingEPG.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lbProcessingEPG.Name = "lbProcessingEPG";
             this.lbProcessingEPG.Size = new System.Drawing.Size(23, 13);
@@ -553,87 +488,17 @@
             // 
             // txtLoadCh
             // 
-            this.txtLoadCh.Location = new System.Drawing.Point(8, 150);
+            this.txtLoadCh.Location = new System.Drawing.Point(8, 197);
             this.txtLoadCh.Multiline = true;
             this.txtLoadCh.Name = "txtLoadCh";
-            this.txtLoadCh.Size = new System.Drawing.Size(383, 519);
+            this.txtLoadCh.Size = new System.Drawing.Size(383, 616);
             this.txtLoadCh.TabIndex = 34;
+            this.txtLoadCh.Text = "LOADwwwwwwwwwwwwwwwwwwwwwwwww";
             this.txtLoadCh.Visible = false;
-            // 
-            // btnMuteUnmute
-            // 
-            this.btnMuteUnmute.Location = new System.Drawing.Point(887, 389);
-            this.btnMuteUnmute.Margin = new System.Windows.Forms.Padding(2);
-            this.btnMuteUnmute.Name = "btnMuteUnmute";
-            this.btnMuteUnmute.Size = new System.Drawing.Size(27, 27);
-            this.btnMuteUnmute.TabIndex = 35;
-            this.btnMuteUnmute.UseVisualStyleBackColor = true;
-            this.btnMuteUnmute.Click += new System.EventHandler(this.btnMuteUnmute_Click);
-            // 
-            // trVolumen
-            // 
-            this.trVolumen.LargeChange = 0;
-            this.trVolumen.Location = new System.Drawing.Point(711, 388);
-            this.trVolumen.Margin = new System.Windows.Forms.Padding(2);
-            this.trVolumen.Maximum = 50;
-            this.trVolumen.Name = "trVolumen";
-            this.trVolumen.Size = new System.Drawing.Size(167, 45);
-            this.trVolumen.TabIndex = 36;
-            this.trVolumen.MouseUp += new System.Windows.Forms.MouseEventHandler(this.trVolumen_MouseUp);
-            // 
-            // cmbLangs
-            // 
-            this.cmbLangs.Enabled = false;
-            this.cmbLangs.FormattingEnabled = true;
-            this.cmbLangs.Location = new System.Drawing.Point(476, 393);
-            this.cmbLangs.Name = "cmbLangs";
-            this.cmbLangs.Size = new System.Drawing.Size(90, 21);
-            this.cmbLangs.TabIndex = 37;
-            this.cmbLangs.SelectedIndexChanged += new System.EventHandler(this.cmbLangs_SelectedIndexChanged);
-            // 
-            // cmbSubs
-            // 
-            this.cmbSubs.Enabled = false;
-            this.cmbSubs.FormattingEnabled = true;
-            this.cmbSubs.Location = new System.Drawing.Point(593, 393);
-            this.cmbSubs.Name = "cmbSubs";
-            this.cmbSubs.Size = new System.Drawing.Size(90, 21);
-            this.cmbSubs.TabIndex = 38;
-            this.cmbSubs.SelectedIndexChanged += new System.EventHandler(this.cmbSubs_SelectedIndexChanged);
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(473, 373);
-            this.label10.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(58, 13);
-            this.label10.TabIndex = 39;
-            this.label10.Text = "Language:";
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(718, 373);
-            this.label11.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(45, 13);
-            this.label11.TabIndex = 40;
-            this.label11.Text = "Volume:";
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(590, 373);
-            this.label12.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(50, 13);
-            this.label12.TabIndex = 41;
-            this.label12.Text = "Subtitles:";
             // 
             // btnURLInfo
             // 
-            this.btnURLInfo.Location = new System.Drawing.Point(819, 337);
+            this.btnURLInfo.Location = new System.Drawing.Point(403, 516);
             this.btnURLInfo.Margin = new System.Windows.Forms.Padding(2);
             this.btnURLInfo.Name = "btnURLInfo";
             this.btnURLInfo.Size = new System.Drawing.Size(95, 27);
@@ -642,29 +507,46 @@
             this.btnURLInfo.UseVisualStyleBackColor = true;
             this.btnURLInfo.Click += new System.EventHandler(this.btnURLInfo_Click);
             // 
+            // panel2
+            // 
+            this.panel2.Location = new System.Drawing.Point(403, 33);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(594, 478);
+            this.panel2.TabIndex = 44;
+            // 
+            // cmbGroups
+            // 
+            this.cmbGroups.FormattingEnabled = true;
+            this.cmbGroups.Location = new System.Drawing.Point(17, 127);
+            this.cmbGroups.Name = "cmbGroups";
+            this.cmbGroups.Size = new System.Drawing.Size(227, 21);
+            this.cmbGroups.TabIndex = 45;
+            this.cmbGroups.SelectedIndexChanged += new System.EventHandler(this.cmbGroups_SelectedIndexChanged);
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(20, 110);
+            this.label10.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(44, 13);
+            this.label10.TabIndex = 46;
+            this.label10.Text = "Groups:";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(929, 707);
-            this.Controls.Add(this.btnURLInfo);
-            this.Controls.Add(this.lbDuration);
-            this.Controls.Add(this.panel1);
-            this.Controls.Add(this.label12);
-            this.Controls.Add(this.label11);
+            this.ClientSize = new System.Drawing.Size(1022, 851);
             this.Controls.Add(this.label10);
-            this.Controls.Add(this.cmbSubs);
-            this.Controls.Add(this.cmbLangs);
-            this.Controls.Add(this.trVolumen);
-            this.Controls.Add(this.btnMuteUnmute);
+            this.Controls.Add(this.cmbGroups);
+            this.Controls.Add(this.panel2);
+            this.Controls.Add(this.btnURLInfo);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.lbProcessingEPG);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.lbVersion);
             this.Controls.Add(this.lbVersionText);
-            this.Controls.Add(this.panelvideo);
-            this.Controls.Add(this.btnStop);
-            this.Controls.Add(this.seekBar);
-            this.Controls.Add(this.btnPlayPause);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.btnClear);
             this.Controls.Add(this.btnFilter);
@@ -688,11 +570,9 @@
             this.loadingPanel.ResumeLayout(false);
             this.loadingPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.logoChannel)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.seekBar)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.logoEPG)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trVolumen)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -720,14 +600,9 @@
         private System.Windows.Forms.Button btnClear;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ToolStripMenuItem refreshListToolStripMenuItem;
-        private System.Windows.Forms.Panel panelvideo;
         private System.Windows.Forms.BindingSource bindingSource1;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label lbTitleEPG;
-        private System.Windows.Forms.TrackBar seekBar;
-        private System.Windows.Forms.Button btnStop;
-        private System.Windows.Forms.Button btnPlayPause;
-        private System.Windows.Forms.Label lbDuration;
         private System.Windows.Forms.PictureBox logoEPG;
         private System.Windows.Forms.Label lbEndTime;
         private System.Windows.Forms.Label label8;
@@ -747,14 +622,10 @@
         private System.Windows.Forms.Label lbYear;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.TextBox txtLoadCh;
-        private System.Windows.Forms.Button btnMuteUnmute;
-        private System.Windows.Forms.TrackBar trVolumen;
-        private System.Windows.Forms.ComboBox cmbLangs;
-        private System.Windows.Forms.ComboBox cmbSubs;
-        private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Button btnURLInfo;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.ComboBox cmbGroups;
+        private System.Windows.Forms.Label label10;
     }
 }
 

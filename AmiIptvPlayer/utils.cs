@@ -12,6 +12,36 @@ using System.Windows.Forms;
 
 namespace AmiIptvPlayer
 {
+    public class AmiConfiguration
+    {
+        private static AmiConfiguration instance;
+        public static AmiConfiguration Get()
+        {
+            if (instance == null)
+                instance = new AmiConfiguration();
+            return instance;
+        }
+        public static void SetInstance(AmiConfiguration value)
+        {
+            instance = value;
+        }
+        public string URL_IPTV { get; set; }
+        public string URL_EPG { get; set; }
+        public string DEF_LANG { get; set; }
+        public string DEF_SUB { get; set; }        
+    }
+
+    public class ComboboxItem
+    {
+        public string Text { get; set; }
+        public long Value { get; set; }
+
+        public override string ToString()
+        {
+            return Text;
+        }
+    }
+
     public class Utils
     {
         public static string LastSearch = "";

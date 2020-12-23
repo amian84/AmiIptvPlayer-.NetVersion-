@@ -1,7 +1,9 @@
-﻿using PlaylistsNET.Utils;
+﻿using Newtonsoft.Json;
+using PlaylistsNET.Utils;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.IO;
 using System.Windows.Forms;
 
 
@@ -19,11 +21,12 @@ namespace AmiIptvPlayer
 
         private void Preferences_Load(object sender, EventArgs e)
         {
-            txtURL.Text = config.AppSettings.Settings["Url"].Value;
-            txtEPG.Text = config.AppSettings.Settings["Epg"].Value;
-            string audioConf = config.AppSettings.Settings["audio"].Value;
+            AmiConfiguration amiconf = AmiConfiguration.Get();
+            txtURL.Text = amiconf.URL_IPTV;
+            txtEPG.Text = amiconf.URL_EPG;
+            string audioConf = amiconf.DEF_LANG;
             audio.SelectedItem = Utils.audios[audioConf];
-            string subConf = config.AppSettings.Settings["sub"].Value;
+            string subConf = amiconf.DEF_SUB;
             sub.SelectedItem = Utils.subs[subConf];
 
         }
@@ -38,34 +41,45 @@ namespace AmiIptvPlayer
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
+            Channels channels = Channels.Get();
+            channels.SetNeedRefresh(false);
             this.Close();
             this.Dispose();
         }
 
         private void Ok()
         {
+            AmiConfiguration amiconf = AmiConfiguration.Get();
             
-            string lastList = config.AppSettings.Settings["Url"].Value;
-            if (lastList != txtURL.Text)
+            if (amiconf.URL_IPTV != txtURL.Text)
             {
-                config.AppSettings.Settings["Url"].Value = txtURL.Text;
+                amiconf.URL_IPTV = txtURL.Text;
                 Channels channels = Channels.Get();
                 channels.SetUrl(txtURL.Text);
                 channels.SetNeedRefresh(true);
-                ConfigurationManager.RefreshSection("appSettings");
+            }
+            else
+            {
+                Channels channels = Channels.Get();
+                channels.SetNeedRefresh(false);
             }
 
-            string lastEPG = config.AppSettings.Settings["Epg"].Value;
-            if (lastEPG != txtEPG.Text)
+            if (amiconf.URL_EPG != txtEPG.Text)
             {
-                config.AppSettings.Settings["Epg"].Value = txtEPG.Text;
+                amiconf.URL_EPG = txtEPG.Text;
                 EPG_DB epgDB = EPG_DB.Get();
                 epgDB.Refresh = true;
-                ConfigurationManager.RefreshSection("appSettings");
+               
             }
-            config.AppSettings.Settings["audio"].Value = Utils.GetAudioConfName(audio.SelectedItem.ToString());
-            config.AppSettings.Settings["sub"].Value = Utils.GetSubConfName(sub.SelectedItem.ToString());
-            config.Save(ConfigurationSaveMode.Modified);
+            amiconf.DEF_LANG = Utils.GetAudioConfName(audio.SelectedItem.ToString());
+            amiconf.DEF_SUB = Utils.GetSubConfName(sub.SelectedItem.ToString());
+
+            using (StreamWriter file = File.CreateText(System.Environment.GetEnvironmentVariable("USERPROFILE") + "\\amiIptvConf.json"))
+            {
+                JsonSerializer serializer = new JsonSerializer();
+                serializer.Serialize(file, amiconf);
+            }
+
             this.Close();
             this.Dispose();
         }

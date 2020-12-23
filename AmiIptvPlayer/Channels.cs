@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Net;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace AmiIptvPlayer
@@ -45,8 +46,8 @@ namespace AmiIptvPlayer
             if (instance == null)
             {
                 instance = new Channels();
-                Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-                instance.SetUrl(config.AppSettings.Settings["Url"].Value);
+                
+                instance.SetUrl(AmiConfiguration.Get().URL_IPTV);
             }
             return instance;
         }
@@ -152,6 +153,10 @@ namespace AmiIptvPlayer
                         groupsInfo[groupInfo].Add(channelInfo);
                         channelNumber++;
                     }
+                }
+                if (File.Exists(System.Environment.GetEnvironmentVariable("USERPROFILE") + "\\channelCache.json"))
+                {
+                    File.Delete(System.Environment.GetEnvironmentVariable("USERPROFILE") + "\\channelCache.json");
                 }
                 using (StreamWriter file = File.CreateText(System.Environment.GetEnvironmentVariable("USERPROFILE") + "\\channelCache.json"))
                 {

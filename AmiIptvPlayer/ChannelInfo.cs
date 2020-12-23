@@ -44,7 +44,7 @@ namespace AmiIptvPlayer
             TVGName = MatchAndResult(extraInfoForParser, regexTVGName);
             Title = Utils.DecodeToUTF8(MatchAndResult(extraInfoForParser, regexTitle));
             TVGLogo = MatchAndResult(extraInfoForParser, regexTVGLogo);
-            TVGGroup = MatchAndResult(extraInfoForParser, regexTVGGroup);
+            TVGGroup = Utils.DecodeToUTF8(MatchAndResult(extraInfoForParser, regexTVGGroup));
             TVGId = MatchAndResult(extraInfoForParser, regexTVGId);
             CalculateType();
 
