@@ -1,4 +1,5 @@
-﻿using Mpv.NET.Player;
+﻿using AmiIptvPlayer.i18n;
+using Mpv.NET.Player;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -62,6 +63,15 @@ namespace AmiIptvPlayer
             originalSizePanel = panelvideo.Bounds;
             originalSizeWin = this.Bounds;
             originalPositionWin = new Tuple<int, int>(this.Top, this.Left);
+            ReloadLang();
+        }
+
+        private void ReloadLang()
+        {
+            lbDuration.Text = Strings.Duration + "--/--";
+            lbVol.Text = Strings.Volume;
+            lbLang.Text = Strings.Language;
+            lbSub.Text = Strings.Subs;
         }
 
         public void SetDockedEvent (bool value)
@@ -211,7 +221,7 @@ namespace AmiIptvPlayer
             {
                 lbDuration.Invoke((System.Threading.ThreadStart)delegate
                 {
-                    lbDuration.Text = "Video Time: --/--";
+                    lbDuration.Text = Strings.Duration + "--/--";
                 });
                 if (dockedEvent)
                 {
@@ -565,7 +575,7 @@ namespace AmiIptvPlayer
                     + ":" + (player.Position.Seconds < 10 ? "0" + player.Position.Seconds.ToString() : player.Position.Seconds.ToString());
                 lbDuration.Invoke((System.Threading.ThreadStart)delegate
                 {
-                    lbDuration.Text = "Video Time: " + positionText + " / " + durationText;
+                    lbDuration.Text = Strings.Duration + positionText + " / " + durationText;
                 });
 
             }
@@ -696,14 +706,15 @@ namespace AmiIptvPlayer
         }
 
 
-        private const int CP_NOCLOSE_BUTTON = 0x200;
-        protected override CreateParams CreateParams
+        
+
+        private void MPVPlayer_FormClosing(object sender, FormClosingEventArgs e)
         {
-            get
+            if (!exitApp)
             {
-                CreateParams myCp = base.CreateParams;
-                myCp.ClassStyle = myCp.ClassStyle | CP_NOCLOSE_BUTTON;
-                return myCp;
+                this.btnDock_Click(null, null);
+                e.Cancel = true;
+                return;
             }
         }
     }

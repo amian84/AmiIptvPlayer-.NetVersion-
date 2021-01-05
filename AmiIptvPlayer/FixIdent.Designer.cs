@@ -34,7 +34,7 @@
             this.year = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.btnSearch = new System.Windows.Forms.Button();
             this.txtSearch = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
+            this.lbSearch = new System.Windows.Forms.Label();
             this.btnExit = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
@@ -47,10 +47,10 @@
             this.year});
             this.foundList.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.foundList.HideSelection = false;
-            this.foundList.Location = new System.Drawing.Point(15, 27);
-            this.foundList.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.foundList.Location = new System.Drawing.Point(11, 22);
+            this.foundList.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.foundList.Name = "foundList";
-            this.foundList.Size = new System.Drawing.Size(568, 190);
+            this.foundList.Size = new System.Drawing.Size(427, 155);
             this.foundList.TabIndex = 6;
             this.foundList.UseCompatibleStateImageBehavior = false;
             this.foundList.DoubleClick += new System.EventHandler(this.foundList_DoubleClick);
@@ -69,58 +69,51 @@
             // 
             // btnSearch
             // 
-            this.btnSearch.Location = new System.Drawing.Point(375, 226);
-            this.btnSearch.Margin = new System.Windows.Forms.Padding(4);
+            this.btnSearch.Location = new System.Drawing.Point(281, 184);
             this.btnSearch.Name = "btnSearch";
-            this.btnSearch.Size = new System.Drawing.Size(159, 28);
+            this.btnSearch.Size = new System.Drawing.Size(119, 23);
             this.btnSearch.TabIndex = 7;
-            this.btnSearch.Text = "Search again";
             this.btnSearch.UseVisualStyleBackColor = true;
             this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
             // 
             // txtSearch
             // 
-            this.txtSearch.Location = new System.Drawing.Point(85, 229);
-            this.txtSearch.Margin = new System.Windows.Forms.Padding(4);
+            this.txtSearch.Location = new System.Drawing.Point(80, 186);
             this.txtSearch.Name = "txtSearch";
-            this.txtSearch.Size = new System.Drawing.Size(280, 22);
+            this.txtSearch.Size = new System.Drawing.Size(195, 20);
             this.txtSearch.TabIndex = 8;
             this.txtSearch.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtSearch_KeyPress);
             // 
-            // label1
+            // lbSearch
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(11, 233);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(57, 17);
-            this.label1.TabIndex = 9;
-            this.label1.Text = "Search:";
+            this.lbSearch.AutoSize = true;
+            this.lbSearch.Location = new System.Drawing.Point(8, 189);
+            this.lbSearch.Name = "lbSearch";
+            this.lbSearch.Size = new System.Drawing.Size(44, 13);
+            this.lbSearch.TabIndex = 9;
+            this.lbSearch.Text = "Search:";
             // 
             // btnExit
             // 
-            this.btnExit.Location = new System.Drawing.Point(376, 262);
-            this.btnExit.Margin = new System.Windows.Forms.Padding(4);
+            this.btnExit.Location = new System.Drawing.Point(282, 213);
             this.btnExit.Name = "btnExit";
-            this.btnExit.Size = new System.Drawing.Size(159, 28);
+            this.btnExit.Size = new System.Drawing.Size(119, 23);
             this.btnExit.TabIndex = 10;
-            this.btnExit.Text = "Exit";
             this.btnExit.UseVisualStyleBackColor = true;
             this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
             // 
             // FixIdent
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(599, 300);
+            this.ClientSize = new System.Drawing.Size(449, 244);
             this.Controls.Add(this.btnExit);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.lbSearch);
             this.Controls.Add(this.txtSearch);
             this.Controls.Add(this.btnSearch);
             this.Controls.Add(this.foundList);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.Name = "FixIdent";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
@@ -138,7 +131,7 @@
         private System.Windows.Forms.ColumnHeader title;
         private System.Windows.Forms.Button btnSearch;
         private System.Windows.Forms.TextBox txtSearch;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lbSearch;
         private System.Windows.Forms.Button btnExit;
     }
 }

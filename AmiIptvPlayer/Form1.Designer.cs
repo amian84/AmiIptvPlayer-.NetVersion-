@@ -49,32 +49,33 @@
             this.txtFilter = new System.Windows.Forms.TextBox();
             this.btnFilter = new System.Windows.Forms.Button();
             this.btnClear = new System.Windows.Forms.Button();
-            this.label2 = new System.Windows.Forms.Label();
+            this.lbFilterList = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.lbYear = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
+            this.lbYearsTitle = new System.Windows.Forms.Label();
             this.btnFixId = new System.Windows.Forms.Button();
             this.logoEPG = new System.Windows.Forms.PictureBox();
             this.lbEndTime = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
+            this.lbEndTimeTitle = new System.Windows.Forms.Label();
             this.lbStartTime = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
+            this.lbStartTimeTitle = new System.Windows.Forms.Label();
             this.lbStars = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
+            this.lbStarsTitle = new System.Windows.Forms.Label();
             this.lbDescription = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
+            this.lbDescriptionTitle = new System.Windows.Forms.Label();
+            this.lbTitleTitle = new System.Windows.Forms.Label();
             this.lbTitleEPG = new System.Windows.Forms.Label();
             this.lbVersionText = new System.Windows.Forms.Label();
             this.lbVersion = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
+            this.lbEPGLoaded = new System.Windows.Forms.Label();
             this.lbProcessingEPG = new System.Windows.Forms.Label();
             this.txtLoadCh = new System.Windows.Forms.TextBox();
             this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             this.btnURLInfo = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
             this.cmbGroups = new System.Windows.Forms.ComboBox();
-            this.label10 = new System.Windows.Forms.Label();
+            this.lbGroups = new System.Windows.Forms.Label();
+            this.accountInfoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.loadingPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.logoChannel)).BeginInit();
@@ -104,6 +105,7 @@
             this.settingsToolStripMenuItem,
             this.refreshListToolStripMenuItem,
             this.refreshEPGToolStripMenuItem,
+            this.accountInfoToolStripMenuItem,
             this.quitToolStripMenuItem});
             this.FileToolStripMenuItem.Name = "FileToolStripMenuItem";
             this.FileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
@@ -112,28 +114,28 @@
             // settingsToolStripMenuItem
             // 
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.settingsToolStripMenuItem.Text = "Settings";
             this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
             // 
             // refreshListToolStripMenuItem
             // 
             this.refreshListToolStripMenuItem.Name = "refreshListToolStripMenuItem";
-            this.refreshListToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
+            this.refreshListToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.refreshListToolStripMenuItem.Text = "Refresh List";
             this.refreshListToolStripMenuItem.Click += new System.EventHandler(this.refreshListToolStripMenuItem_Click);
             // 
             // refreshEPGToolStripMenuItem
             // 
             this.refreshEPGToolStripMenuItem.Name = "refreshEPGToolStripMenuItem";
-            this.refreshEPGToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
+            this.refreshEPGToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.refreshEPGToolStripMenuItem.Text = "Refresh EPG";
             this.refreshEPGToolStripMenuItem.Click += new System.EventHandler(this.refreshEPGToolStripMenuItem_Click);
             // 
             // quitToolStripMenuItem
             // 
             this.quitToolStripMenuItem.Name = "quitToolStripMenuItem";
-            this.quitToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
+            this.quitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.quitToolStripMenuItem.Text = "Quit";
             this.quitToolStripMenuItem.Click += new System.EventHandler(this.quitToolStripMenuItem_Click);
             // 
@@ -261,43 +263,43 @@
             this.btnClear.UseVisualStyleBackColor = true;
             this.btnClear.Click += new System.EventHandler(this.btnClear_Click_1);
             // 
-            // label2
+            // lbFilterList
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(21, 151);
-            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(47, 13);
-            this.label2.TabIndex = 22;
-            this.label2.Text = "Filter list:";
+            this.lbFilterList.AutoSize = true;
+            this.lbFilterList.Location = new System.Drawing.Point(21, 151);
+            this.lbFilterList.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lbFilterList.Name = "lbFilterList";
+            this.lbFilterList.Size = new System.Drawing.Size(47, 13);
+            this.lbFilterList.TabIndex = 22;
+            this.lbFilterList.Text = "Filter list:";
             // 
             // panel1
             // 
             this.panel1.Controls.Add(this.lbYear);
-            this.panel1.Controls.Add(this.label9);
+            this.panel1.Controls.Add(this.lbYearsTitle);
             this.panel1.Controls.Add(this.btnFixId);
             this.panel1.Controls.Add(this.logoEPG);
             this.panel1.Controls.Add(this.lbEndTime);
-            this.panel1.Controls.Add(this.label8);
+            this.panel1.Controls.Add(this.lbEndTimeTitle);
             this.panel1.Controls.Add(this.lbStartTime);
-            this.panel1.Controls.Add(this.label6);
+            this.panel1.Controls.Add(this.lbStartTimeTitle);
             this.panel1.Controls.Add(this.lbStars);
-            this.panel1.Controls.Add(this.label5);
+            this.panel1.Controls.Add(this.lbStarsTitle);
             this.panel1.Controls.Add(this.lbDescription);
-            this.panel1.Controls.Add(this.label4);
-            this.panel1.Controls.Add(this.label3);
+            this.panel1.Controls.Add(this.lbDescriptionTitle);
+            this.panel1.Controls.Add(this.lbTitleTitle);
             this.panel1.Controls.Add(this.lbTitleEPG);
             this.panel1.Location = new System.Drawing.Point(403, 551);
             this.panel1.Margin = new System.Windows.Forms.Padding(2);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(594, 210);
+            this.panel1.Size = new System.Drawing.Size(594, 250);
             this.panel1.TabIndex = 25;
             // 
             // lbYear
             // 
             this.lbYear.AutoSize = true;
             this.lbYear.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbYear.Location = new System.Drawing.Point(110, 176);
+            this.lbYear.Location = new System.Drawing.Point(110, 175);
             this.lbYear.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lbYear.Name = "lbYear";
             this.lbYear.Size = new System.Drawing.Size(12, 14);
@@ -305,20 +307,20 @@
             this.lbYear.Text = "-";
             this.lbYear.Visible = false;
             // 
-            // label9
+            // lbYearsTitle
             // 
-            this.label9.AutoSize = true;
-            this.label9.Font = new System.Drawing.Font("Verdana", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(4, 174);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(105, 16);
-            this.label9.TabIndex = 20;
-            this.label9.Text = "Year release:";
-            this.label9.Visible = false;
+            this.lbYearsTitle.AutoSize = true;
+            this.lbYearsTitle.Font = new System.Drawing.Font("Verdana", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbYearsTitle.Location = new System.Drawing.Point(4, 174);
+            this.lbYearsTitle.Name = "lbYearsTitle";
+            this.lbYearsTitle.Size = new System.Drawing.Size(105, 16);
+            this.lbYearsTitle.TabIndex = 20;
+            this.lbYearsTitle.Text = "Year release:";
+            this.lbYearsTitle.Visible = false;
             // 
             // btnFixId
             // 
-            this.btnFixId.Location = new System.Drawing.Point(318, 171);
+            this.btnFixId.Location = new System.Drawing.Point(428, 197);
             this.btnFixId.Margin = new System.Windows.Forms.Padding(2);
             this.btnFixId.Name = "btnFixId";
             this.btnFixId.Size = new System.Drawing.Size(140, 24);
@@ -344,43 +346,43 @@
             // 
             this.lbEndTime.AutoSize = true;
             this.lbEndTime.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbEndTime.Location = new System.Drawing.Point(315, 176);
+            this.lbEndTime.Location = new System.Drawing.Point(210, 207);
             this.lbEndTime.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lbEndTime.Name = "lbEndTime";
             this.lbEndTime.Size = new System.Drawing.Size(12, 14);
             this.lbEndTime.TabIndex = 10;
             this.lbEndTime.Text = "-";
             // 
-            // label8
+            // lbEndTimeTitle
             // 
-            this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("Verdana", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(209, 174);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(79, 16);
-            this.label8.TabIndex = 9;
-            this.label8.Text = "End Time:";
+            this.lbEndTimeTitle.AutoSize = true;
+            this.lbEndTimeTitle.Font = new System.Drawing.Font("Verdana", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbEndTimeTitle.Location = new System.Drawing.Point(4, 206);
+            this.lbEndTimeTitle.Name = "lbEndTimeTitle";
+            this.lbEndTimeTitle.Size = new System.Drawing.Size(79, 16);
+            this.lbEndTimeTitle.TabIndex = 9;
+            this.lbEndTimeTitle.Text = "End Time:";
             // 
             // lbStartTime
             // 
             this.lbStartTime.AutoSize = true;
             this.lbStartTime.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbStartTime.Location = new System.Drawing.Point(110, 174);
+            this.lbStartTime.Location = new System.Drawing.Point(210, 174);
             this.lbStartTime.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lbStartTime.Name = "lbStartTime";
             this.lbStartTime.Size = new System.Drawing.Size(12, 14);
             this.lbStartTime.TabIndex = 8;
             this.lbStartTime.Text = "-";
             // 
-            // label6
+            // lbStartTimeTitle
             // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Verdana", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(4, 174);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(88, 16);
-            this.label6.TabIndex = 7;
-            this.label6.Text = "Start Time:";
+            this.lbStartTimeTitle.AutoSize = true;
+            this.lbStartTimeTitle.Font = new System.Drawing.Font("Verdana", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbStartTimeTitle.Location = new System.Drawing.Point(4, 174);
+            this.lbStartTimeTitle.Name = "lbStartTimeTitle";
+            this.lbStartTimeTitle.Size = new System.Drawing.Size(88, 16);
+            this.lbStartTimeTitle.TabIndex = 7;
+            this.lbStartTimeTitle.Text = "Start Time:";
             // 
             // lbStars
             // 
@@ -393,15 +395,15 @@
             this.lbStars.TabIndex = 6;
             this.lbStars.Text = "-";
             // 
-            // label5
+            // lbStarsTitle
             // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Verdana", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(4, 148);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(51, 16);
-            this.label5.TabIndex = 5;
-            this.label5.Text = "Stars:";
+            this.lbStarsTitle.AutoSize = true;
+            this.lbStarsTitle.Font = new System.Drawing.Font("Verdana", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbStarsTitle.Location = new System.Drawing.Point(4, 148);
+            this.lbStarsTitle.Name = "lbStarsTitle";
+            this.lbStarsTitle.Size = new System.Drawing.Size(51, 16);
+            this.lbStarsTitle.TabIndex = 5;
+            this.lbStarsTitle.Text = "Stars:";
             // 
             // lbDescription
             // 
@@ -415,25 +417,25 @@
             this.lbDescription.TabIndex = 4;
             this.lbDescription.Text = "-";
             // 
-            // label4
+            // lbDescriptionTitle
             // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Verdana", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(4, 62);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(95, 16);
-            this.label4.TabIndex = 3;
-            this.label4.Text = "Description:";
+            this.lbDescriptionTitle.AutoSize = true;
+            this.lbDescriptionTitle.Font = new System.Drawing.Font("Verdana", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbDescriptionTitle.Location = new System.Drawing.Point(4, 62);
+            this.lbDescriptionTitle.Name = "lbDescriptionTitle";
+            this.lbDescriptionTitle.Size = new System.Drawing.Size(95, 16);
+            this.lbDescriptionTitle.TabIndex = 3;
+            this.lbDescriptionTitle.Text = "Description:";
             // 
-            // label3
+            // lbTitleTitle
             // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Verdana", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(4, 11);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(44, 16);
-            this.label3.TabIndex = 2;
-            this.label3.Text = "Title:";
+            this.lbTitleTitle.AutoSize = true;
+            this.lbTitleTitle.Font = new System.Drawing.Font("Verdana", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbTitleTitle.Location = new System.Drawing.Point(4, 11);
+            this.lbTitleTitle.Name = "lbTitleTitle";
+            this.lbTitleTitle.Size = new System.Drawing.Size(44, 16);
+            this.lbTitleTitle.TabIndex = 2;
+            this.lbTitleTitle.Text = "Title:";
             // 
             // lbTitleEPG
             // 
@@ -449,7 +451,7 @@
             // lbVersionText
             // 
             this.lbVersionText.AutoSize = true;
-            this.lbVersionText.Location = new System.Drawing.Point(892, 770);
+            this.lbVersionText.Location = new System.Drawing.Point(892, 803);
             this.lbVersionText.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lbVersionText.Name = "lbVersionText";
             this.lbVersionText.Size = new System.Drawing.Size(45, 13);
@@ -459,27 +461,27 @@
             // lbVersion
             // 
             this.lbVersion.AutoSize = true;
-            this.lbVersion.Location = new System.Drawing.Point(948, 770);
+            this.lbVersion.Location = new System.Drawing.Point(948, 803);
             this.lbVersion.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lbVersion.Name = "lbVersion";
             this.lbVersion.Size = new System.Drawing.Size(40, 13);
             this.lbVersion.TabIndex = 31;
             this.lbVersion.Text = "0.0.0.0";
             // 
-            // label7
+            // lbEPGLoaded
             // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(866, 789);
-            this.label7.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(71, 13);
-            this.label7.TabIndex = 32;
-            this.label7.Text = "EPG Loaded:";
+            this.lbEPGLoaded.AutoSize = true;
+            this.lbEPGLoaded.Location = new System.Drawing.Point(866, 822);
+            this.lbEPGLoaded.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lbEPGLoaded.Name = "lbEPGLoaded";
+            this.lbEPGLoaded.Size = new System.Drawing.Size(71, 13);
+            this.lbEPGLoaded.TabIndex = 32;
+            this.lbEPGLoaded.Text = "EPG Loaded:";
             // 
             // lbProcessingEPG
             // 
             this.lbProcessingEPG.AutoSize = true;
-            this.lbProcessingEPG.Location = new System.Drawing.Point(948, 789);
+            this.lbProcessingEPG.Location = new System.Drawing.Point(948, 822);
             this.lbProcessingEPG.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lbProcessingEPG.Name = "lbProcessingEPG";
             this.lbProcessingEPG.Size = new System.Drawing.Size(23, 13);
@@ -501,7 +503,7 @@
             this.btnURLInfo.Location = new System.Drawing.Point(403, 516);
             this.btnURLInfo.Margin = new System.Windows.Forms.Padding(2);
             this.btnURLInfo.Name = "btnURLInfo";
-            this.btnURLInfo.Size = new System.Drawing.Size(95, 27);
+            this.btnURLInfo.Size = new System.Drawing.Size(135, 27);
             this.btnURLInfo.TabIndex = 42;
             this.btnURLInfo.Text = "Get Track URL";
             this.btnURLInfo.UseVisualStyleBackColor = true;
@@ -523,31 +525,38 @@
             this.cmbGroups.TabIndex = 45;
             this.cmbGroups.SelectedIndexChanged += new System.EventHandler(this.cmbGroups_SelectedIndexChanged);
             // 
-            // label10
+            // lbGroups
             // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(20, 110);
-            this.label10.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(44, 13);
-            this.label10.TabIndex = 46;
-            this.label10.Text = "Groups:";
+            this.lbGroups.AutoSize = true;
+            this.lbGroups.Location = new System.Drawing.Point(20, 110);
+            this.lbGroups.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lbGroups.Name = "lbGroups";
+            this.lbGroups.Size = new System.Drawing.Size(44, 13);
+            this.lbGroups.TabIndex = 46;
+            this.lbGroups.Text = "Groups:";
+            // 
+            // accountInfoToolStripMenuItem
+            // 
+            this.accountInfoToolStripMenuItem.Name = "accountInfoToolStripMenuItem";
+            this.accountInfoToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.accountInfoToolStripMenuItem.Text = "Account Info";
+            this.accountInfoToolStripMenuItem.Click += new System.EventHandler(this.accountInfoToolStripMenuItem_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1022, 851);
-            this.Controls.Add(this.label10);
+            this.Controls.Add(this.lbGroups);
             this.Controls.Add(this.cmbGroups);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.btnURLInfo);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.lbProcessingEPG);
-            this.Controls.Add(this.label7);
+            this.Controls.Add(this.lbEPGLoaded);
             this.Controls.Add(this.lbVersion);
             this.Controls.Add(this.lbVersionText);
-            this.Controls.Add(this.label2);
+            this.Controls.Add(this.lbFilterList);
             this.Controls.Add(this.btnClear);
             this.Controls.Add(this.btnFilter);
             this.Controls.Add(this.txtFilter);
@@ -598,34 +607,35 @@
         private System.Windows.Forms.TextBox txtFilter;
         private System.Windows.Forms.Button btnFilter;
         private System.Windows.Forms.Button btnClear;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label lbFilterList;
         private System.Windows.Forms.ToolStripMenuItem refreshListToolStripMenuItem;
         private System.Windows.Forms.BindingSource bindingSource1;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label lbTitleEPG;
         private System.Windows.Forms.PictureBox logoEPG;
         private System.Windows.Forms.Label lbEndTime;
-        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label lbEndTimeTitle;
         private System.Windows.Forms.Label lbStartTime;
-        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label lbStartTimeTitle;
         private System.Windows.Forms.Label lbStars;
-        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label lbStarsTitle;
         private System.Windows.Forms.Label lbDescription;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label lbDescriptionTitle;
+        private System.Windows.Forms.Label lbTitleTitle;
         private System.Windows.Forms.Label lbVersionText;
         private System.Windows.Forms.Label lbVersion;
-        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label lbEPGLoaded;
         private System.Windows.Forms.Label lbProcessingEPG;
         private System.Windows.Forms.ToolStripMenuItem refreshEPGToolStripMenuItem;
         private System.Windows.Forms.Button btnFixId;
         private System.Windows.Forms.Label lbYear;
-        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label lbYearsTitle;
         private System.Windows.Forms.TextBox txtLoadCh;
         private System.Windows.Forms.Button btnURLInfo;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.ComboBox cmbGroups;
-        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label lbGroups;
+        private System.Windows.Forms.ToolStripMenuItem accountInfoToolStripMenuItem;
     }
 }
 

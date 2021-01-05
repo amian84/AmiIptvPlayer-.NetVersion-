@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using AmiIptvPlayer.i18n;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -22,6 +23,17 @@ namespace AmiIptvPlayer
         {
             logoPRG.WaitOnLoad = false;
             this.ActiveControl = lbTitleEPG;
+            this.Text = Strings.LongDescriptionTitle;
+            lbCategoryTitle.Text = Strings.lbCategoryTitle;
+            lbCountryTitle.Text = Strings.lbCountryTitle;
+            lbDescriptionTitle.Text = Strings.lbDescriptionTitle;
+            lbEndTimeTitle.Text = Strings.lbEndTimeTitle;
+            lbStarTimeTitle.Text = Strings.lbStartTimeTitle;
+            lbStarsTitle.Text = Strings.lbStarsTitle;
+            lbTitleTitle.Text = Strings.lbTitleTitle;
+            lbRatingsTitle.Text = Strings.lbRatingsTitle;
+            lbReleaseDateTitle.Text = Strings.lbReleaseDateTitle;
+
 
         }
         public void SetTextDes(string text)
@@ -67,15 +79,18 @@ namespace AmiIptvPlayer
 
         private void VisibleChannel(bool visible)
         {
-            label6.Visible = visible;
-            label8.Visible = visible;
+            lbReleaseDateTitle.Visible = visible;
+            lbEndTimeTitle.Visible = visible;
             lbEndTime.Visible = visible;
             lbStartTime.Visible = visible;
+            lbStarTimeTitle.Visible = visible;
             lbReleaseDate.Visible = !visible;
-            label4.Visible = !visible;
-            label2.Visible = visible;
-            label7.Visible = visible;
-            label9.Visible = visible;
+            lbReleaseDateTitle.Visible = !visible;
+            lbStarsTitle.Visible = !visible;
+            lbStars.Visible = !visible;
+            lbCategoryTitle.Visible = visible;
+            lbCountryTitle.Visible = visible;
+            lbRatingsTitle.Visible = visible;
             lbCategories.Visible = visible;
             lbCountry.Visible = visible;
             lbRatings.Visible = visible;

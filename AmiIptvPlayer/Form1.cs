@@ -1,4 +1,5 @@
 ﻿
+using AmiIptvPlayer.i18n;
 using Mpv.NET.Player;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -9,12 +10,14 @@ using System.Configuration;
 using System.Data;
 using System.Deployment.Application;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Web;
 using System.Windows.Forms;
 
 namespace AmiIptvPlayer
@@ -70,8 +73,32 @@ namespace AmiIptvPlayer
             _instance = this; 
 
         }
-        
-
+        public void RepaintLabels()
+        {
+            FileToolStripMenuItem.Text = Strings.FileTool;
+            settingsToolStripMenuItem.Text = Strings.Settings;
+            refreshEPGToolStripMenuItem.Text = Strings.RefreshEPGTool;
+            refreshListToolStripMenuItem.Text = Strings.RefreshListTool;
+            quitToolStripMenuItem.Text = Strings.QUIT;
+            helpToolStripMenuItem.Text = Strings.HELP;
+            aboutToolStripMenuItem.Text = Strings.AboutUsTitle;
+            btnClear.Text = Strings.CLEAR;
+            btnFilter.Text = Strings.FILTER;
+            btnFixId.Text = Strings.FixIdentTitle;
+            btnURLInfo.Text = Strings.URLinfo;
+            lbGroups.Text = Strings.GROUPS;
+            lbFilterList.Text = Strings.FilterList;
+            lbDescriptionTitle.Text = Strings.lbDescriptionTitle;
+            lbTitleTitle.Text = Strings.lbTitleTitle;
+            lbYearsTitle.Text = Strings.lbYearsTitle;
+            lbVersionText.Text = Strings.Version;
+            lbEPGLoaded.Text = Strings.EPGloaded;
+            lbEndTimeTitle.Text = Strings.lbEndTimeTitle;
+            lbStarsTitle.Text = Strings.lbStarsTitle;
+            lbStartTimeTitle.Text = Strings.lbStartTimeTitle;
+            chName.Text = Strings.lbTitleTitle;
+            accountInfoToolStripMenuItem.Text = Strings.AccountInfoTitle;
+        }
         private void Form1_Load(object sender, EventArgs e)
         {
 
@@ -112,8 +139,20 @@ namespace AmiIptvPlayer
                     string json = r.ReadToEnd();
                     AmiConfiguration item = JsonConvert.DeserializeObject<AmiConfiguration>(json);
                     AmiConfiguration.SetInstance(item);
+                    
+                    if (item.UI_LANG == "SYSTEM")
+                    {
+                        Strings.Culture = CultureInfo.InstalledUICulture;
+                    }
+                    else
+                    {
+                        Strings.Culture = new CultureInfo(item.availableLangs[item.UI_LANG]);
+                    }
                 }
             }
+            RepaintLabels();
+            Utils.GetAccountInfo();
+            
             EPG_DB epg = EPG_DB.Get();
             epg.epgEventFinish += FinishLoadEpg;
             DefaultEpgLabels();
@@ -128,9 +167,9 @@ namespace AmiIptvPlayer
             else
             {
                 ChannelInfo ch = new ChannelInfo();
-                ch.Title = "Please load iptv list";
+                ch.Title = Strings.DEFAULT_MSG_NO_LIST;
                 ListViewItem i = new ListViewItem("0");
-                i.SubItems.Add("Please load iptv list");
+                i.SubItems.Add(Strings.DEFAULT_MSG_NO_LIST);
                 chList.Items.Add(i);
                 lstListsChannels[ALL_GROUP].Add(new ChannelListItem(ch.Title, ch.ChNumber));
                 lstChannels.Add(new ChannelListItem(ch.Title, ch.ChNumber));
@@ -173,7 +212,7 @@ namespace AmiIptvPlayer
                 }
                 else if (File.Exists(System.Environment.GetEnvironmentVariable("USERPROFILE") + "\\amiiptvepg.xml"))
                 {
-                    lbProcessingEPG.Text = "Loading...";
+                    lbProcessingEPG.Text = Strings.LOADING;
                     epg.ParseDB();
                 }
                 else
@@ -189,24 +228,24 @@ namespace AmiIptvPlayer
                 }
 
             }
-           
+            
         }
 
         private void FinishLoadEpg(EPG_DB epg, EPGEventArgs e)
         {
             if (e.Error)
             {
-                MessageBox.Show("Error processing EPG, please check your url", "EPG ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(Strings.ERROR_EPG, "EPG ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 lbProcessingEPG.Invoke((System.Threading.ThreadStart)delegate
                 {
-                    lbProcessingEPG.Text = "Error";
+                    lbProcessingEPG.Text = Strings.ERROR;
                 });
             }
             else
             {
                 lbProcessingEPG.Invoke((System.Threading.ThreadStart)delegate
                 {
-                    lbProcessingEPG.Text = "Loaded";
+                    lbProcessingEPG.Text = Strings.LOADED;
                 });
             }
             
@@ -238,7 +277,7 @@ namespace AmiIptvPlayer
                         });
                         lbProcessingEPG.Invoke((System.Threading.ThreadStart)delegate
                         {
-                            lbProcessingEPG.Text = "Loading...";
+                            lbProcessingEPG.Text = Strings.LOADING;
                         });
                         epgDB.ParseDB();
                     }
@@ -396,12 +435,12 @@ namespace AmiIptvPlayer
 
         private void VisibleEPGLabes(bool visible)
         {
-            label6.Visible = visible;
+            lbStartTimeTitle.Visible = visible;
             lbStartTime.Visible = visible;
             lbEndTime.Visible = visible;
-            label8.Visible = visible;
+            lbEndTimeTitle.Visible = visible;
             btnFixId.Visible = !visible;
-            label9.Visible = !visible;
+            lbYearsTitle.Visible = !visible;
             lbYear.Visible = !visible;
         }
 
@@ -457,6 +496,8 @@ namespace AmiIptvPlayer
         private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Preferences pref = new Preferences();
+            pref.PrincipalForm = this;
+            
             pref.ShowDialog();
             Channels channels = Channels.Get();
             if (channels.NeedRefresh())
@@ -553,7 +594,7 @@ namespace AmiIptvPlayer
             {
                 txtLoadCh.Invoke((System.Threading.ThreadStart)delegate
                 {
-                    txtLoadCh.Text = "Laoding channels... please wait a moment";
+                    txtLoadCh.Text = Strings.LOADING_CHANNELS;
                     txtLoadCh.BringToFront();
                     txtLoadCh.Visible = true;
                 });
@@ -578,14 +619,14 @@ namespace AmiIptvPlayer
                     if (listCh.Count < 1)
                     {
                         ChannelInfo ch = new ChannelInfo();
-                        listCh.Add(new ListViewItem(new string[] { "0", "Not found" }));
+                        listCh.Add(new ListViewItem(new string[] { "0", Strings.NOT_FOUND }));
                     }
                     chList.Items.AddRange(listCh.ToArray());
                     chList.EndUpdate();
                 });
                 txtLoadCh.Invoke((System.Threading.ThreadStart)delegate
                 {
-                    txtLoadCh.Text = "Laoding channels... please wait a moment";
+                    txtLoadCh.Text = Strings.LOADING_CHANNELS;
                     txtLoadCh.Visible = false;
                 });
             }).Start();
@@ -598,7 +639,7 @@ namespace AmiIptvPlayer
             {
                 txtLoadCh.Invoke((System.Threading.ThreadStart)delegate
                 {
-                    txtLoadCh.Text = "Laoding channels... please wait a moment";
+                    txtLoadCh.Text = Strings.LOADING_CHANNELS;
                     txtLoadCh.BringToFront();
                     txtLoadCh.Visible = true;
                 });
@@ -622,7 +663,7 @@ namespace AmiIptvPlayer
                 });
                 txtLoadCh.Invoke((System.Threading.ThreadStart)delegate
                 {
-                    txtLoadCh.Text = "Laoding channels... please wait a moment";
+                    txtLoadCh.Text = Strings.LOADING_CHANNELS;
                     txtLoadCh.Visible = false;
                 });
             }).Start();
@@ -706,7 +747,7 @@ namespace AmiIptvPlayer
         private void logoEPG_MouseHover(object sender, EventArgs e)
         {
             ToolTip tt = new ToolTip();
-            tt.SetToolTip(this.logoEPG, "Click for more details");
+            tt.SetToolTip(this.logoEPG, Strings.MORE_DETAILS);
         }
 
         private void txtFilter_KeyPress(object sender, KeyPressEventArgs e)
@@ -849,7 +890,7 @@ namespace AmiIptvPlayer
             {
                 txtLoadCh.Invoke((System.Threading.ThreadStart)delegate
                 {
-                    txtLoadCh.Text = "Laoding channels... please wait a moment";
+                    txtLoadCh.Text = Strings.LOADING_CHANNELS;
                     txtLoadCh.BringToFront();
                     txtLoadCh.Visible = true;
                 });
@@ -866,10 +907,16 @@ namespace AmiIptvPlayer
                 selectedList = selected;
                 txtLoadCh.Invoke((System.Threading.ThreadStart)delegate
                 {
-                    txtLoadCh.Text = "Laoding channels... please wait a moment";
+                    txtLoadCh.Text = Strings.LOADING_CHANNELS;
                     txtLoadCh.Visible = false;
                 });
             }).Start();
+        }
+
+        private void accountInfoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AccountInfo acc = new AccountInfo();
+            acc.ShowDialog();
         }
     }
 }

@@ -1,10 +1,12 @@
-﻿using Json.Net;
+﻿using AmiIptvPlayer.i18n;
+using Json.Net;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -62,6 +64,12 @@ namespace AmiIptvPlayer
         private void FixIdent_Load(object sender, EventArgs e)
         {
             foundList.FullRowSelect = true;
+            foundList.Columns[1].Text = Strings.FIYear;
+            foundList.Columns[0].Text = Strings.FITitle;
+            btnExit.Text = Strings.ExitBtn;
+            btnSearch.Text = Strings.SearchAgainBtn;
+            lbSearch.Text = Strings.SearchLb;
+            this.Text = Strings.FixIdentTitle;
         }
 
         private void foundList_DoubleClick(object sender, EventArgs e)
@@ -98,6 +106,12 @@ namespace AmiIptvPlayer
             {
                 btnSearch_Click(btnSearch, null);
             }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Strings.Culture = new CultureInfo("en-US");
+            this.FixIdent_Load(null, null);
         }
     }
 }

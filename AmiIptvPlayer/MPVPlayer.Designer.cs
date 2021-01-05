@@ -45,12 +45,12 @@
             this.btnDock = new System.Windows.Forms.Button();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.panel6 = new System.Windows.Forms.Panel();
-            this.label12 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
+            this.lbSub = new System.Windows.Forms.Label();
+            this.lbLang = new System.Windows.Forms.Label();
             this.cmbSubs = new System.Windows.Forms.ComboBox();
             this.cmbLangs = new System.Windows.Forms.ComboBox();
             this.panel7 = new System.Windows.Forms.Panel();
-            this.label11 = new System.Windows.Forms.Label();
+            this.lbVol = new System.Windows.Forms.Label();
             this.trVolumen = new System.Windows.Forms.TrackBar();
             this.btnMuteUnmute = new System.Windows.Forms.Button();
             this.pnPrincipal.SuspendLayout();
@@ -248,8 +248,8 @@
             // 
             // panel6
             // 
-            this.panel6.Controls.Add(this.label12);
-            this.panel6.Controls.Add(this.label10);
+            this.panel6.Controls.Add(this.lbSub);
+            this.panel6.Controls.Add(this.lbLang);
             this.panel6.Controls.Add(this.cmbSubs);
             this.panel6.Controls.Add(this.cmbLangs);
             this.panel6.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -258,25 +258,25 @@
             this.panel6.Size = new System.Drawing.Size(258, 38);
             this.panel6.TabIndex = 0;
             // 
-            // label12
+            // lbSub
             // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(129, -2);
-            this.label12.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(50, 13);
-            this.label12.TabIndex = 45;
-            this.label12.Text = "Subtitles:";
+            this.lbSub.AutoSize = true;
+            this.lbSub.Location = new System.Drawing.Point(129, -2);
+            this.lbSub.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lbSub.Name = "lbSub";
+            this.lbSub.Size = new System.Drawing.Size(50, 13);
+            this.lbSub.TabIndex = 45;
+            this.lbSub.Text = "Subtitles:";
             // 
-            // label10
+            // lbLang
             // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(5, -3);
-            this.label10.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(58, 13);
-            this.label10.TabIndex = 44;
-            this.label10.Text = "Language:";
+            this.lbLang.AutoSize = true;
+            this.lbLang.Location = new System.Drawing.Point(5, -3);
+            this.lbLang.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lbLang.Name = "lbLang";
+            this.lbLang.Size = new System.Drawing.Size(58, 13);
+            this.lbLang.TabIndex = 44;
+            this.lbLang.Text = "Language:";
             // 
             // cmbSubs
             // 
@@ -300,7 +300,7 @@
             // 
             // panel7
             // 
-            this.panel7.Controls.Add(this.label11);
+            this.panel7.Controls.Add(this.lbVol);
             this.panel7.Controls.Add(this.trVolumen);
             this.panel7.Controls.Add(this.btnMuteUnmute);
             this.panel7.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -309,15 +309,15 @@
             this.panel7.Size = new System.Drawing.Size(259, 38);
             this.panel7.TabIndex = 1;
             // 
-            // label11
+            // lbVol
             // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(2, 9);
-            this.label11.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(45, 13);
-            this.label11.TabIndex = 43;
-            this.label11.Text = "Volume:";
+            this.lbVol.AutoSize = true;
+            this.lbVol.Location = new System.Drawing.Point(2, 9);
+            this.lbVol.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lbVol.Name = "lbVol";
+            this.lbVol.Size = new System.Drawing.Size(45, 13);
+            this.lbVol.TabIndex = 43;
+            this.lbVol.Text = "Volume:";
             // 
             // trVolumen
             // 
@@ -350,6 +350,7 @@
             this.Name = "MPVPlayer";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "AmiPlayer";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MPVPlayer_FormClosing);
             this.Load += new System.EventHandler(this.MPVPlayer_Load);
             this.pnPrincipal.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
@@ -391,12 +392,12 @@
         private System.Windows.Forms.TrackBar seekBar;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
         private System.Windows.Forms.Panel panel6;
-        private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label lbSub;
+        private System.Windows.Forms.Label lbLang;
         private System.Windows.Forms.ComboBox cmbSubs;
         private System.Windows.Forms.ComboBox cmbLangs;
         private System.Windows.Forms.Panel panel7;
-        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label lbVol;
         private System.Windows.Forms.TrackBar trVolumen;
         private System.Windows.Forms.Button btnMuteUnmute;
     }

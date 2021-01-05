@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AmiIptvPlayer.i18n;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -19,8 +20,15 @@ namespace AmiIptvPlayer
 
         private void URLInfo_Load(object sender, EventArgs e)
         {
-
+            ReloadLang();
         }
+
+        private void ReloadLang()
+        {
+            lbHeader.Text = Strings.URLInfoHead;
+            lbFooter.Text = Strings.URLInfoFooter;
+        }
+
         public void setURL(string url)
         {
             txtURL.Text = url;
