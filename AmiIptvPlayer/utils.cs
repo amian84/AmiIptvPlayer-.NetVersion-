@@ -1,3 +1,4 @@
+using AmiIptvPlayer.i18n;
 using Json.Net;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -8,13 +9,21 @@ using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Web;
 using System.Windows.Forms;
 
 namespace AmiIptvPlayer
 {
     public class AmiConfiguration
     {
+        public AmiConfiguration()
+        {
+            availableLangs.Add("SYSTEM", 0);
+            availableLangs.Add("es-ES", 1);
+            availableLangs.Add("en-US", 2);
+        }
         private static AmiConfiguration instance;
+        public Dictionary<string, int> availableLangs = new Dictionary<string, int>();
         public static AmiConfiguration Get()
         {
             if (instance == null)
@@ -27,8 +36,29 @@ namespace AmiIptvPlayer
         }
         public string URL_IPTV { get; set; }
         public string URL_EPG { get; set; }
+        public string UI_LANG { get; set; }
         public string DEF_LANG { get; set; }
         public string DEF_SUB { get; set; }        
+
+    }
+
+    public class IPTVData
+    {
+       
+        private static IPTVData instance;
+        public static IPTVData Get()
+        {
+            if (instance == null)
+                instance = new IPTVData();
+            return instance;
+        }
+        public string USER { get; set; }
+        public string MAX_CONECTIONS { get; set; }
+        public string ACTIVE_CONECTIONS{ get; set; }
+        public DateTime EXPIRE_DATE{ get; set; }
+        public string HOST { get; set; }
+        public int PORT { get; set; }
+
     }
 
     public class ComboboxItem
@@ -48,14 +78,14 @@ namespace AmiIptvPlayer
         public static string PosterBasePath = "https://image.tmdb.org/t/p/original";
         public static Dictionary<string, string> audios = new Dictionary<string, string>
         {
-            { "spa", "Spanish"},
-            { "eng", "English" }
+            { "spa", Strings.AS_SP},
+            { "eng", Strings.AS_EN }
         };
         public static Dictionary<string, string> subs = new Dictionary<string, string>
         {
-            { "none", "None"},
-            { "spa", "Spanish"},
-            { "eng", "English" }
+            { "none", Strings.AS_NONE},
+            { "spa", Strings.AS_SP},
+            { "eng", Strings.AS_EN }
         };
         public static async Task<string> GetAsync(string uri)
         {
@@ -152,6 +182,35 @@ namespace AmiIptvPlayer
             }
             LastSearch = name;
             return GetFilmInfo(channel.ChannelType, name, movie_date, lang);
+        }
+
+        public static void GetAccountInfo()
+        {
+            string url = AmiConfiguration.Get().URL_IPTV;
+            IPTVData data = IPTVData.Get();
+            Uri uri = new Uri(AmiConfiguration.Get().URL_IPTV);
+            data.HOST = uri.Host;
+            data.PORT = uri.Port;
+            if (string.IsNullOrEmpty(data.USER))
+            {
+                data.USER = Strings.UNKNOWN; 
+            }
+            data.MAX_CONECTIONS = Strings.UNKNOWN;
+            if (url.Contains("get.php")){
+                url = url.Replace("get.php", "panel_api.php");
+                string result = GetUrl(url);
+                dynamic dataServer = JsonConvert.DeserializeObject(result);
+                data.EXPIRE_DATE = UnixToDate(int.Parse(dataServer["user_info"]["exp_date"].Value.ToString()));
+                data.USER = dataServer["user_info"]["username"].Value.ToString();
+                data.MAX_CONECTIONS = dataServer["user_info"]["max_connections"].Value.ToString();
+                data.ACTIVE_CONECTIONS = dataServer["user_info"]["active_cons"].Value.ToString();
+            }
+        }
+
+        public static DateTime UnixToDate(int Timestamp)
+        {
+            return DateTimeOffset.FromUnixTimeSeconds(Timestamp).DateTime;
+            
         }
 
         public static dynamic GetFilmInfo(ChType chType, string title, string year, string lang)
