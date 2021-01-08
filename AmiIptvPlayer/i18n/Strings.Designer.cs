@@ -529,6 +529,15 @@ namespace AmiIptvPlayer.i18n {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Doesn&apos;t exists channel number: .
+        /// </summary>
+        public static string NOT_FOUND_CH {
+            get {
+                return ResourceManager.GetString("NOT_FOUND_CH", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a AmiIPTVPlayer: Settings.
         /// </summary>
         public static string PreferencesTitle {

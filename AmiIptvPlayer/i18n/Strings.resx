@@ -273,6 +273,9 @@
   <data name="NOT_FOUND" xml:space="preserve">
     <value>Not found</value>
   </data>
+  <data name="NOT_FOUND_CH" xml:space="preserve">
+    <value>Doesn't exists channel number: </value>
+  </data>
   <data name="PreferencesTitle" xml:space="preserve">
     <value>AmiIPTVPlayer: Settings</value>
   </data>
