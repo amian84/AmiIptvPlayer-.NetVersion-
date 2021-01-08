@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Drawing;
 using System.Threading;
-
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace AmiIptvPlayer
@@ -34,7 +34,7 @@ namespace AmiIptvPlayer
             public string Lang { get; set; }
             public override string ToString() => $"({TType}: {Title}, {Lang})";
         }
-
+        private Task NumbersTaks;
         private MpvPlayer player;
         private Dictionary<TrackType, List<TrackInfo>> tracksParser;
         private bool isFullScreen = false;
@@ -60,6 +60,7 @@ namespace AmiIptvPlayer
         {
             InitializeComponent();
             player = new MpvPlayer(panelvideo.Handle);
+            
             originalSizePanel = panelvideo.Bounds;
             originalSizeWin = this.Bounds;
             originalPositionWin = new Tuple<int, int>(this.Top, this.Left);
@@ -72,6 +73,7 @@ namespace AmiIptvPlayer
             lbVol.Text = Strings.Volume;
             lbLang.Text = Strings.Language;
             lbSub.Text = Strings.Subs;
+            pnPrincipal.RowStyles[0].Height = 0;
         }
 
         public void SetDockedEvent (bool value)
@@ -196,6 +198,11 @@ namespace AmiIptvPlayer
                 });
                 currSub = -1;
             }
+            panelvideo.Invoke((System.Threading.ThreadStart)delegate
+            {
+                panelvideo.Focus();
+                
+            });
         }
 
         public void UnloadPlayerEvents()
@@ -257,21 +264,22 @@ namespace AmiIptvPlayer
         {
             if (docked && !isFullScreen)
             {
-                pnPrincipal.RowStyles[1].Height = 50;
                 pnPrincipal.RowStyles[2].Height = 50;
+                pnPrincipal.RowStyles[3].Height = 50;
             }
             else{
-                if (pnPrincipal.RowStyles[1].Height == 50)
+                if (pnPrincipal.RowStyles[2].Height == 50)
                 {
-                    pnPrincipal.RowStyles[1].Height = 0;
                     pnPrincipal.RowStyles[2].Height = 0;
+                    pnPrincipal.RowStyles[3].Height = 0;
                 }
                 else
                 {
-                    pnPrincipal.RowStyles[1].Height = 50;
                     pnPrincipal.RowStyles[2].Height = 50;
+                    pnPrincipal.RowStyles[3].Height = 50;
                 }
             }
+            ((Panel)sender).Focus();
         }
 
         private void btnMuteUnmute_Click(object sender, EventArgs e)
@@ -444,6 +452,11 @@ namespace AmiIptvPlayer
                 noneSub.Value = -1;
                 cmbSubs.Items.Add(noneSub);
             });
+        }
+
+        public void SetFocusOnVideoPanel()
+        {
+            panelvideo.Focus();
         }
 
         private void FillAndSetLangSub(List<TrackInfo> trackList, ComboBox cmb, string valueToSet, int typeLS)
@@ -716,6 +729,106 @@ namespace AmiIptvPlayer
                 e.Cancel = true;
                 return;
             }
+        }
+
+        private void panelvideo_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            if (e.KeyCode == Keys.Up)
+            {
+                principalForm.NextChannel();
+            }
+            if (e.KeyCode == Keys.Down)
+            {
+                principalForm.PrevChannel();
+            }
+
+            
+            if (isNumric(e.KeyCode) )
+            {
+
+                if (pnPrincipal.RowStyles[0].Height == 0)
+                {
+                    pnPrincipal.RowStyles[0].Height = 50;
+                    NumbersTaks = Task.Run(async () => {
+                        await Task.Delay(3000);
+                        pnPrincipal.Invoke((System.Threading.ThreadStart)delegate
+                        {
+                            pnPrincipal.RowStyles[0].Height = 0;
+                        });
+                        this.Invoke(new Action(() => principalForm.ChannelToNumber(int.Parse(txtNumbers.Text))));
+                        txtNumbers.Invoke((System.Threading.ThreadStart)delegate
+                        {
+                            txtNumbers.Text = "";
+                        });
+                        
+                        
+                    });
+                }
+                txtNumbers.Text += KeyToNumber(e.KeyCode);
+            }
+
+            ((Panel)sender).Focus();
+            
+            
+        }
+
+        private string KeyToNumber(Keys key)
+        {
+            string returnValue = "";
+            switch (key)
+            {
+                case Keys.D0:
+                case Keys.NumPad0:
+                    returnValue = "0";
+                    break;
+                case Keys.D1:
+                case Keys.NumPad1:
+                    returnValue = "1";
+                    break;
+                case Keys.D2:
+                case Keys.NumPad2:
+                    returnValue = "2";
+                    break;
+                case Keys.D3:
+                case Keys.NumPad3:
+                    returnValue = "3";
+                    break;
+                case Keys.D4:
+                case Keys.NumPad4:
+                    returnValue = "4";
+                    break;
+                case Keys.D5:
+                case Keys.NumPad5:
+                    returnValue = "5";
+                    break;
+                case Keys.D6:
+                case Keys.NumPad6:
+                    returnValue = "6";
+                    break;
+                case Keys.D7:
+                case Keys.NumPad7:
+                    returnValue = "7";
+                    break;
+                case Keys.D8:
+                case Keys.NumPad8:
+                    returnValue = "8";
+                    break;
+                case Keys.D9:
+                case Keys.NumPad9:
+                    returnValue = "9";
+                    break;
+                default:
+                    returnValue = "*";
+                    break;
+
+            }
+            return returnValue;
+        }
+
+        private bool isNumric(Keys key)
+        {
+            return (key >= Keys.D0 && key <= Keys.D9) ||
+                   (key >= Keys.NumPad0 && key <= Keys.NumPad9);
         }
     }
 }
