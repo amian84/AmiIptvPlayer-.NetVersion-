@@ -302,49 +302,56 @@ namespace AmiIptvPlayer
             {
                 ListViewItem item = chList.SelectedItems[0];
                 ChannelInfo channel = channels.GetChannel(int.Parse(item.SubItems[0].Text));
-                if (channel == null)
-                {
-                    MessageBox.Show(item.SubItems[1].Text);
-                }
-                else
-                {
-                    playerForm.Stop();
-                    playerForm.SetIsChannel(channel.ChannelType == ChType.CHANNEL);
-                    playerForm.SetIsPaused(false);
-                    Thread.Sleep(500);
-                    currLang = -1;
-                    currSub = -1;
-                    playerForm.SetMedia(channel.URL, 0, currLang, currSub);
-                    try
-                    {
-                        string chName = channel.TVGName.Length < 100 ? channel.TVGName : channel.TVGName.Substring(0, 99);
-                        Task<string> stats = Utils.GetAsync("http://amian.es:5085/stats?ctype=connected&app=net&chn=" + chName);
-                    } catch (Exception ex)
-                    {
-                        Console.WriteLine("ERROR SENDING STATS");
-                    }
-
-                    logoChannel.LoadCompleted -= logoLoaded;
-                    
-                    logoChannel.Image = Image.FromFile("./resources/images/nochannel.png");
-                    if (!string.IsNullOrEmpty(channel.TVGLogo))
-                    {
-                        logoChannel.LoadAsync(channel.TVGLogo);
-                        logoChannel.LoadCompleted += logoLoaded;
-                    }
-                    
-                    string title = channel.Title;
-                    if (title.Length > 20)
-                    {
-                        title = title.Substring(0, 20) + "...";
-                    }
-                    lbChName.Text = title;
-                    currentChannel = channel;
-                    currentChType = channel.ChannelType;
-                    SetEPG(channel);
-                    
-                }
+                ChangeChannelTo(channel, item.SubItems[0].Text);
             }
+        }
+
+        private void ChangeChannelTo(ChannelInfo channel, string number)
+        {
+            if (channel == null)
+            {
+                MessageBox.Show(Strings.NOT_FOUND_CH + number);
+            }
+            else
+            {
+                playerForm.Stop();
+                playerForm.SetIsChannel(channel.ChannelType == ChType.CHANNEL);
+                playerForm.SetIsPaused(false);
+                Thread.Sleep(500);
+                currLang = -1;
+                currSub = -1;
+                playerForm.SetMedia(channel.URL, 0, currLang, currSub);
+                try
+                {
+                    string chName = channel.TVGName.Length < 100 ? channel.TVGName : channel.TVGName.Substring(0, 99);
+                    Task<string> stats = Utils.GetAsync("http://amian.es:5085/stats?ctype=connected&app=net&chn=" + chName);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("ERROR SENDING STATS");
+                }
+
+                logoChannel.LoadCompleted -= logoLoaded;
+
+                logoChannel.Image = Image.FromFile("./resources/images/nochannel.png");
+                if (!string.IsNullOrEmpty(channel.TVGLogo))
+                {
+                    logoChannel.LoadAsync(channel.TVGLogo);
+                    logoChannel.LoadCompleted += logoLoaded;
+                }
+
+                string title = channel.Title;
+                if (title.Length > 20)
+                {
+                    title = title.Substring(0, 20) + "...";
+                }
+                lbChName.Text = title;
+                currentChannel = channel;
+                currentChType = channel.ChannelType;
+                SetEPG(channel);
+
+            }
+            playerForm.SetFocusOnVideoPanel();
         }
 
         private void SetEPG(ChannelInfo channel)
@@ -917,6 +924,24 @@ namespace AmiIptvPlayer
         {
             AccountInfo acc = new AccountInfo();
             acc.ShowDialog();
+        }
+
+        public void NextChannel()
+        {
+            ChannelInfo channel = Channels.Get().GetChannel(currentChannel.ChNumber + 1);
+            ChangeChannelTo(channel, (currentChannel.ChNumber + 1).ToString());
+        }
+
+        public void ChannelToNumber(int number)
+        {
+            ChannelInfo channel = Channels.Get().GetChannel(number);
+            ChangeChannelTo(channel, (number).ToString());
+        }
+
+        public void PrevChannel()
+        {
+            ChannelInfo channel = Channels.Get().GetChannel(currentChannel.ChNumber - 1);
+            ChangeChannelTo(channel, (currentChannel.ChNumber - 1).ToString());
         }
     }
 }
