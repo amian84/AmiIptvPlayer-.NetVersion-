@@ -58,7 +58,7 @@ namespace AmiIptvPlayer
         public DateTime EXPIRE_DATE{ get; set; }
         public string HOST { get; set; }
         public int PORT { get; set; }
-
+        
     }
 
     public class ComboboxItem
@@ -191,12 +191,14 @@ namespace AmiIptvPlayer
             Uri uri = new Uri(AmiConfiguration.Get().URL_IPTV);
             data.HOST = uri.Host;
             data.PORT = uri.Port;
+            data.USER = HttpUtility.ParseQueryString(uri.Query).Get("username");
             if (string.IsNullOrEmpty(data.USER))
             {
-                data.USER = Strings.UNKNOWN; 
+                data.USER = Strings.UNKNOWN;
             }
-            data.MAX_CONECTIONS = Strings.UNKNOWN;
-            if (url.Contains("get.php")){
+            data.MAX_CONECTIONS = "0";
+            if (url.Contains("get.php"))
+            {
                 url = url.Replace("get.php", "panel_api.php");
                 string result = GetUrl(url);
                 dynamic dataServer = JsonConvert.DeserializeObject(result);
@@ -205,6 +207,7 @@ namespace AmiIptvPlayer
                 data.MAX_CONECTIONS = dataServer["user_info"]["max_connections"].Value.ToString();
                 data.ACTIVE_CONECTIONS = dataServer["user_info"]["active_cons"].Value.ToString();
             }
+            
         }
 
         public static DateTime UnixToDate(int Timestamp)
