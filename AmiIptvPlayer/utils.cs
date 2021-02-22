@@ -202,6 +202,7 @@ namespace AmiIptvPlayer
         public string UI_LANG { get; set; }
         public string DEF_LANG { get; set; }
         public string DEF_SUB { get; set; }
+        public string REQ_EMAIL { get; set; }
 
     }
 

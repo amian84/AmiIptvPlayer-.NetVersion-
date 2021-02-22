@@ -164,11 +164,31 @@
             this.cmbUI.TabIndex = 11;
             this.cmbUI.SelectedIndexChanged += new System.EventHandler(this.cmbUI_SelectedIndexChanged);
             // 
+            // lbRequestEmail
+            // 
+            this.lbRequestEmail.AutoSize = true;
+            this.lbRequestEmail.Location = new System.Drawing.Point(12, 173);
+            this.lbRequestEmail.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lbRequestEmail.Name = "lbRequestEmail";
+            this.lbRequestEmail.Size = new System.Drawing.Size(78, 13);
+            this.lbRequestEmail.TabIndex = 12;
+            this.lbRequestEmail.Text = "Request Email:";
+            // 
+            // txtRequestEmail
+            // 
+            this.txtRequestEmail.Location = new System.Drawing.Point(214, 170);
+            this.txtRequestEmail.Margin = new System.Windows.Forms.Padding(2);
+            this.txtRequestEmail.Name = "txtRequestEmail";
+            this.txtRequestEmail.Size = new System.Drawing.Size(140, 20);
+            this.txtRequestEmail.TabIndex = 13;
+            // 
             // Preferences
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(361, 245);
+            this.ClientSize = new System.Drawing.Size(361, 266);
+            this.Controls.Add(this.txtRequestEmail);
+            this.Controls.Add(this.lbRequestEmail);
             this.Controls.Add(this.cmbUI);
             this.Controls.Add(this.lbSettingsUILang);
             this.Controls.Add(this.sub);
@@ -210,5 +230,7 @@
         private System.Windows.Forms.ComboBox sub;
         private System.Windows.Forms.Label lbSettingsUILang;
         private System.Windows.Forms.ComboBox cmbUI;
+        private System.Windows.Forms.Label lbRequestEmail;
+        private System.Windows.Forms.TextBox txtRequestEmail;
     }
 }

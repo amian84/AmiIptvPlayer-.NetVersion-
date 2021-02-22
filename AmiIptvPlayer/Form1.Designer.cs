@@ -36,6 +36,8 @@
             this.refreshListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.refreshEPGToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.quitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.accountInfoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.chList = new System.Windows.Forms.ListView();
@@ -75,10 +77,10 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.cmbGroups = new System.Windows.Forms.ComboBox();
             this.lbGroups = new System.Windows.Forms.Label();
-            this.accountInfoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuChannel = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.menuItemChnSeen = new System.Windows.Forms.ToolStripMenuItem();
             this.menuItemChnResum = new System.Windows.Forms.ToolStripMenuItem();
+            this.requestNewVODToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.loadingPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.logoChannel)).BeginInit();
@@ -95,6 +97,7 @@
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.FileToolStripMenuItem,
+            this.toolsToolStripMenuItem,
             this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
@@ -109,7 +112,6 @@
             this.settingsToolStripMenuItem,
             this.refreshListToolStripMenuItem,
             this.refreshEPGToolStripMenuItem,
-            this.accountInfoToolStripMenuItem,
             this.quitToolStripMenuItem});
             this.FileToolStripMenuItem.Name = "FileToolStripMenuItem";
             this.FileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
@@ -118,30 +120,46 @@
             // settingsToolStripMenuItem
             // 
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
             this.settingsToolStripMenuItem.Text = "Settings";
             this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
             // 
             // refreshListToolStripMenuItem
             // 
             this.refreshListToolStripMenuItem.Name = "refreshListToolStripMenuItem";
-            this.refreshListToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.refreshListToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
             this.refreshListToolStripMenuItem.Text = "Refresh List";
             this.refreshListToolStripMenuItem.Click += new System.EventHandler(this.refreshListToolStripMenuItem_Click);
             // 
             // refreshEPGToolStripMenuItem
             // 
             this.refreshEPGToolStripMenuItem.Name = "refreshEPGToolStripMenuItem";
-            this.refreshEPGToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.refreshEPGToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
             this.refreshEPGToolStripMenuItem.Text = "Refresh EPG";
             this.refreshEPGToolStripMenuItem.Click += new System.EventHandler(this.refreshEPGToolStripMenuItem_Click);
             // 
             // quitToolStripMenuItem
             // 
             this.quitToolStripMenuItem.Name = "quitToolStripMenuItem";
-            this.quitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.quitToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
             this.quitToolStripMenuItem.Text = "Quit";
             this.quitToolStripMenuItem.Click += new System.EventHandler(this.quitToolStripMenuItem_Click);
+            // 
+            // toolsToolStripMenuItem
+            // 
+            this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.accountInfoToolStripMenuItem,
+            this.requestNewVODToolStripMenuItem});
+            this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
+            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(46, 20);
+            this.toolsToolStripMenuItem.Text = "Tools";
+            // 
+            // accountInfoToolStripMenuItem
+            // 
+            this.accountInfoToolStripMenuItem.Name = "accountInfoToolStripMenuItem";
+            this.accountInfoToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.accountInfoToolStripMenuItem.Text = "Account Info";
+            this.accountInfoToolStripMenuItem.Click += new System.EventHandler(this.accountInfoToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
             // 
@@ -543,8 +561,6 @@
             // 
             // contextMenuChannel
             // 
-            this.accountInfoToolStripMenuItem.Name = "accountInfoToolStripMenuItem";
-            this.accountInfoToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.contextMenuChannel.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuItemChnSeen,
             this.menuItemChnResum});
@@ -562,6 +578,13 @@
             this.menuItemChnResum.Name = "menuItemChnResum";
             this.menuItemChnResum.Size = new System.Drawing.Size(67, 22);
             this.menuItemChnResum.Click += new System.EventHandler(this.menuItemChnResum_Click);
+            // 
+            // requestNewVODToolStripMenuItem
+            // 
+            this.requestNewVODToolStripMenuItem.Name = "requestNewVODToolStripMenuItem";
+            this.requestNewVODToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.requestNewVODToolStripMenuItem.Text = "Request new VOD";
+            this.requestNewVODToolStripMenuItem.Click += new System.EventHandler(this.requestNewVODToolStripMenuItem_Click);
             // 
             // Form1
             // 

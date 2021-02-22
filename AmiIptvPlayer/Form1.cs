@@ -88,6 +88,8 @@ namespace AmiIptvPlayer
             quitToolStripMenuItem.Text = Strings.QUIT;
             helpToolStripMenuItem.Text = Strings.HELP;
             aboutToolStripMenuItem.Text = Strings.AboutUsTitle;
+            toolsToolStripMenuItem.Text = Strings.Tools;
+            requestNewVODToolStripMenuItem.Text = Strings.RequestNewVOD;
             btnClear.Text = Strings.CLEAR;
             btnFilter.Text = Strings.FILTER;
             btnFixId.Text = Strings.FixIdentTitle;
@@ -1156,6 +1158,12 @@ namespace AmiIptvPlayer
                 SeenResumeChannels.Get().UpdateOrSetSeen(channel.Title, true, channel.totalDuration==null?-1:(double)channel.totalDuration, DateTime.Now);
             }
             RefreshListView();
+        }
+
+        private void requestNewVODToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            RequestVOD rvod = new RequestVOD();
+            rvod.ShowDialog();
         }
     }
 }

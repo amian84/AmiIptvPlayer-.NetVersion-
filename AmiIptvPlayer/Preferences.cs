@@ -55,6 +55,7 @@ namespace AmiIptvPlayer
             lbSettingsEPG.Text = Strings.lbSettingsEPG;
             lbSettingsUILang.Text = Strings.lbSettingsUILang;
             lbSettingsURL.Text = Strings.lbSettingsURL;
+            lbRequestEmail.Text = Strings.lbRequestEmail;
             this.Text = Strings.PreferencesTitle;
             btnCancel.Text = Strings.CANCEL;
             btnOk.Text = Strings.SAVE;
@@ -105,7 +106,10 @@ namespace AmiIptvPlayer
                 Channels channels = Channels.Get();
                 channels.SetNeedRefresh(false);
             }
-
+            if (amiconf.REQ_EMAIL != txtRequestEmail.Text)
+            {
+                amiconf.REQ_EMAIL = txtRequestEmail.Text;
+            }
             if (amiconf.URL_EPG != txtEPG.Text)
             {
                 amiconf.URL_EPG = txtEPG.Text;
