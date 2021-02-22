@@ -14,6 +14,169 @@ using System.Windows.Forms;
 
 namespace AmiIptvPlayer
 {
+
+    public class SeenResumeChannels
+    {
+        private static SeenResumeChannels instance;
+        public static SeenResumeChannels Get()
+        {
+            if (instance == null)
+                instance = new SeenResumeChannels();
+            return instance;
+        }
+        public SeenResumeChannels()
+        {
+            channelsSeenResume = new Dictionary<string, List<SeenResumeChannel>>();
+            channelsSeenResume["resume"] = new List<SeenResumeChannel>();
+            channelsSeenResume["seen"] = new List<SeenResumeChannel>();
+        }
+        public Dictionary<string, List<SeenResumeChannel>> channelsSeenResume { get; set; }
+
+        public void Set(SeenResumeChannels items)
+        {
+            instance = items;
+        }
+
+        public bool IsSeen(string title)
+        {
+            foreach(var seenItem in channelsSeenResume["seen"])
+            {
+                if (seenItem.title == title && seenItem.seen)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public bool IsResume(string title)
+        {
+            foreach (var resumeItem in channelsSeenResume["resume"])
+            {
+                if (resumeItem.title == title && resumeItem.position>150)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public double? GetCurrentPosition(string title)
+        {
+            foreach (var resumeItem in channelsSeenResume["resume"])
+            {
+                if (resumeItem.title == title)
+                {
+                    return resumeItem.position;
+                }
+            }
+            return null;
+        }
+
+        
+        public void UpdateOrSetSeen(string title, bool value, double totalSeconds, DateTime now)
+        {
+            List<SeenResumeChannel> srch = GetSeenChannelsName(title);
+            if (srch.Count == 0)
+            {
+                channelsSeenResume["seen"].Add(new SeenResumeChannel() { seen = value, position = 0, title = title, date = now, totalDuration=totalSeconds});
+            }
+            else
+            {
+                foreach(var item in srch)
+                {
+                    item.seen = value;
+                    item.date = now;
+                    if (item.totalDuration > 0)
+                        item.totalDuration = totalSeconds;
+                }
+            }
+        }
+
+        public void UpdateOrSetResume(string title, double value, double totalSeconds, DateTime now)
+        {
+            List<SeenResumeChannel> srch = GetResumeChannelsName(title);
+            if (srch.Count == 0)
+            {
+                channelsSeenResume["resume"].Add(new SeenResumeChannel() { seen = false, position = value, title = title, date= now, totalDuration=totalSeconds });
+            }
+            else
+            {
+                foreach (var item in srch)
+                {
+                    item.position = value;
+                    item.date = now;
+                    if (item.totalDuration>0)
+                        item.totalDuration = totalSeconds;
+                }
+            }
+        }
+
+        public double? GetCurrentTotalDuration(string title)
+        {
+            foreach (var resumeItem in channelsSeenResume["resume"])
+            {
+                if (resumeItem.title == title)
+                {
+                    return resumeItem.totalDuration;
+                }
+            }
+            return null;
+        }
+
+        private List<SeenResumeChannel> GetSeenChannelsName(string title)
+        {
+            List<SeenResumeChannel> returnvalue = new List<SeenResumeChannel>();
+            foreach (var srch in channelsSeenResume["seen"])
+            {
+                if (srch.title == title)
+                    returnvalue.Add(srch);
+            }
+            return returnvalue;
+        }
+        private List<SeenResumeChannel> GetResumeChannelsName(string title)
+        {
+            List<SeenResumeChannel> returnvalue = new List<SeenResumeChannel>();
+            foreach (var srch in channelsSeenResume["resume"])
+            {
+                if (srch.title == title)
+                    returnvalue.Add(srch);
+            }
+            return returnvalue;
+        }
+
+        public void RemoveResume(string title)
+        {
+            List<SeenResumeChannel> newlist = new List<SeenResumeChannel>();
+            foreach (var srch in channelsSeenResume["resume"])
+            {
+                if (srch.title != title)
+                    newlist.Add(srch);
+            }
+            channelsSeenResume["resume"] = newlist;
+        }
+
+        public void RemoveSeen(string title)
+        {
+            List<SeenResumeChannel> newlist = new List<SeenResumeChannel>();
+            foreach (var srch in channelsSeenResume["seen"])
+            {
+                if (srch.title != title)
+                    newlist.Add(srch);
+            }
+            channelsSeenResume["seen"] = newlist;
+        }
+    }
+
+    public class SeenResumeChannel
+    {
+        public string title { get; set; }
+        public double position { get; set; }
+        public double totalDuration{ get; set; }
+        public bool seen { get; set; }
+        public DateTime date{ get; set; }
+
+    }
     public class AmiConfiguration
     {
         public AmiConfiguration()
@@ -38,7 +201,7 @@ namespace AmiIptvPlayer
         public string URL_EPG { get; set; }
         public string UI_LANG { get; set; }
         public string DEF_LANG { get; set; }
-        public string DEF_SUB { get; set; }        
+        public string DEF_SUB { get; set; }
 
     }
 
@@ -58,7 +221,6 @@ namespace AmiIptvPlayer
         public DateTime EXPIRE_DATE{ get; set; }
         public string HOST { get; set; }
         public int PORT { get; set; }
-        
     }
 
     public class ComboboxItem
@@ -79,7 +241,8 @@ namespace AmiIptvPlayer
         public static Dictionary<string, string> audios = new Dictionary<string, string>
         {
             { "spa", Strings.AS_SP},
-            { "eng", Strings.AS_EN }
+            { "eng", Strings.AS_EN },
+            { "unk", Strings.AS_UN }
         };
         public static Dictionary<string, string> subs = new Dictionary<string, string>
         {
@@ -137,26 +300,27 @@ namespace AmiIptvPlayer
             return "none";
         }
 
-        public static List<SearchIdent> TransformJArrayToSearchIdent (JArray fillFilmResults) {
+        public static List<SearchIdent> TransformJArrayToSearchIdent (JArray fillFilmResults, ChType type) {
             List<SearchIdent> listSearch = new List<SearchIdent>();
             foreach(JObject obj in fillFilmResults)
             {
                 string title = "";
-                string year = "";
-                if (Form1.Get().GetCurrentChannel().ChannelType == ChType.MOVIE)
+                string year = "1900";
+                if (type == ChType.MOVIE)
                 {
                     title = obj["title"].ToString();
-                    year = obj["release_date"].ToString().Split('-')[0];
+                    year = obj["release_date"]?.ToString().Split('-')[0];
                 }
                 else
                 {
                     title = obj["name"].ToString();
-                    year = obj["first_air_date"].ToString().Split('-')[0];                   
+                    year = obj["first_air_date"]?.ToString().Split('-')[0];                   
                 }
                 SearchIdent se = new SearchIdent();
                 se.Title = title;
                 se.Year = year;
                 se.SearchData = obj;
+                se.ChType = type;
                 listSearch.Add(se);
             }
             return listSearch;
@@ -197,23 +361,42 @@ namespace AmiIptvPlayer
                 data.USER = Strings.UNKNOWN;
             }
             data.MAX_CONECTIONS = "0";
-            if (url.Contains("get.php"))
+            try
             {
-                url = url.Replace("get.php", "panel_api.php");
-                string result = GetUrl(url);
-                dynamic dataServer = JsonConvert.DeserializeObject(result);
-                data.EXPIRE_DATE = UnixToDate(int.Parse(dataServer["user_info"]["exp_date"].Value.ToString()));
-                data.USER = dataServer["user_info"]["username"].Value.ToString();
-                data.MAX_CONECTIONS = dataServer["user_info"]["max_connections"].Value.ToString();
-                data.ACTIVE_CONECTIONS = dataServer["user_info"]["active_cons"].Value.ToString();
+                if (url.Contains("get.php"))
+                {
+                    url = url.Replace("get.php", "player_api.php");
+                    string result = GetUrl(url);
+                    dynamic dataServer = JsonConvert.DeserializeObject(result);
+                    data.EXPIRE_DATE = UnixToDate(int.Parse(dataServer["user_info"]["exp_date"].Value.ToString()));
+                    data.USER = dataServer["user_info"]["username"].Value.ToString();
+                    data.MAX_CONECTIONS = dataServer["user_info"]["max_connections"].Value.ToString();
+                    data.ACTIVE_CONECTIONS = dataServer["user_info"]["active_cons"].Value.ToString();
+                }
             }
-            
+            catch (Exception ex)
+            {
+                
+                MessageBox.Show(Strings.ACCOUNT_INFO_ERROR, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
         }
 
         public static DateTime UnixToDate(int Timestamp)
         {
             return DateTimeOffset.FromUnixTimeSeconds(Timestamp).DateTime;
             
+        }
+
+        public static Dictionary<string, JArray> GetFilmInfo( string title, string year, string lang)
+        {
+            var result = new Dictionary<string, JArray>() { };
+            
+            var movies = GetFilmInfo(ChType.CHANNEL, title, year, lang);
+            result["movies"] = movies["results"];
+            var shows = GetFilmInfo(ChType.SHOW, title, year, lang);
+            result["shows"] = shows["results"];
+            return result;
         }
 
         public static dynamic GetFilmInfo(ChType chType, string title, string year, string lang)
@@ -240,6 +423,10 @@ namespace AmiIptvPlayer
             return JsonConvert.DeserializeObject(result);
         }
 
+        public static string LogoUrl(string logoFile)
+        {
+            return "https://image.tmdb.org/t/p/w200" + logoFile;
+        }
 
         public static string DecodeToUTF8(string strParam)
         {

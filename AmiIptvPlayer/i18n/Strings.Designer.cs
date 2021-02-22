@@ -79,6 +79,15 @@ namespace AmiIptvPlayer.i18n {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Can&apos;t obtain any account info result for your iptv url, please review it.
+        /// </summary>
+        public static string ACCOUNT_INFO_ERROR {
+            get {
+                return ResourceManager.GetString("ACCOUNT_INFO_ERROR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a This is your account info:.
         /// </summary>
         public static string AccountInfoHead {
@@ -133,6 +142,15 @@ namespace AmiIptvPlayer.i18n {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Unknown.
+        /// </summary>
+        public static string AS_UN {
+            get {
+                return ResourceManager.GetString("AS_UN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Cancel.
         /// </summary>
         public static string CANCEL {
@@ -174,6 +192,24 @@ namespace AmiIptvPlayer.i18n {
         public static string Duration {
             get {
                 return ResourceManager.GetString("Duration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a New VOD&apos;s request.
+        /// </summary>
+        public static string EmailHeader {
+            get {
+                return ResourceManager.GetString("EmailHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Hi this is a new request sended via AmiIptvPlayer app..
+        /// </summary>
+        public static string EmailText {
+            get {
+                return ResourceManager.GetString("EmailText", resourceCulture);
             }
         }
         
@@ -232,6 +268,24 @@ namespace AmiIptvPlayer.i18n {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a For send new request you must set your provider iptv email request into settings.
+        /// </summary>
+        public static string FillReqEmail {
+            get {
+                return ResourceManager.GetString("FillReqEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Please fill title and year before send request.
+        /// </summary>
+        public static string FillReqVOD {
+            get {
+                return ResourceManager.GetString("FillReqVOD", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Filter.
         /// </summary>
         public static string FILTER {
@@ -246,6 +300,15 @@ namespace AmiIptvPlayer.i18n {
         public static string FilterList {
             get {
                 return ResourceManager.GetString("FilterList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Original title.
+        /// </summary>
+        public static string FIOrigTitle {
+            get {
+                return ResourceManager.GetString("FIOrigTitle", resourceCulture);
             }
         }
         
@@ -340,7 +403,7 @@ namespace AmiIptvPlayer.i18n {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Country:.
+        ///   Busca una cadena traducida similar a Country.
         /// </summary>
         public static string lbCountryTitle {
             get {
@@ -349,7 +412,7 @@ namespace AmiIptvPlayer.i18n {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Description:.
+        ///   Busca una cadena traducida similar a Description.
         /// </summary>
         public static string lbDescriptionTitle {
             get {
@@ -381,6 +444,15 @@ namespace AmiIptvPlayer.i18n {
         public static string lbReleaseDateTitle {
             get {
                 return ResourceManager.GetString("lbReleaseDateTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Email for VOD request:.
+        /// </summary>
+        public static string lbRequestEmail {
+            get {
+                return ResourceManager.GetString("lbRequestEmail", resourceCulture);
             }
         }
         
@@ -448,7 +520,7 @@ namespace AmiIptvPlayer.i18n {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Title:.
+        ///   Busca una cadena traducida similar a Title.
         /// </summary>
         public static string lbTitleTitle {
             get {
@@ -520,6 +592,15 @@ namespace AmiIptvPlayer.i18n {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Movie.
+        /// </summary>
+        public static string Movie {
+            get {
+                return ResourceManager.GetString("Movie", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Not found.
         /// </summary>
         public static string NOT_FOUND {
@@ -534,6 +615,15 @@ namespace AmiIptvPlayer.i18n {
         public static string NOT_FOUND_CH {
             get {
                 return ResourceManager.GetString("NOT_FOUND_CH", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Poster of VOD.
+        /// </summary>
+        public static string PosterEmail {
+            get {
+                return ResourceManager.GetString("PosterEmail", resourceCulture);
             }
         }
         
@@ -583,11 +673,38 @@ namespace AmiIptvPlayer.i18n {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Request new VOD.
+        /// </summary>
+        public static string RequestNewVOD {
+            get {
+                return ResourceManager.GetString("RequestNewVOD", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Do you want to resume the video?.
+        /// </summary>
+        public static string Resume {
+            get {
+                return ResourceManager.GetString("Resume", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Save.
         /// </summary>
         public static string SAVE {
             get {
                 return ResourceManager.GetString("SAVE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Search.
+        /// </summary>
+        public static string Search {
+            get {
+                return ResourceManager.GetString("Search", resourceCulture);
             }
         }
         
@@ -610,6 +727,33 @@ namespace AmiIptvPlayer.i18n {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Mark as seen.
+        /// </summary>
+        public static string Seen {
+            get {
+                return ResourceManager.GetString("Seen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Send.
+        /// </summary>
+        public static string Send {
+            get {
+                return ResourceManager.GetString("Send", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Fill info manually.
+        /// </summary>
+        public static string SendExtra {
+            get {
+                return ResourceManager.GetString("SendExtra", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Server:.
         /// </summary>
         public static string Server {
@@ -628,6 +772,24 @@ namespace AmiIptvPlayer.i18n {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Show.
+        /// </summary>
+        public static string Show {
+            get {
+                return ResourceManager.GetString("Show", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a AmiIptvPlayer: new request VOD.
+        /// </summary>
+        public static string SubjectEmail {
+            get {
+                return ResourceManager.GetString("SubjectEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Subtitles:.
         /// </summary>
         public static string Subs {
@@ -637,11 +799,56 @@ namespace AmiIptvPlayer.i18n {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Thanks for using the app.
+        /// </summary>
+        public static string ThanksEmail {
+            get {
+                return ResourceManager.GetString("ThanksEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Tools.
+        /// </summary>
+        public static string Tools {
+            get {
+                return ResourceManager.GetString("Tools", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Type.
+        /// </summary>
+        public static string Type {
+            get {
+                return ResourceManager.GetString("Type", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Unknown.
         /// </summary>
         public static string UNKNOWN {
             get {
                 return ResourceManager.GetString("UNKNOWN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Clean resume position.
+        /// </summary>
+        public static string UnResume {
+            get {
+                return ResourceManager.GetString("UnResume", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Mark as unseen.
+        /// </summary>
+        public static string UnSeen {
+            get {
+                return ResourceManager.GetString("UnSeen", resourceCulture);
             }
         }
         
@@ -673,7 +880,7 @@ namespace AmiIptvPlayer.i18n {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a User:.
+        ///   Busca una cadena traducida similar a User.
         /// </summary>
         public static string User {
             get {

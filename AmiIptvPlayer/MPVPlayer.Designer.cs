@@ -303,6 +303,7 @@
             this.cmbLangs.Size = new System.Drawing.Size(90, 21);
             this.cmbLangs.TabIndex = 42;
             this.cmbLangs.SelectedIndexChanged += new System.EventHandler(this.cmbLangs_SelectedIndexChanged);
+            this.cmbLangs.DropDownClosed += new System.EventHandler(this.cmbLangs_DropDownClosed);
             // 
             // panel7
             // 

@@ -76,12 +76,16 @@
             this.cmbGroups = new System.Windows.Forms.ComboBox();
             this.lbGroups = new System.Windows.Forms.Label();
             this.accountInfoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenuChannel = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.menuItemChnSeen = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuItemChnResum = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.loadingPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.logoChannel)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.logoEPG)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
+            this.contextMenuChannel.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -170,6 +174,8 @@
             this.chList.TabIndex = 5;
             this.chList.UseCompatibleStateImageBehavior = false;
             this.chList.DoubleClick += new System.EventHandler(this.listView1_DoubleClick);
+            this.chList.MouseDown += new System.Windows.Forms.MouseEventHandler(this.chList_MouseDown);
+            this.chList.MouseUp += new System.Windows.Forms.MouseEventHandler(this.chList_MouseUp);
             // 
             // chNumber
             // 
@@ -178,7 +184,7 @@
             // chName
             // 
             this.chName.Text = "Channel Name";
-            this.chName.Width = 340;
+            this.chName.Width = 310;
             // 
             // loadingPanel
             // 
@@ -535,12 +541,27 @@
             this.lbGroups.TabIndex = 46;
             this.lbGroups.Text = "Groups:";
             // 
-            // accountInfoToolStripMenuItem
+            // contextMenuChannel
             // 
             this.accountInfoToolStripMenuItem.Name = "accountInfoToolStripMenuItem";
             this.accountInfoToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.accountInfoToolStripMenuItem.Text = "Account Info";
-            this.accountInfoToolStripMenuItem.Click += new System.EventHandler(this.accountInfoToolStripMenuItem_Click);
+            this.contextMenuChannel.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuItemChnSeen,
+            this.menuItemChnResum});
+            this.contextMenuChannel.Name = "contextMenuChannel";
+            this.contextMenuChannel.Size = new System.Drawing.Size(68, 48);
+            // 
+            // menuItemChnSeen
+            // 
+            this.menuItemChnSeen.Name = "menuItemChnSeen";
+            this.menuItemChnSeen.Size = new System.Drawing.Size(67, 22);
+            this.menuItemChnSeen.Click += new System.EventHandler(this.menuItemChnSeen_Click);
+            // 
+            // menuItemChnResum
+            // 
+            this.menuItemChnResum.Name = "menuItemChnResum";
+            this.menuItemChnResum.Size = new System.Drawing.Size(67, 22);
+            this.menuItemChnResum.Click += new System.EventHandler(this.menuItemChnResum_Click);
             // 
             // Form1
             // 
@@ -583,6 +604,7 @@
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.logoEPG)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).EndInit();
+            this.contextMenuChannel.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -635,7 +657,12 @@
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.ComboBox cmbGroups;
         private System.Windows.Forms.Label lbGroups;
+        private System.Windows.Forms.ContextMenuStrip contextMenuChannel;
+        private System.Windows.Forms.ToolStripMenuItem menuItemChnSeen;
+        private System.Windows.Forms.ToolStripMenuItem menuItemChnResum;
+        private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem accountInfoToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem requestNewVODToolStripMenuItem;
     }
 }
 

@@ -27,12 +27,14 @@ namespace AmiIptvPlayer
                 Title = "";
                 Lang = "";
                 ID = -1;
+                Default = false;
             }
             public long ID { get; set; }
             public TrackType TType { get; }
             public string Title { get; set; }
             public string Lang { get; set; }
             public override string ToString() => $"({TType}: {Title}, {Lang})";
+            public bool Default { get; set; }
         }
         private Task NumbersTaks;
         private MpvPlayer player;
@@ -60,7 +62,6 @@ namespace AmiIptvPlayer
         {
             InitializeComponent();
             player = new MpvPlayer(panelvideo.Handle);
-            
             originalSizePanel = panelvideo.Bounds;
             originalSizeWin = this.Bounds;
             originalPositionWin = new Tuple<int, int>(this.Top, this.Left);
@@ -128,6 +129,7 @@ namespace AmiIptvPlayer
             
 
             player.API.SetPropertyString("deinterlace", "yes");
+            player.API.SetPropertyString("hwdec", "auto");
         }
 
         public void SetPrincipalForm(Form1 form1)
@@ -137,10 +139,11 @@ namespace AmiIptvPlayer
 
         private void MediaLoaded(object sender, EventArgs e)
         {
+            ParseTracksAndSetDefaults();
             
             if (!isChannel && player.Duration.TotalSeconds > 0)
             {
-                ParseTracksAndSetDefaults();
+                
                 seekBar.Invoke((System.Threading.ThreadStart)delegate {
                     seekBar.Enabled = true;
                     seekBar.Value = 0;
@@ -156,7 +159,8 @@ namespace AmiIptvPlayer
                 }
 
             }
-            else
+            
+            /*else
             {
                 cmbLangs.Invoke((System.Threading.ThreadStart)delegate
                 {
@@ -173,7 +177,7 @@ namespace AmiIptvPlayer
                     seekBar.Enabled = false;
                     seekBar.Value = 0;
                 });
-            }
+            }*/
             player.Resume();
             if (SetPositionOnLoad)
             {
@@ -313,6 +317,7 @@ namespace AmiIptvPlayer
                 if (tkinfo.ID == id)
                 {
                     player.API.SetPropertyLong("aid", tkinfo.ID);
+                    player.RestartAsync();
                     break;
                 }
             }
@@ -364,7 +369,7 @@ namespace AmiIptvPlayer
                     }
                     catch (Exception ex)
                     {
-                        lang = "spa";
+                        lang = "unk";
                     }
                     var title = "";
                     TrackType TKInfoType = TrackType.AUDIO;
@@ -406,12 +411,21 @@ namespace AmiIptvPlayer
                             }
                         }
                     }
+                    var defaultbool = false;
+                    try 
+                    {
+                        defaultbool = player.API.GetPropertyString("track-list/" + i + "/default")=="yes";
+                    }catch(Exception ex)
+                    {
+                        
+                    }
 
 
                     TrackInfo TKInfo = new TrackInfo(TKInfoType);
                     TKInfo.Title = title;
                     TKInfo.Lang = lang;
                     TKInfo.ID = id;
+                    TKInfo.Default = defaultbool;
                     tracksParser[TKInfoType].Add(TKInfo);
                 }
             }
@@ -467,6 +481,7 @@ namespace AmiIptvPlayer
                 propertyPlayer = "sid";
             }
             ComboboxItem candidateCMB = null;
+            ComboboxItem defaultCMB = null;
             ComboboxItem noneValue = null;
             foreach(ComboboxItem item in cmb.Items)
             {
@@ -476,6 +491,8 @@ namespace AmiIptvPlayer
                 }
             }
             TrackInfo candidateTR = new TrackInfo(TrackType.UNKNOWN);
+            TrackInfo defaultTR = new TrackInfo(TrackType.UNKNOWN);
+
             bool found = false;
             foreach (TrackInfo tkinfo in trackList)
             {
@@ -496,9 +513,24 @@ namespace AmiIptvPlayer
                         candidateTR = tkinfo;
                         found = true;
                     }
+                    if (tkinfo.Default)
+                    {
+                        defaultCMB = item;
+                        defaultTR = tkinfo;
+                    }
                 });
             }
-
+            if (defaultCMB == null)
+            {
+                cmb.Invoke((System.Threading.ThreadStart)delegate
+                {
+                    var iter = cmb.Items.GetEnumerator();
+                    iter.MoveNext();
+                    defaultCMB = iter.Current as ComboboxItem;
+                });
+                
+                defaultTR = trackList.Find((x) => x.ID == 1);
+            }
             if (valueToSet != "none" && found)
             {
                 player.API.SetPropertyLong(propertyPlayer, candidateTR.ID);
@@ -517,6 +549,18 @@ namespace AmiIptvPlayer
                     {
                         cmb.SelectedItem = noneValue;
                     });
+                }
+                else
+                {
+                    if (defaultCMB != null)
+                    {
+                        player.API.SetPropertyLong(propertyPlayer, defaultTR.ID);
+                        cmb.Invoke((System.Threading.ThreadStart)delegate
+                        {
+                            cmb.SelectedItem = defaultCMB;
+                        });
+                    }
+                    
                 }
                 
             }
@@ -592,7 +636,26 @@ namespace AmiIptvPlayer
                 });
 
             }
-
+            if (player.Position.TotalSeconds>0 && player.Position.TotalSeconds >= player.Duration.TotalSeconds - 300)
+            {
+                if (!principalForm.GetCurrentChannel().seen)
+                {
+                    SeenResumeChannels.Get().UpdateOrSetSeen(principalForm.GetCurrentChannel().Title, true, player.Duration.TotalSeconds, DateTime.Now);
+                    principalForm.GetCurrentChannel().seen = true;
+                    principalForm.RefreshListView();
+                }
+            }
+            if (player.Position.TotalSeconds >= 150)
+            {
+                if (principalForm.GetCurrentChannel().currentPostion == null)
+                {
+                    SeenResumeChannels.Get().UpdateOrSetResume(principalForm.GetCurrentChannel().Title, player.Position.TotalSeconds, player.Duration.TotalSeconds, DateTime.Now);
+                    principalForm.GetCurrentChannel().currentPostion = player.Position.TotalSeconds;
+                    principalForm.RefreshListView();
+                }
+                principalForm.GetCurrentChannel().currentPostion = player.Position.TotalSeconds;
+            }
+            
 
         }
 
@@ -620,9 +683,10 @@ namespace AmiIptvPlayer
             {
                 positionOnLoad = position;
                 SetPositionOnLoad = true;
-                currLang = lang;
-                currSub = sub;
             }
+            currLang = lang;
+            currSub = sub;
+            
             
         }
 
@@ -829,6 +893,11 @@ namespace AmiIptvPlayer
         {
             return (key >= Keys.D0 && key <= Keys.D9) ||
                    (key >= Keys.NumPad0 && key <= Keys.NumPad9);
+        }
+
+        private void cmbLangs_DropDownClosed(object sender, EventArgs e)
+        {
+            
         }
     }
 }

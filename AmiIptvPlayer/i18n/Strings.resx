@@ -129,6 +129,9 @@
   <data name="AccountInfoTitle" xml:space="preserve">
     <value>Account Info</value>
   </data>
+  <data name="ACCOUNT_INFO_ERROR" xml:space="preserve">
+    <value>Can't obtain any account info result for your iptv url, please review it</value>
+  </data>
   <data name="ActiveCons" xml:space="preserve">
     <value>Active connections:</value>
   </data>
@@ -140,6 +143,9 @@
   </data>
   <data name="AS_SP" xml:space="preserve">
     <value>Spanish</value>
+  </data>
+  <data name="AS_UN" xml:space="preserve">
+    <value>Unknown</value>
   </data>
   <data name="CANCEL" xml:space="preserve">
     <value>Cancel</value>
@@ -155,6 +161,12 @@
   </data>
   <data name="Duration" xml:space="preserve">
     <value>Time: </value>
+  </data>
+  <data name="EmailHeader" xml:space="preserve">
+    <value>New VOD's request</value>
+  </data>
+  <data name="EmailText" xml:space="preserve">
+    <value>Hi this is a new request sended via AmiIptvPlayer app.</value>
   </data>
   <data name="EPGloaded" xml:space="preserve">
     <value>EPG Loaded:</value>
@@ -174,11 +186,20 @@
   <data name="FileTool" xml:space="preserve">
     <value>File</value>
   </data>
+  <data name="FillReqEmail" xml:space="preserve">
+    <value>For send new request you must set your provider iptv email request into settings</value>
+  </data>
+  <data name="FillReqVOD" xml:space="preserve">
+    <value>Please fill title and year before send request</value>
+  </data>
   <data name="FILTER" xml:space="preserve">
     <value>Filter</value>
   </data>
   <data name="FilterList" xml:space="preserve">
     <value>Filter list:</value>
+  </data>
+  <data name="FIOrigTitle" xml:space="preserve">
+    <value>Original title</value>
   </data>
   <data name="FITitle" xml:space="preserve">
     <value>Title</value>
@@ -211,10 +232,10 @@
     <value>Categories:</value>
   </data>
   <data name="lbCountryTitle" xml:space="preserve">
-    <value>Country:</value>
+    <value>Country</value>
   </data>
   <data name="lbDescriptionTitle" xml:space="preserve">
-    <value>Description:</value>
+    <value>Description</value>
   </data>
   <data name="lbEndTimeTitle" xml:space="preserve">
     <value>EndTime:</value>
@@ -224,6 +245,9 @@
   </data>
   <data name="lbReleaseDateTitle" xml:space="preserve">
     <value>Release Date:</value>
+  </data>
+  <data name="lbRequestEmail" xml:space="preserve">
+    <value>Email for VOD request:</value>
   </data>
   <data name="lbSettingsDefAud" xml:space="preserve">
     <value>Default audio language:</value>
@@ -247,7 +271,7 @@
     <value>StartTime:</value>
   </data>
   <data name="lbTitleTitle" xml:space="preserve">
-    <value>Title:</value>
+    <value>Title</value>
   </data>
   <data name="lbYearsTitle" xml:space="preserve">
     <value>Years release:</value>
@@ -270,11 +294,17 @@
   <data name="MORE_DETAILS" xml:space="preserve">
     <value>Click for more details</value>
   </data>
+  <data name="Movie" xml:space="preserve">
+    <value>Movie</value>
+  </data>
   <data name="NOT_FOUND" xml:space="preserve">
     <value>Not found</value>
   </data>
   <data name="NOT_FOUND_CH" xml:space="preserve">
     <value>Doesn't exists channel number: </value>
+  </data>
+  <data name="PosterEmail" xml:space="preserve">
+    <value>Poster of VOD</value>
   </data>
   <data name="PreferencesTitle" xml:space="preserve">
     <value>AmiIPTVPlayer: Settings</value>
@@ -291,8 +321,17 @@
   <data name="RefreshListTool" xml:space="preserve">
     <value>Refresh IPTV list</value>
   </data>
+  <data name="RequestNewVOD" xml:space="preserve">
+    <value>Request new VOD</value>
+  </data>
+  <data name="Resume" xml:space="preserve">
+    <value>Do you want to resume the video?</value>
+  </data>
   <data name="SAVE" xml:space="preserve">
     <value>Save</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Search</value>
   </data>
   <data name="SearchAgainBtn" xml:space="preserve">
     <value>Search again</value>
@@ -300,17 +339,47 @@
   <data name="SearchLb" xml:space="preserve">
     <value>Search:</value>
   </data>
+  <data name="Seen" xml:space="preserve">
+    <value>Mark as seen</value>
+  </data>
+  <data name="Send" xml:space="preserve">
+    <value>Send</value>
+  </data>
+  <data name="SendExtra" xml:space="preserve">
+    <value>Fill info manually</value>
+  </data>
   <data name="Server" xml:space="preserve">
     <value>Server:</value>
   </data>
   <data name="Settings" xml:space="preserve">
     <value>Settings</value>
   </data>
+  <data name="Show" xml:space="preserve">
+    <value>Show</value>
+  </data>
+  <data name="SubjectEmail" xml:space="preserve">
+    <value>AmiIptvPlayer: new request VOD</value>
+  </data>
   <data name="Subs" xml:space="preserve">
     <value>Subtitles:</value>
   </data>
+  <data name="ThanksEmail" xml:space="preserve">
+    <value>Thanks for using the app</value>
+  </data>
+  <data name="Tools" xml:space="preserve">
+    <value>Tools</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Type</value>
+  </data>
   <data name="UNKNOWN" xml:space="preserve">
     <value>Unknown</value>
+  </data>
+  <data name="UnResume" xml:space="preserve">
+    <value>Clean resume position</value>
+  </data>
+  <data name="UnSeen" xml:space="preserve">
+    <value>Mark as unseen</value>
   </data>
   <data name="URLinfo" xml:space="preserve">
     <value>Get Track URL</value>
@@ -322,7 +391,7 @@
     <value>The URL for that track is:</value>
   </data>
   <data name="User" xml:space="preserve">
-    <value>User:</value>
+    <value>User</value>
   </data>
   <data name="Version" xml:space="preserve">
     <value>Version:</value>

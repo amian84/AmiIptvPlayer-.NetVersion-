@@ -80,9 +80,13 @@ namespace AmiIptvPlayer
         {
             channelsInfo.Clear();
             int channelNumber = 0;
+            SeenResumeChannels src = SeenResumeChannels.Get();
             foreach (ChannelInfo channel in channels)
             {
                 channelsInfo.Add(channelNumber, channel);
+                channel.seen = src.IsSeen(channel.Title);
+                channel.currentPostion = src.GetCurrentPosition(channel.Title);
+                channel.totalDuration = src.GetCurrentTotalDuration(channel.Title);
                 channel.ChNumber = channelNumber;
                 GrpInfo groupInfo = new GrpInfo();
                 groupInfo.Title = channel.TVGGroup;
@@ -136,11 +140,14 @@ namespace AmiIptvPlayer
                 channelsInfo.Clear();
                 groupsInfo.Clear();
                 int channelNumber = 0;
+                SeenResumeChannels src = SeenResumeChannels.Get();
                 foreach (M3uPlaylistEntry entry in m3uList.PlaylistEntries)
                 {
                     if (entry.CustomProperties.Count > 0)
                     {
                         ChannelInfo channelInfo = new ChannelInfo(entry);
+                        channelInfo.seen = src.IsSeen(channelInfo.Title);
+                        channelInfo.currentPostion = src.GetCurrentPosition(channelInfo.Title);
                         channelsInfo.Add(channelNumber, channelInfo);
                         channelInfo.ChNumber = channelNumber;
                         GrpInfo groupInfo = new GrpInfo();
@@ -159,6 +166,7 @@ namespace AmiIptvPlayer
                     File.Delete(System.Environment.GetEnvironmentVariable("USERPROFILE") + "\\channelCache.json");
                 }
                 using (StreamWriter file = File.CreateText(System.Environment.GetEnvironmentVariable("USERPROFILE") + "\\channelCache.json"))
+                using (StreamWriter file = File.CreateText(Utils.CONF_PATH + "channelCache.json"))
                 {
                     JsonSerializer serializer = new JsonSerializer();
                     serializer.Serialize(file, channelsInfo.Values);

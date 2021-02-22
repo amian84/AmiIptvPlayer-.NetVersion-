@@ -12,5 +12,7 @@ namespace AmiIptvPlayer
         public string Title { get; set; }
         public string Year { get; set; }
         public JObject SearchData { get; set; }
+        public ChType ChType { get; set; }
     }
+    
 }

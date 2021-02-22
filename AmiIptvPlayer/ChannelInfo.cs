@@ -23,9 +23,12 @@ namespace AmiIptvPlayer
         public string URL { get; set; }
         public int ChNumber { get; set; }
         public ChType ChannelType { get; set; }
-
+        public bool seen { get; set; }
+        public double? currentPostion { get; set; }
+        public double? totalDuration { get; set; }
         public ChannelInfo()
         {
+            seen = false;
         }
 
         public ChannelInfo(M3uPlaylistEntry channelEntry)
@@ -47,6 +50,7 @@ namespace AmiIptvPlayer
             TVGGroup = Utils.DecodeToUTF8(MatchAndResult(extraInfoForParser, regexTVGGroup));
             TVGId = MatchAndResult(extraInfoForParser, regexTVGId);
             CalculateType();
+
 
         }
         public void CalculateType()

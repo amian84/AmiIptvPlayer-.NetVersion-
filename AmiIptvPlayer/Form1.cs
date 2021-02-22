@@ -36,10 +36,14 @@ namespace AmiIptvPlayer
         {
             public ChannelListItem(string text, int number)
             {
+                Seen = false;
+                Resume = false;
                 Text = text;
                 Number = number;
+                
             }
-
+            public bool Seen { get; set; }
+            public bool Resume { get; set; }
             public string Text { get; set; }
             public int Number { get; set; }
         }
@@ -51,7 +55,7 @@ namespace AmiIptvPlayer
         
         private JArray fillFilmResults = null;
         private JObject filmInfo = null;
-        private ChannelInfo currentChannel;
+        private ChannelInfo chnl;
         private ChType currentChType;
         private MPVPlayer playerForm;
         private bool isLoaded = false;
@@ -64,6 +68,7 @@ namespace AmiIptvPlayer
         private int dockFullScreen = -1;
         private static string ALL_GROUP = "All";
         private static string EMPTY_GROUP = "Without group";
+        
         public Form1()
         {
             InitializeComponent();
@@ -75,6 +80,7 @@ namespace AmiIptvPlayer
         }
         public void RepaintLabels()
         {
+            
             FileToolStripMenuItem.Text = Strings.FileTool;
             settingsToolStripMenuItem.Text = Strings.Settings;
             refreshEPGToolStripMenuItem.Text = Strings.RefreshEPGTool;
@@ -101,7 +107,7 @@ namespace AmiIptvPlayer
         }
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            MoveConf();
             playerForm = new MPVPlayer();
             playerForm.TopLevel = false;
             playerForm.FormBorderStyle = FormBorderStyle.None;
@@ -116,9 +122,31 @@ namespace AmiIptvPlayer
                ? ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString()
                : Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
-            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            
             chList.FullRowSelect = true;
-            if (!File.Exists(System.Environment.GetEnvironmentVariable("USERPROFILE") + "\\amiIptvConf.json"))
+            ImageList imageList = new ImageList();
+            var x = imageList.Images;
+            
+            imageList.Images.Add(Image.FromFile("./resources/images/seen2.png"));
+            imageList.Images.Add(Image.FromFile("./resources/images/resume.png"));
+            chList.SmallImageList= imageList;
+            LoadAmiSettings();
+            
+            RepaintLabels();
+            
+            Utils.GetAccountInfo();
+            LoadChannelSeen();
+            RefreshListView();
+            LoadChannels();
+            LoadEPG();
+            
+            
+        }
+
+        private void LoadAmiSettings()
+        {
+            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            if (!File.Exists(Utils.CONF_PATH + "amiIptvConf.json"))
             {
                 MessageBox.Show("Please check your configuration and save again to use new way to store the configuration.", "Possible wrong settings", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 AmiConfiguration amiConf = AmiConfiguration.Get();
@@ -139,45 +167,19 @@ namespace AmiIptvPlayer
                     string json = r.ReadToEnd();
                     AmiConfiguration item = JsonConvert.DeserializeObject<AmiConfiguration>(json);
                     AmiConfiguration.SetInstance(item);
-                    
+
                     if (item.UI_LANG == "SYSTEM")
                     {
                         Strings.Culture = CultureInfo.InstalledUICulture;
                     }
                     else
                     {
-                        Strings.Culture = new CultureInfo(item.availableLangs[item.UI_LANG]);
+                        Strings.Culture = new CultureInfo(item.UI_LANG);
                     }
                 }
             }
-            RepaintLabels();
-            Utils.GetAccountInfo();
-            
-            EPG_DB epg = EPG_DB.Get();
-            epg.epgEventFinish += FinishLoadEpg;
-            DefaultEpgLabels();
-            logoEPG.Image = Image.FromFile("./resources/images/info.png");
-            Channels channels = Channels.Get();
-            channels.SetUrl(AmiConfiguration.Get().URL_IPTV);
-            if (File.Exists(System.Environment.GetEnvironmentVariable("USERPROFILE") + "\\channelCache.json"))
-            {
-                channels = Channels.LoadFromJSON();
-                fillChannelList();
-            }
-            else
-            {
-                ChannelInfo ch = new ChannelInfo();
-                ch.Title = Strings.DEFAULT_MSG_NO_LIST;
-                ListViewItem i = new ListViewItem("0");
-                i.SubItems.Add(Strings.DEFAULT_MSG_NO_LIST);
-                chList.Items.Add(i);
-                lstListsChannels[ALL_GROUP].Add(new ChannelListItem(ch.Title, ch.ChNumber));
-                lstChannels.Add(new ChannelListItem(ch.Title, ch.ChNumber));
-            }
+        }
 
-            cmbGroups.Items.Clear();
-            
-            foreach(string group in lstListsChannels.Keys)
             {
                 cmbGroups.Items.Add(group);
 
@@ -187,10 +189,25 @@ namespace AmiIptvPlayer
             DateTime creationCacheChannel = File.GetLastWriteTimeUtc(System.Environment.GetEnvironmentVariable("USERPROFILE") + "\\channelCache.json");
             if (File.Exists(System.Environment.GetEnvironmentVariable("USERPROFILE") + "\\channelCache.json")
                 && creationCacheChannel.Day < DateTime.Now.Day - 1)
+        private void LoadChannelSeen()
+        {
+            if (File.Exists(Utils.CONF_PATH + "amiIptvChannelSeen.json"))
             {
-                RefreshChList(false);
+                using (StreamReader r = new StreamReader(Utils.CONF_PATH + "amiIptvChannelSeen.json"))
+                {
+                    string json = r.ReadToEnd();
+                    SeenResumeChannels items = JsonConvert.DeserializeObject<SeenResumeChannels>(json);
+                    SeenResumeChannels.Get().Set(items);
+                }
             }
+        }
 
+        private void LoadEPG()
+        {
+            EPG_DB epg = EPG_DB.Get();
+            epg.epgEventFinish += FinishLoadEpg;
+            DefaultEpgLabels();
+            logoEPG.Image = Image.FromFile("./resources/images/info.png");
 
             if (File.Exists(System.Environment.GetEnvironmentVariable("USERPROFILE") + "\\amiiptvepgCache.json"))
             {
@@ -201,12 +218,10 @@ namespace AmiIptvPlayer
             if (File.Exists(System.Environment.GetEnvironmentVariable("USERPROFILE") + "\\amiiptvepgCache.json")
                 && creation.Day < DateTime.Now.Day - 1)
             {
-                //DownloadEPGFile(epg, config.AppSettings.Settings["Epg"].Value);
-                
+                DownloadEPGFile(epg, AmiConfiguration.Get().URL_EPG);
             }
             else
             {
-                if (File.Exists(System.Environment.GetEnvironmentVariable("USERPROFILE") + "\\amiiptvepgCache.json"))
                 {
                     epg = EPG_DB.LoadFromJSON();
                 }
@@ -228,7 +243,46 @@ namespace AmiIptvPlayer
                 }
 
             }
-            
+        }
+
+        private void LoadChannels()
+        {
+            Channels channels = Channels.Get();
+            channels.SetUrl(AmiConfiguration.Get().URL_IPTV);
+            if (File.Exists(Utils.CONF_PATH + "channelCache.json"))
+            {
+                channels = Channels.LoadFromJSON();
+                fillChannelList();
+            }
+            else
+            {
+                ChannelInfo ch = new ChannelInfo();
+                ch.Title = Strings.DEFAULT_MSG_NO_LIST;
+                ListViewItem i = new ListViewItem("0");
+                i.SubItems.Add(Strings.DEFAULT_MSG_NO_LIST);
+                chList.Items.Add(i);
+                var x = new ChannelListItem(ch.Title, ch.ChNumber);
+                x.Seen = ch.seen;
+                x.Resume = ch.currentPostion!=null;
+                lstListsChannels[ALL_GROUP].Add(x);
+                lstChannels.Add(x);
+            }
+
+            cmbGroups.Items.Clear();
+
+            foreach (string group in lstListsChannels.Keys)
+            {
+                cmbGroups.Items.Add(group);
+
+            }
+            cmbGroups.SelectedIndex = 0;
+
+            DateTime creationCacheChannel = File.GetLastWriteTimeUtc(Utils.CONF_PATH + "channelCache.json");
+            if (File.Exists(Utils.CONF_PATH + "channelCache.json")
+                && creationCacheChannel.Day < DateTime.Now.Day - 1)
+            {
+                RefreshChList(false);
+            }
         }
 
         private void FinishLoadEpg(EPG_DB epg, EPGEventArgs e)
@@ -320,7 +374,21 @@ namespace AmiIptvPlayer
                 Thread.Sleep(500);
                 currLang = -1;
                 currSub = -1;
-                playerForm.SetMedia(channel.URL, 0, currLang, currSub);
+                int currPostion = 0;
+                if (channel.currentPostion!=null && !channel.seen)
+                {
+                    
+                    if (MessageBox.Show(owner:this, Strings.Resume, "AmiIptvPlayer", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
+                        currPostion = (int)channel.currentPostion;
+                    else
+                    {
+                        channel.currentPostion = null;
+                        SeenResumeChannels.Get().RemoveResume(channel.Title);
+                        RefreshListView();
+                    }
+                    
+                }
+                playerForm.SetMedia(channel.URL, currPostion, currLang, currSub);
                 try
                 {
                     string chName = channel.TVGName.Length < 100 ? channel.TVGName : channel.TVGName.Substring(0, 99);
@@ -346,7 +414,7 @@ namespace AmiIptvPlayer
                     title = title.Substring(0, 20) + "...";
                 }
                 lbChName.Text = title;
-                currentChannel = channel;
+                chnl = channel;
                 currentChType = channel.ChannelType;
                 SetEPG(channel);
 
@@ -496,7 +564,7 @@ namespace AmiIptvPlayer
 
         public ChannelInfo GetCurrentChannel()
         {
-            return currentChannel;
+            return chnl;
         }
 
         
@@ -545,7 +613,23 @@ namespace AmiIptvPlayer
         
         private void fillChannelList()
         {
+            FillChList();
+            chList.Invoke((System.Threading.ThreadStart)delegate {
+                chList.Items.Clear();
+                chList.Items.AddRange(lstListsChannels[ALL_GROUP].Select(c => {
+                    var x = new ListViewItem(new string[] { c.Number.ToString(), c.Text });
+                    if (c.Seen)
+                        x.ImageIndex = 0;
+                    else if (c.Resume)
+                        x.ImageIndex = 1;
+                    return x;
+                }).ToArray());
 
+            });
+        }
+
+        private void FillChList()
+        {
             Channels channels = Channels.Get();
             List<ChannelListItem> woGroup = new List<ChannelListItem>();
             lstListsChannels.Clear();
@@ -556,12 +640,15 @@ namespace AmiIptvPlayer
             {
                 int chNumber = elem.Key;
                 ChannelInfo channel = elem.Value;
-                lstChannels.Add(new ChannelListItem(channel.Title, channel.ChNumber));
-                lstListsChannels[ALL_GROUP].Add(new ChannelListItem(channel.Title, channel.ChNumber));
+                ChannelListItem chanItem = new ChannelListItem(channel.Title, channel.ChNumber);
+                chanItem.Seen = channel.seen;
+                chanItem.Resume = channel.currentPostion != null;
+                lstChannels.Add(chanItem);
+                lstListsChannels[ALL_GROUP].Add(chanItem);
                 string group = channel.TVGGroup;
                 if (string.IsNullOrEmpty(group))
                 {
-                    woGroup.Add(new ChannelListItem(channel.Title, channel.ChNumber));
+                    woGroup.Add(chanItem);
                 }
                 else
                 {
@@ -569,23 +656,40 @@ namespace AmiIptvPlayer
                     {
                         lstListsChannels[group] = new List<ChannelListItem>();
                     }
-                    lstListsChannels[group].Add(new ChannelListItem(channel.Title, channel.ChNumber));
+                    lstListsChannels[group].Add(chanItem);
                 }
             }
             if (woGroup.Count > 0)
             {
                 lstListsChannels[EMPTY_GROUP] = woGroup;
             }
-            chList.Invoke((System.Threading.ThreadStart)delegate {
-                chList.Items.Clear();
-                chList.Items.AddRange(lstListsChannels[ALL_GROUP].Select(c =>  new ListViewItem(new string[] { c.Number.ToString(), c.Text })).ToArray());
+        }
+
+        public void RefreshListView()
+        {
+            FillChList();
+            chList.Invoke((System.Threading.ThreadStart)delegate
+            {
+                foreach (ListViewItem item in chList.Items)
+                {
+                    item.ImageIndex = -1;
+                    var channel = Channels.Get().GetChannel(int.Parse(item.SubItems[0].Text));
+                    if (channel.seen)
+                    {
+                        item.ImageIndex = 0;
+                    }
+                    else if (channel.currentPostion != null)
+                    {
+                        item.ImageIndex = 1;
+                    }
+                    
+                }
             });
         }
 
-
         private void quitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Form1_FormClosing(this, null);
+            System.Windows.Forms.Application.Exit();
         }
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
@@ -617,7 +721,12 @@ namespace AmiIptvPlayer
                 {
                     if (item.Text.ToLower().Contains(txtFilter.Text.ToLower()))
                     {
-                        listCh.Add(new ListViewItem(new string[] { item.Number.ToString(), item.Text }));
+                        var chItem = new ListViewItem(new string[] { item.Number.ToString(), item.Text });
+                        if (item.Seen)
+                            chItem.ImageIndex = 0;
+                        else if (item.Resume)
+                            chItem.ImageIndex = 1;
+                        listCh.Add(chItem);
                     }
                 }
                 chList.Invoke((System.Threading.ThreadStart)delegate
@@ -712,19 +821,52 @@ namespace AmiIptvPlayer
             }).Start();
         }
 
+        private void SaveSeen()
+        {
+            if (File.Exists(Utils.CONF_PATH + "amiIptvChannelSeen.json"))
+            {
+                File.Delete(Utils.CONF_PATH + "amiIptvChannelSeen.json");
+            }
+               
+            SeenResumeChannels channels = SeenResumeChannels.Get();
+            foreach (var ch in Channels.Get().GetChannelsDic().Values)
+            {
+                if (ch.ChannelType == ChType.MOVIE|| ch.ChannelType == ChType.SHOW )
+                {
+                    if (ch.seen)
+                    {
+                        SeenResumeChannels.Get().UpdateOrSetSeen(ch.Title, true, ch.totalDuration == null ? -1 : (double)ch.totalDuration, DateTime.Now);     
+                    }
+                    else
+                    {
+                        if (ch.currentPostion != null)
+                        {
+                            SeenResumeChannels.Get().UpdateOrSetResume(ch.Title, (double)ch.currentPostion, ch.totalDuration==null ? -1:(double)ch.totalDuration, DateTime.Now);
+                        }
+                    }
+                }
+            }
+            using (StreamWriter file = File.CreateText(Utils.CONF_PATH + "amiIptvChannelSeen.json"))
+            {
+                JsonSerializer serializer = new JsonSerializer();
+                serializer.Serialize(file, channels);
+            }
+         
+        }
        
         private void exit()
         {
+            SaveSeen();
             playerForm.ExitApp(true);
             playerForm.Stop();
             EPG_DB epg = EPG_DB.Get();
             epg.epgEventFinish -= FinishLoadEpg;
-            
-            System.Windows.Forms.Application.Exit();
+            epg.Stop();
         }
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             exit();
+            
         }
 
         
@@ -738,7 +880,7 @@ namespace AmiIptvPlayer
             }
             else
             {
-                if (currentChannel!= null && (currentChType == ChType.MOVIE || currentChType == ChType.SHOW))
+                if (chnl!= null && (currentChType == ChType.MOVIE || currentChType == ChType.SHOW))
                 {
                     if (filmInfo != null)
                     {
@@ -780,7 +922,7 @@ namespace AmiIptvPlayer
         }
         private void btnFixId_Click(object sender, EventArgs e)
         {
-            List<SearchIdent> listSearch = Utils.TransformJArrayToSearchIdent(fillFilmResults);
+            List<SearchIdent> listSearch = Utils.TransformJArrayToSearchIdent(fillFilmResults, GetCurrentChannel().ChannelType);
             FixIdent fixident = new FixIdent();
             fixident.SetSearch(listSearch);
             fixident.SetSearchText(Utils.LastSearch);
@@ -791,10 +933,10 @@ namespace AmiIptvPlayer
 
         private void btnURLInfo_Click(object sender, EventArgs e)
         {
-            if (currentChannel != null)
+            if (chnl != null)
             {
                 URLInfo uRLInfo = new URLInfo();
-                uRLInfo.setURL(currentChannel.URL);
+                uRLInfo.setURL(chnl.URL);
                 uRLInfo.StartPosition = FormStartPosition.CenterParent;
                 uRLInfo.ShowDialog();
             }
@@ -858,7 +1000,7 @@ namespace AmiIptvPlayer
 
             if (isLoaded)
             {
-                playerForm.SetMedia(currentChannel.URL, Convert.ToInt32(currPos), currLang, currSub);
+                playerForm.SetMedia(chnl.URL, Convert.ToInt32(currPos), currLang, currSub);
 
             }
             playerForm.Show();
@@ -909,7 +1051,16 @@ namespace AmiIptvPlayer
                     {
                         selected = ALL_GROUP;
                     }
-                    chList.Items.AddRange(lstListsChannels[selected].Select(c => new ListViewItem(new string[] { c.Number.ToString(), c.Text })).ToArray());
+                    chList.Items.AddRange(lstListsChannels[selected].Select(c =>
+                    {
+                        var x = new ListViewItem(new string[] { c.Number.ToString(), c.Text });
+                        if (c.Seen)
+                            x.ImageIndex = 0;
+                        else if (c.Resume)
+                            x.ImageIndex = 1;
+                        return x;
+                    }
+                    ).ToArray());
                 });
                 selectedList = selected;
                 txtLoadCh.Invoke((System.Threading.ThreadStart)delegate
@@ -928,8 +1079,8 @@ namespace AmiIptvPlayer
 
         public void NextChannel()
         {
-            ChannelInfo channel = Channels.Get().GetChannel(currentChannel.ChNumber + 1);
-            ChangeChannelTo(channel, (currentChannel.ChNumber + 1).ToString());
+            ChannelInfo channel = Channels.Get().GetChannel(chnl.ChNumber + 1);
+            ChangeChannelTo(channel, (chnl.ChNumber + 1).ToString());
         }
 
         public void ChannelToNumber(int number)
@@ -940,8 +1091,66 @@ namespace AmiIptvPlayer
 
         public void PrevChannel()
         {
-            ChannelInfo channel = Channels.Get().GetChannel(currentChannel.ChNumber - 1);
-            ChangeChannelTo(channel, (currentChannel.ChNumber - 1).ToString());
+            ChannelInfo channel = Channels.Get().GetChannel(chnl.ChNumber - 1);
+            ChangeChannelTo(channel, (chnl.ChNumber - 1).ToString());
+        }
+
+        private void chList_MouseDown(object sender, MouseEventArgs e)
+        {
+            
+        }
+
+        private void chList_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                var channel = Channels.Get().GetChannel(int.Parse(chList.SelectedItems[0].SubItems[0].Text));
+                if (channel.ChannelType == ChType.MOVIE || channel.ChannelType == ChType.SHOW)
+                {
+                    if (SeenResumeChannels.Get().IsSeen(chList.SelectedItems[0].SubItems[1].Text))
+                    {
+                        menuItemChnSeen.Text = Strings.UnSeen;
+                    }
+                    else
+                    {
+                        menuItemChnSeen.Text = Strings.Seen;
+                    }
+                    if (SeenResumeChannels.Get().IsResume(chList.SelectedItems[0].SubItems[1].Text))
+                    {
+                        menuItemChnResum.Text = Strings.UnResume;
+                        menuItemChnResum.Visible = true;
+                    }
+                    else
+                    {
+                        menuItemChnResum.Visible = false;
+                    }
+                    contextMenuChannel.Show(Cursor.Position);
+                }
+            }
+        }
+
+        private void menuItemChnResum_Click(object sender, EventArgs e)
+        {
+            var channel = Channels.Get().GetChannel(int.Parse(chList.SelectedItems[0].SubItems[0].Text));
+            channel.currentPostion = null;
+            SeenResumeChannels.Get().RemoveResume(channel.Title);
+            RefreshListView();
+        }
+
+        private void menuItemChnSeen_Click(object sender, EventArgs e)
+        {
+            var channel = Channels.Get().GetChannel(int.Parse(chList.SelectedItems[0].SubItems[0].Text));
+            if (SeenResumeChannels.Get().IsSeen(chList.SelectedItems[0].SubItems[1].Text))
+            {
+                channel.seen = false;
+                SeenResumeChannels.Get().RemoveSeen(channel.Title);
+            }
+            else
+            {
+                channel.seen = true;
+                SeenResumeChannels.Get().UpdateOrSetSeen(channel.Title, true, channel.totalDuration==null?-1:(double)channel.totalDuration, DateTime.Now);
+            }
+            RefreshListView();
         }
     }
 }
