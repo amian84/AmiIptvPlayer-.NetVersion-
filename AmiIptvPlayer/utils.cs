@@ -236,6 +236,8 @@ namespace AmiIptvPlayer
 
     public class Utils
     {
+        public static string CONF_PATH = System.Environment.GetEnvironmentVariable("USERPROFILE") + "\\AmiIptvPlayer\\";
+        public static string CONF_PATH_OLD = System.Environment.GetEnvironmentVariable("USERPROFILE") + "\\";
         public static string LastSearch = "";
         public static string PosterBasePath = "https://image.tmdb.org/t/p/original";
         public static Dictionary<string, string> audios = new Dictionary<string, string>
@@ -250,6 +252,14 @@ namespace AmiIptvPlayer
             { "spa", Strings.AS_SP},
             { "eng", Strings.AS_EN }
         };
+
+        public static void MoveFile(string fileSource, string fileDest)
+        {
+            if (File.Exists(fileSource))
+            {
+                File.Move(fileSource, fileDest);
+            }
+        }
         public static async Task<string> GetAsync(string uri)
         {
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(uri);

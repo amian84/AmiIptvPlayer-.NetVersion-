@@ -37,7 +37,7 @@ namespace AmiIptvPlayer
             lbHeader.Text = Strings.AccountInfoHead;
             this.Text = Strings.AccountInfoTitle;
             lbServerText.Text = Strings.Server;
-            lbUserText.Text = Strings.User;
+            lbUserText.Text = Strings.User + ":";
             btnClose.Text = Strings.Close;
             btnRefresh.Text = Strings.Refresh;
         }

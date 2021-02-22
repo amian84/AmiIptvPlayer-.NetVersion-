@@ -94,15 +94,15 @@ namespace AmiIptvPlayer
             btnURLInfo.Text = Strings.URLinfo;
             lbGroups.Text = Strings.GROUPS;
             lbFilterList.Text = Strings.FilterList;
-            lbDescriptionTitle.Text = Strings.lbDescriptionTitle;
-            lbTitleTitle.Text = Strings.lbTitleTitle;
+            lbDescriptionTitle.Text = Strings.lbDescriptionTitle + ":";
+            lbTitleTitle.Text = Strings.lbTitleTitle + ":";
             lbYearsTitle.Text = Strings.lbYearsTitle;
             lbVersionText.Text = Strings.Version;
             lbEPGLoaded.Text = Strings.EPGloaded;
             lbEndTimeTitle.Text = Strings.lbEndTimeTitle;
             lbStarsTitle.Text = Strings.lbStarsTitle;
             lbStartTimeTitle.Text = Strings.lbStartTimeTitle;
-            chName.Text = Strings.lbTitleTitle;
+            chName.Text = Strings.lbTitleTitle + ":";
             accountInfoToolStripMenuItem.Text = Strings.AccountInfoTitle;
         }
         private void Form1_Load(object sender, EventArgs e)
@@ -154,7 +154,7 @@ namespace AmiIptvPlayer
                 amiConf.DEF_SUB = config.AppSettings.Settings["sub"].Value;
                 amiConf.URL_IPTV = config.AppSettings.Settings["Url"].Value;
                 amiConf.URL_EPG = config.AppSettings.Settings["Epg"].Value;
-                using (StreamWriter file = File.CreateText(System.Environment.GetEnvironmentVariable("USERPROFILE") + "\\amiIptvConf.json"))
+                using (StreamWriter file = File.CreateText(Utils.CONF_PATH + "amiIptvConf.json"))
                 {
                     JsonSerializer serializer = new JsonSerializer();
                     serializer.Serialize(file, amiConf);
@@ -162,7 +162,7 @@ namespace AmiIptvPlayer
             }
             else
             {
-                using (StreamReader r = new StreamReader(System.Environment.GetEnvironmentVariable("USERPROFILE") + "\\amiIptvConf.json"))
+                using (StreamReader r = new StreamReader(Utils.CONF_PATH + "amiIptvConf.json"))
                 {
                     string json = r.ReadToEnd();
                     AmiConfiguration item = JsonConvert.DeserializeObject<AmiConfiguration>(json);
@@ -180,15 +180,19 @@ namespace AmiIptvPlayer
             }
         }
 
+        private void MoveConf()
+        {
+            if (!Directory.Exists(Utils.CONF_PATH))
             {
-                cmbGroups.Items.Add(group);
-
+                Directory.CreateDirectory(Utils.CONF_PATH);
+                Utils.MoveFile(Utils.CONF_PATH_OLD + "amiIptvChannelSeen.json", Utils.CONF_PATH + "amiIptvChannelSeen.json");
+                Utils.MoveFile(Utils.CONF_PATH_OLD + "channelCache.json", Utils.CONF_PATH + "channelCache.json");
+                Utils.MoveFile(Utils.CONF_PATH_OLD + "amiIptvConf.json", Utils.CONF_PATH + "amiIptvConf.json");
+                Utils.MoveFile(Utils.CONF_PATH_OLD + "amiiptvepg.xml", Utils.CONF_PATH + "amiiptvepg.xml");
+                Utils.MoveFile(Utils.CONF_PATH_OLD + "amiiptvepgCache.json", Utils.CONF_PATH + "amiiptvepgCache.json");
+                
             }
-            cmbGroups.SelectedIndex = 0;
-
-            DateTime creationCacheChannel = File.GetLastWriteTimeUtc(System.Environment.GetEnvironmentVariable("USERPROFILE") + "\\channelCache.json");
-            if (File.Exists(System.Environment.GetEnvironmentVariable("USERPROFILE") + "\\channelCache.json")
-                && creationCacheChannel.Day < DateTime.Now.Day - 1)
+        }
         private void LoadChannelSeen()
         {
             if (File.Exists(Utils.CONF_PATH + "amiIptvChannelSeen.json"))
@@ -209,23 +213,24 @@ namespace AmiIptvPlayer
             DefaultEpgLabels();
             logoEPG.Image = Image.FromFile("./resources/images/info.png");
 
-            if (File.Exists(System.Environment.GetEnvironmentVariable("USERPROFILE") + "\\amiiptvepgCache.json"))
+            if (File.Exists(Utils.CONF_PATH + "amiiptvepgCache.json"))
             {
                 epg = EPG_DB.LoadFromJSON();
             }
 
-            DateTime creation = File.GetLastWriteTimeUtc(System.Environment.GetEnvironmentVariable("USERPROFILE") + "\\amiiptvepgCache.json");
-            if (File.Exists(System.Environment.GetEnvironmentVariable("USERPROFILE") + "\\amiiptvepgCache.json")
+            DateTime creation = File.GetLastWriteTimeUtc(Utils.CONF_PATH + "amiiptvepgCache.json");
+            if (File.Exists(Utils.CONF_PATH + "amiiptvepgCache.json")
                 && creation.Day < DateTime.Now.Day - 1)
             {
                 DownloadEPGFile(epg, AmiConfiguration.Get().URL_EPG);
             }
             else
             {
+                if (File.Exists(Utils.CONF_PATH + "amiiptvepgCache.json"))
                 {
                     epg = EPG_DB.LoadFromJSON();
                 }
-                else if (File.Exists(System.Environment.GetEnvironmentVariable("USERPROFILE") + "\\amiiptvepg.xml"))
+                else if (File.Exists(Utils.CONF_PATH + "amiiptvepg.xml"))
                 {
                     lbProcessingEPG.Text = Strings.LOADING;
                     epg.ParseDB();
@@ -235,7 +240,7 @@ namespace AmiIptvPlayer
                     DownloadEPGFile(epg, "http://bit.ly/AVappEPG");
                     AmiConfiguration amiConf = AmiConfiguration.Get();
                     amiConf.URL_EPG = "http://bit.ly/AVappEPG";
-                    using (StreamWriter file = File.CreateText(System.Environment.GetEnvironmentVariable("USERPROFILE") + "\\amiIptvConf.json"))
+                    using (StreamWriter file = File.CreateText(Utils.CONF_PATH + "amiIptvConf.json"))
                     {
                         JsonSerializer serializer = new JsonSerializer();
                         serializer.Serialize(file, amiConf);
@@ -317,11 +322,11 @@ namespace AmiIptvPlayer
 
                         string tempFile = Path.GetTempFileName();
                         client.DownloadFile(url, tempFile);
-                        if (File.Exists(System.Environment.GetEnvironmentVariable("USERPROFILE") + "\\amiiptvepg.xml"))
+                        if (File.Exists(Utils.CONF_PATH + "amiiptvepg.xml"))
                         {
-                            File.Delete(System.Environment.GetEnvironmentVariable("USERPROFILE") + "\\amiiptvepg.xml");
+                            File.Delete(Utils.CONF_PATH + "amiiptvepg.xml");
                         }
-                        File.Move(tempFile, System.Environment.GetEnvironmentVariable("USERPROFILE") + "\\amiiptvepg.xml");
+                        File.Move(tempFile, Utils.CONF_PATH + "amiiptvepg.xml");
 
                         epgDB.Refresh = false;
 

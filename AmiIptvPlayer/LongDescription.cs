@@ -25,12 +25,12 @@ namespace AmiIptvPlayer
             this.ActiveControl = lbTitleEPG;
             this.Text = Strings.LongDescriptionTitle;
             lbCategoryTitle.Text = Strings.lbCategoryTitle;
-            lbCountryTitle.Text = Strings.lbCountryTitle;
-            lbDescriptionTitle.Text = Strings.lbDescriptionTitle;
+            lbCountryTitle.Text = Strings.lbCountryTitle + ":";
+            lbDescriptionTitle.Text = Strings.lbDescriptionTitle + ":";
             lbEndTimeTitle.Text = Strings.lbEndTimeTitle;
             lbStarTimeTitle.Text = Strings.lbStartTimeTitle;
             lbStarsTitle.Text = Strings.lbStarsTitle;
-            lbTitleTitle.Text = Strings.lbTitleTitle;
+            lbTitleTitle.Text = Strings.lbTitleTitle + ":";
             lbRatingsTitle.Text = Strings.lbRatingsTitle;
             lbReleaseDateTitle.Text = Strings.lbReleaseDateTitle;
 

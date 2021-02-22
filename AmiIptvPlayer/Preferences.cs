@@ -116,7 +116,7 @@ namespace AmiIptvPlayer
             amiconf.DEF_LANG = Utils.GetAudioConfName(audio.SelectedItem.ToString());
             amiconf.DEF_SUB = Utils.GetSubConfName(sub.SelectedItem.ToString());
 
-            using (StreamWriter file = File.CreateText(System.Environment.GetEnvironmentVariable("USERPROFILE") + "\\amiIptvConf.json"))
+            using (StreamWriter file = File.CreateText(Utils.CONF_PATH + "amiIptvConf.json"))
             {
                 JsonSerializer serializer = new JsonSerializer();
                 serializer.Serialize(file, amiconf);
@@ -163,5 +163,7 @@ namespace AmiIptvPlayer
                 }
             }
         }
+
+       
     }
 }

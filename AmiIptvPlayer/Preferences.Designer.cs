@@ -41,6 +41,8 @@
             this.sub = new System.Windows.Forms.ComboBox();
             this.lbSettingsUILang = new System.Windows.Forms.Label();
             this.cmbUI = new System.Windows.Forms.ComboBox();
+            this.lbRequestEmail = new System.Windows.Forms.Label();
+            this.txtRequestEmail = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // lbSettingsURL
@@ -83,7 +85,7 @@
             // 
             // btnOk
             // 
-            this.btnOk.Location = new System.Drawing.Point(201, 197);
+            this.btnOk.Location = new System.Drawing.Point(201, 222);
             this.btnOk.Margin = new System.Windows.Forms.Padding(2);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(66, 30);
@@ -94,7 +96,7 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(287, 197);
+            this.btnCancel.Location = new System.Drawing.Point(287, 222);
             this.btnCancel.Margin = new System.Windows.Forms.Padding(2);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.RightToLeft = System.Windows.Forms.RightToLeft.Yes;

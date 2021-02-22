@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Threading;
 using System.Xml;
 
 namespace AmiIptvPlayer
@@ -17,6 +18,7 @@ namespace AmiIptvPlayer
 
     public class EPG_DB
     {
+        private Thread parseThread;
         public event FinishParsed epgEventFinish;
         public delegate void FinishParsed(EPG_DB epg, EPGEventArgs e);
         private static EPG_DB _instance;
@@ -45,7 +47,7 @@ namespace AmiIptvPlayer
                 _instance = new EPG_DB();
             }
             bool deleteJson = false;
-            using (StreamReader r = new StreamReader(System.Environment.GetEnvironmentVariable("USERPROFILE") + "\\amiiptvepgCache.json"))
+            using (StreamReader r = new StreamReader(Utils.CONF_PATH + "amiiptvepgCache.json"))
             {
                 try
                 {
@@ -66,7 +68,7 @@ namespace AmiIptvPlayer
             }
             if (deleteJson)
             {
-                File.Delete(System.Environment.GetEnvironmentVariable("USERPROFILE") + "\\amiiptvepgCache.json");
+                File.Delete(Utils.CONF_PATH + "amiiptvepgCache.json");
             }
             
             return _instance;
@@ -78,7 +80,7 @@ namespace AmiIptvPlayer
             XmlDocument doc = new XmlDocument();
             try
             {
-                doc.Load(System.Environment.GetEnvironmentVariable("USERPROFILE") + "\\amiiptvepg.xml");
+                doc.Load(Utils.CONF_PATH + "amiiptvepg.xml");
                 XmlNodeList list_programs = doc.SelectNodes("/tv/programme");
                 foreach (XmlNode prg in list_programs)
                 {
@@ -159,18 +161,18 @@ namespace AmiIptvPlayer
                     }
                     DB[channelID][prginfo.StartTime.Year][prginfo.StartTime.Month][prginfo.StartTime.Day].Add(prginfo);
                 }
-                using (StreamWriter file = File.CreateText(System.Environment.GetEnvironmentVariable("USERPROFILE") + "\\amiiptvepgCache.json"))
+                using (StreamWriter file = File.CreateText(Utils.CONF_PATH + "amiiptvepgCache.json"))
                 {
                     JsonSerializer serializer = new JsonSerializer();
                     serializer.Serialize(file, DB);
                 }
-                epgEventFinish(this, epgEvent);
+                epgEventFinish?.Invoke(this, epgEvent);
                 Loaded = true;
             }catch (Exception ex)
             {
-                File.Delete(System.Environment.GetEnvironmentVariable("USERPROFILE") + "\\amiiptvepg.xml");
+                File.Delete(Utils.CONF_PATH + "amiiptvepg.xml");
                 epgEvent.Error = true;
-                epgEventFinish(this, epgEvent);
+                epgEventFinish?.Invoke(this, epgEvent);
                 Loaded = false;
             }
             
@@ -178,11 +180,22 @@ namespace AmiIptvPlayer
 
         public void ParseDB()
         {
-            new System.Threading.Thread(delegate ()
+            parseThread = new System.Threading.Thread(delegate ()
             {
                 Parse();
 
-            }).Start();
+            });
+            parseThread.IsBackground = true;
+            parseThread.Start();
+            
+        }
+
+        public void Stop()
+        {
+            if (parseThread != null && parseThread.IsAlive)
+            {
+                parseThread.Abort();    
+            }
         }
 
         public PrgInfo GetCurrentProgramm(ChannelInfo channel)

@@ -58,7 +58,7 @@ namespace AmiIptvPlayer
             {
                 instance = new Channels();
             }
-            using (StreamReader r = new StreamReader(System.Environment.GetEnvironmentVariable("USERPROFILE") + "\\channelCache.json"))
+            using (StreamReader r = new StreamReader(Utils.CONF_PATH + "channelCache.json"))
             {
                 string json = r.ReadToEnd();
                 List<ChannelInfo> items = JsonConvert.DeserializeObject<List<ChannelInfo>>(json);
@@ -161,11 +161,10 @@ namespace AmiIptvPlayer
                         channelNumber++;
                     }
                 }
-                if (File.Exists(System.Environment.GetEnvironmentVariable("USERPROFILE") + "\\channelCache.json"))
+                if (File.Exists(Utils.CONF_PATH +  "channelCache.json"))
                 {
-                    File.Delete(System.Environment.GetEnvironmentVariable("USERPROFILE") + "\\channelCache.json");
+                    File.Delete(Utils.CONF_PATH + "channelCache.json");
                 }
-                using (StreamWriter file = File.CreateText(System.Environment.GetEnvironmentVariable("USERPROFILE") + "\\channelCache.json"))
                 using (StreamWriter file = File.CreateText(Utils.CONF_PATH + "channelCache.json"))
                 {
                     JsonSerializer serializer = new JsonSerializer();

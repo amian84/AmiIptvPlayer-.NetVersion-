@@ -94,7 +94,7 @@ namespace AmiIptvPlayer
                 string textToSearch = txtSearch.Text;
                 dynamic result = Utils.GetFilmInfo(formParent.GetCurrentChannel().ChannelType, textToSearch, null, "es");
                 JArray fillFilmResults = result["results"];
-                List<SearchIdent> listSearch = Utils.TransformJArrayToSearchIdent(fillFilmResults);
+                List<SearchIdent> listSearch = Utils.TransformJArrayToSearchIdent(fillFilmResults, formParent.GetCurrentChannel().ChannelType);
                 SetSearch(listSearch);
             }
             
