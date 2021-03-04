@@ -80,7 +80,7 @@ namespace AmiIptvPlayer
         }
         public void RepaintLabels()
         {
-            
+            parentalControlToolStripMenuItem.Text = Strings.ParentalControl;
             FileToolStripMenuItem.Text = Strings.FileTool;
             settingsToolStripMenuItem.Text = Strings.Settings;
             refreshEPGToolStripMenuItem.Text = Strings.RefreshEPGTool;
@@ -126,11 +126,9 @@ namespace AmiIptvPlayer
 #else
             lbVersion.Text = ApplicationDeployment.IsNetworkDeployed
                ? ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString()
-               : Assembly.GetExecutingAssembly().GetName().Version.ToString();
           : Assembly.GetExecutingAssembly().GetName().Version.ToString();
 #endif
 
-            
             chList.FullRowSelect = true;
             ImageList imageList = new ImageList();
             var x = imageList.Images;
@@ -144,6 +142,7 @@ namespace AmiIptvPlayer
             
             Utils.GetAccountInfo();
             LoadChannelSeen();
+            LoadParentalControl();
             RefreshListView();
             LoadChannels();
             LoadEPG();
@@ -210,6 +209,22 @@ namespace AmiIptvPlayer
                     string json = r.ReadToEnd();
                     SeenResumeChannels items = JsonConvert.DeserializeObject<SeenResumeChannels>(json);
                     SeenResumeChannels.Get().Set(items);
+                }
+            }
+        }
+
+        private void LoadParentalControl()
+        {
+            if (File.Exists(Utils.CONF_PATH + "amiIptvParentalControl.json"))
+            {
+                using (StreamReader r = new StreamReader(Utils.CONF_PATH + "amiIptvParentalControl.json"))
+                {
+                    string json = r.ReadToEnd();
+                    List<ChannelInfo> blockChannels = JsonConvert.DeserializeObject<List<ChannelInfo>>(json);
+                    foreach(var ch in blockChannels)
+                    {
+                        ParentalControl.Get().AddBlockList(ch);
+                    }
                 }
             }
         }
@@ -381,6 +396,17 @@ namespace AmiIptvPlayer
             }
             else
             {
+                if (ParentalControl.Get().IsChBlock(channel))
+                {
+                    using (var askForm = new AskPass())
+                    {
+                        var result = askForm.ShowDialog();
+                        if (result == DialogResult.Cancel)
+                        {
+                            return;
+                        }
+                    }
+                }
                 playerForm.Stop();
                 playerForm.SetIsChannel(channel.ChannelType == ChType.CHANNEL);
                 playerForm.SetIsPaused(false);
@@ -1170,6 +1196,26 @@ namespace AmiIptvPlayer
         {
             RequestVOD rvod = new RequestVOD();
             rvod.ShowDialog();
+        }
+
+        private void parentalControlToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (String.IsNullOrEmpty(AmiConfiguration.Get().PARENTAL_PASS))
+            {
+                MessageBox.Show(Strings.FillParentalPass, Strings.ERROR, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else {
+                using (var askForm = new AskPass())
+                {
+                    var result = askForm.ShowDialog();
+                    if (result == DialogResult.OK)
+                    {
+                        ParentalControlForm pcontrol = new ParentalControlForm();
+                        pcontrol.ShowDialog();
+                    }
+                }
+                
+            }
         }
     }
 }

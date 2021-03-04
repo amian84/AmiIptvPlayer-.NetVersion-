@@ -38,6 +38,8 @@
             this.quitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.accountInfoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.requestNewVODToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.parentalControlToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.chList = new System.Windows.Forms.ListView();
@@ -80,7 +82,7 @@
             this.contextMenuChannel = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.menuItemChnSeen = new System.Windows.Forms.ToolStripMenuItem();
             this.menuItemChnResum = new System.Windows.Forms.ToolStripMenuItem();
-            this.requestNewVODToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.lbPortables = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.loadingPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.logoChannel)).BeginInit();
@@ -149,7 +151,8 @@
             // 
             this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.accountInfoToolStripMenuItem,
-            this.requestNewVODToolStripMenuItem});
+            this.requestNewVODToolStripMenuItem,
+            this.parentalControlToolStripMenuItem});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
             this.toolsToolStripMenuItem.Size = new System.Drawing.Size(46, 20);
             this.toolsToolStripMenuItem.Text = "Tools";
@@ -157,9 +160,23 @@
             // accountInfoToolStripMenuItem
             // 
             this.accountInfoToolStripMenuItem.Name = "accountInfoToolStripMenuItem";
-            this.accountInfoToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.accountInfoToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
             this.accountInfoToolStripMenuItem.Text = "Account Info";
             this.accountInfoToolStripMenuItem.Click += new System.EventHandler(this.accountInfoToolStripMenuItem_Click);
+            // 
+            // requestNewVODToolStripMenuItem
+            // 
+            this.requestNewVODToolStripMenuItem.Name = "requestNewVODToolStripMenuItem";
+            this.requestNewVODToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.requestNewVODToolStripMenuItem.Text = "Request new VOD";
+            this.requestNewVODToolStripMenuItem.Click += new System.EventHandler(this.requestNewVODToolStripMenuItem_Click);
+            // 
+            // parentalControlToolStripMenuItem
+            // 
+            this.parentalControlToolStripMenuItem.Name = "parentalControlToolStripMenuItem";
+            this.parentalControlToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.parentalControlToolStripMenuItem.Text = "Parental Control";
+            this.parentalControlToolStripMenuItem.Click += new System.EventHandler(this.parentalControlToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
             // 
@@ -579,18 +596,23 @@
             this.menuItemChnResum.Size = new System.Drawing.Size(67, 22);
             this.menuItemChnResum.Click += new System.EventHandler(this.menuItemChnResum_Click);
             // 
-            // requestNewVODToolStripMenuItem
+            // lbPortables
             // 
-            this.requestNewVODToolStripMenuItem.Name = "requestNewVODToolStripMenuItem";
-            this.requestNewVODToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.requestNewVODToolStripMenuItem.Text = "Request new VOD";
-            this.requestNewVODToolStripMenuItem.Click += new System.EventHandler(this.requestNewVODToolStripMenuItem_Click);
+            this.lbPortables.AutoSize = true;
+            this.lbPortables.Location = new System.Drawing.Point(14, 829);
+            this.lbPortables.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lbPortables.Name = "lbPortables";
+            this.lbPortables.Size = new System.Drawing.Size(81, 13);
+            this.lbPortables.TabIndex = 47;
+            this.lbPortables.Text = "PortableVersion";
+            this.lbPortables.Visible = false;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1022, 851);
+            this.Controls.Add(this.lbPortables);
             this.Controls.Add(this.lbGroups);
             this.Controls.Add(this.cmbGroups);
             this.Controls.Add(this.panel2);
@@ -686,6 +708,8 @@
         private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem accountInfoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem requestNewVODToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem parentalControlToolStripMenuItem;
+        private System.Windows.Forms.Label lbPortables;
     }
 }
 
