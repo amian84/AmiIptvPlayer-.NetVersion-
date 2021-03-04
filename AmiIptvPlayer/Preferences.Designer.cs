@@ -43,6 +43,8 @@
             this.cmbUI = new System.Windows.Forms.ComboBox();
             this.lbRequestEmail = new System.Windows.Forms.Label();
             this.txtRequestEmail = new System.Windows.Forms.TextBox();
+            this.txtParentalControl = new System.Windows.Forms.TextBox();
+            this.lbParentalControl = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // lbSettingsURL
@@ -85,7 +87,7 @@
             // 
             // btnOk
             // 
-            this.btnOk.Location = new System.Drawing.Point(201, 222);
+            this.btnOk.Location = new System.Drawing.Point(201, 263);
             this.btnOk.Margin = new System.Windows.Forms.Padding(2);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(66, 30);
@@ -96,7 +98,7 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(287, 222);
+            this.btnCancel.Location = new System.Drawing.Point(287, 263);
             this.btnCancel.Margin = new System.Windows.Forms.Padding(2);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
@@ -182,11 +184,32 @@
             this.txtRequestEmail.Size = new System.Drawing.Size(140, 20);
             this.txtRequestEmail.TabIndex = 13;
             // 
+            // txtParentalControl
+            // 
+            this.txtParentalControl.Location = new System.Drawing.Point(213, 200);
+            this.txtParentalControl.Margin = new System.Windows.Forms.Padding(2);
+            this.txtParentalControl.Name = "txtParentalControl";
+            this.txtParentalControl.PasswordChar = '*';
+            this.txtParentalControl.Size = new System.Drawing.Size(140, 20);
+            this.txtParentalControl.TabIndex = 15;
+            // 
+            // lbParentalControl
+            // 
+            this.lbParentalControl.AutoSize = true;
+            this.lbParentalControl.Location = new System.Drawing.Point(11, 203);
+            this.lbParentalControl.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lbParentalControl.Name = "lbParentalControl";
+            this.lbParentalControl.Size = new System.Drawing.Size(78, 13);
+            this.lbParentalControl.TabIndex = 14;
+            this.lbParentalControl.Text = "Request Email:";
+            // 
             // Preferences
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(361, 266);
+            this.ClientSize = new System.Drawing.Size(361, 313);
+            this.Controls.Add(this.txtParentalControl);
+            this.Controls.Add(this.lbParentalControl);
             this.Controls.Add(this.txtRequestEmail);
             this.Controls.Add(this.lbRequestEmail);
             this.Controls.Add(this.cmbUI);
@@ -232,5 +255,7 @@
         private System.Windows.Forms.ComboBox cmbUI;
         private System.Windows.Forms.Label lbRequestEmail;
         private System.Windows.Forms.TextBox txtRequestEmail;
+        private System.Windows.Forms.TextBox txtParentalControl;
+        private System.Windows.Forms.Label lbParentalControl;
     }
 }

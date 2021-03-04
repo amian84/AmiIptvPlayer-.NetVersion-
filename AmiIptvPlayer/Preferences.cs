@@ -56,6 +56,7 @@ namespace AmiIptvPlayer
             lbSettingsUILang.Text = Strings.lbSettingsUILang;
             lbSettingsURL.Text = Strings.lbSettingsURL;
             lbRequestEmail.Text = Strings.lbRequestEmail;
+            lbParentalControl.Text = Strings.lbParentalControl + ":";
             this.Text = Strings.PreferencesTitle;
             btnCancel.Text = Strings.CANCEL;
             btnOk.Text = Strings.SAVE;
@@ -67,6 +68,8 @@ namespace AmiIptvPlayer
             AmiConfiguration amiconf = AmiConfiguration.Get();
             txtURL.Text = amiconf.URL_IPTV;
             txtEPG.Text = amiconf.URL_EPG;
+            txtRequestEmail.Text = amiconf.REQ_EMAIL;
+            txtParentalControl.Text = Utils.Base64Decode(amiconf.PARENTAL_PASS);
             string audioConf = amiconf.DEF_LANG;
             audio.SelectedItem = Utils.audios[audioConf];
             string subConf = amiconf.DEF_SUB;
@@ -93,7 +96,19 @@ namespace AmiIptvPlayer
         private void Ok()
         {
             AmiConfiguration amiconf = AmiConfiguration.Get();
-            
+            var encode = Utils.Base64Encode(txtParentalControl.Text);
+            if (amiconf.PARENTAL_PASS != encode && !string.IsNullOrEmpty(txtParentalControl.Text))
+            {
+                using (var askForm = new AskPass())
+                {
+                    var result = askForm.ShowDialog();
+                    if (result == DialogResult.Cancel)
+                    {
+                        return;
+                    }
+                }
+                amiconf.PARENTAL_PASS = encode;
+            }
             if (amiconf.URL_IPTV != txtURL.Text)
             {
                 amiconf.URL_IPTV = txtURL.Text;
@@ -110,6 +125,7 @@ namespace AmiIptvPlayer
             {
                 amiconf.REQ_EMAIL = txtRequestEmail.Text;
             }
+            
             if (amiconf.URL_EPG != txtEPG.Text)
             {
                 amiconf.URL_EPG = txtEPG.Text;
