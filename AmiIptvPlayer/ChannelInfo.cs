@@ -53,6 +53,16 @@ namespace AmiIptvPlayer
 
 
         }
+        public override bool Equals(object obj)
+        {
+            if (obj.GetType() != typeof(ChannelInfo))
+                return false;
+            ChannelInfo compare = (ChannelInfo)obj;
+            return compare.Title == Title
+                && compare.TVGGroup == TVGGroup
+                && compare.TVGName == TVGName
+                && compare.TVGId == TVGId;
+        }
         public void CalculateType()
         {
             if (URL.EndsWith(".mkv") || URL.EndsWith(".avi") || URL.EndsWith(".mp4"))
