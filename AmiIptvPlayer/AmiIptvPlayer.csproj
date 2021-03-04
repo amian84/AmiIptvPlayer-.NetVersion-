@@ -29,8 +29,8 @@
     <InstallUrl>http://amian.es/amiiptv/</InstallUrl>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>5</ApplicationRevision>
-    <ApplicationVersion>1.3.0.%2a</ApplicationVersion>
+    <ApplicationRevision>1</ApplicationRevision>
+    <ApplicationVersion>1.3.1.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
@@ -75,6 +75,17 @@
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleasePortable|AnyCPU'">
+    <OutputPath>bin\ReleasePortable\</OutputPath>
+    <DefineConstants>TRACE;_PORTABLE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -104,6 +115,12 @@
     <Compile Include="AccountInfo.Designer.cs">
       <DependentUpon>AccountInfo.cs</DependentUpon>
     </Compile>
+    <Compile Include="AskPass.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AskPass.Designer.cs">
+      <DependentUpon>AskPass.cs</DependentUpon>
+    </Compile>
     <Compile Include="ChannelInfo.cs" />
     <Compile Include="Channels.cs" />
     <Compile Include="EPG_DB.cs" />
@@ -130,6 +147,13 @@
     </Compile>
     <Compile Include="MPVPlayer.Designer.cs">
       <DependentUpon>MPVPlayer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ParentalControl.cs" />
+    <Compile Include="ParentalControlForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ParentalControlForm.Designer.cs">
+      <DependentUpon>ParentalControlForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Preferences.cs">
       <SubType>Form</SubType>
@@ -165,6 +189,9 @@
     <EmbeddedResource Include="AccountInfo.resx">
       <DependentUpon>AccountInfo.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="AskPass.resx">
+      <DependentUpon>AskPass.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FixIdent.resx">
       <DependentUpon>FixIdent.cs</DependentUpon>
     </EmbeddedResource>
@@ -177,6 +204,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MPVPlayer.resx">
       <DependentUpon>MPVPlayer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ParentalControlForm.resx">
+      <DependentUpon>ParentalControlForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Preferences.resx">
       <DependentUpon>Preferences.cs</DependentUpon>
@@ -225,6 +255,9 @@
     <Content Include="resources\emailtemplate.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="resources\images\add.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="resources\images\dock.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -235,6 +268,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="resources\images\play.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="resources\images\remove.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="resources\images\resume.png">
