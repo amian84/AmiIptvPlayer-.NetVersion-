@@ -135,6 +135,9 @@
   <data name="ActiveCons" xml:space="preserve">
     <value>Conexiones activas:</value>
   </data>
+  <data name="ASK_PASS" xml:space="preserve">
+    <value>Introduzca la contraseña</value>
+  </data>
   <data name="AS_EN" xml:space="preserve">
     <value>Inglés</value>
   </data>
@@ -147,8 +150,14 @@
   <data name="AS_UN" xml:space="preserve">
     <value>Desconocido</value>
   </data>
+  <data name="BlockList" xml:space="preserve">
+    <value>Lista de bloqueos</value>
+  </data>
   <data name="CANCEL" xml:space="preserve">
     <value>Cancelar</value>
+  </data>
+  <data name="ChannelList" xml:space="preserve">
+    <value>Lista de canales</value>
   </data>
   <data name="CLEAR" xml:space="preserve">
     <value>Limpiar</value>
@@ -185,6 +194,9 @@
   </data>
   <data name="FileTool" xml:space="preserve">
     <value>Archivo</value>
+  </data>
+  <data name="FillParentalPass" xml:space="preserve">
+    <value>Es obligatorio tener una clave parental en los ajustes antes de poder bloquear canales.s</value>
   </data>
   <data name="FillReqEmail" xml:space="preserve">
     <value>Para poder enviar una nueva petición es necesario tener rellenado el email de peticiones de tu proveedor de IPTV en el apartado de ajustes</value>
@@ -228,6 +240,12 @@
   <data name="Language" xml:space="preserve">
     <value>Idioma:</value>
   </data>
+  <data name="lbAskPass" xml:space="preserve">
+    <value>Por favor introduzca la contraseña del control parental</value>
+  </data>
+  <data name="lbAskPassError" xml:space="preserve">
+    <value>Has introducido una contraseña incorrecta</value>
+  </data>
   <data name="lbCategoryTitle" xml:space="preserve">
     <value>Categorias:</value>
   </data>
@@ -239,6 +257,9 @@
   </data>
   <data name="lbEndTimeTitle" xml:space="preserve">
     <value>Tiempo de Finalización:</value>
+  </data>
+  <data name="lbParentalControl" xml:space="preserve">
+    <value>Clave parental</value>
   </data>
   <data name="lbRatingsTitle" xml:space="preserve">
     <value>Calificación de edad:</value>
@@ -303,6 +324,9 @@
   <data name="NOT_FOUND_CH" xml:space="preserve">
     <value>No existe el canal: </value>
   </data>
+  <data name="ParentalControl" xml:space="preserve">
+    <value>Control Parental</value>
+  </data>
   <data name="PosterEmail" xml:space="preserve">
     <value>Caratula de la petición</value>
   </data>
@@ -329,6 +353,9 @@
   </data>
   <data name="SAVE" xml:space="preserve">
     <value>Guardar</value>
+  </data>
+  <data name="SaveBlockList" xml:space="preserve">
+    <value>¿Está seguro de salvar la lista actual de bloqueo?</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>Buscar</value>
@@ -379,7 +406,7 @@
     <value>Borrar posición de continuado</value>
   </data>
   <data name="UnSeen" xml:space="preserve">
-    <value>Marcar como no vista</value>
+    <value>s</value>
   </data>
   <data name="URLinfo" xml:space="preserve">
     <value>URL del visionado</value>

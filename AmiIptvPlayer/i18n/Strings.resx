@@ -135,6 +135,9 @@
   <data name="ActiveCons" xml:space="preserve">
     <value>Active connections:</value>
   </data>
+  <data name="ASK_PASS" xml:space="preserve">
+    <value>Credentials</value>
+  </data>
   <data name="AS_EN" xml:space="preserve">
     <value>English</value>
   </data>
@@ -147,8 +150,14 @@
   <data name="AS_UN" xml:space="preserve">
     <value>Unknown</value>
   </data>
+  <data name="BlockList" xml:space="preserve">
+    <value>Block List</value>
+  </data>
   <data name="CANCEL" xml:space="preserve">
     <value>Cancel</value>
+  </data>
+  <data name="ChannelList" xml:space="preserve">
+    <value>Channel List</value>
   </data>
   <data name="CLEAR" xml:space="preserve">
     <value>Clear</value>
@@ -185,6 +194,9 @@
   </data>
   <data name="FileTool" xml:space="preserve">
     <value>File</value>
+  </data>
+  <data name="FillParentalPass" xml:space="preserve">
+    <value>You must set a parental password in your settings before lock any channels.</value>
   </data>
   <data name="FillReqEmail" xml:space="preserve">
     <value>For send new request you must set your provider iptv email request into settings</value>
@@ -228,6 +240,12 @@
   <data name="Language" xml:space="preserve">
     <value>Language:</value>
   </data>
+  <data name="lbAskPass" xml:space="preserve">
+    <value>Please set your parental control credentials</value>
+  </data>
+  <data name="lbAskPassError" xml:space="preserve">
+    <value>You set incorrect pass</value>
+  </data>
   <data name="lbCategoryTitle" xml:space="preserve">
     <value>Categories:</value>
   </data>
@@ -239,6 +257,9 @@
   </data>
   <data name="lbEndTimeTitle" xml:space="preserve">
     <value>EndTime:</value>
+  </data>
+  <data name="lbParentalControl" xml:space="preserve">
+    <value>Parental control password</value>
   </data>
   <data name="lbRatingsTitle" xml:space="preserve">
     <value>Ratings:</value>
@@ -303,6 +324,9 @@
   <data name="NOT_FOUND_CH" xml:space="preserve">
     <value>Doesn't exists channel number: </value>
   </data>
+  <data name="ParentalControl" xml:space="preserve">
+    <value>Parental Control</value>
+  </data>
   <data name="PosterEmail" xml:space="preserve">
     <value>Poster of VOD</value>
   </data>
@@ -329,6 +353,9 @@
   </data>
   <data name="SAVE" xml:space="preserve">
     <value>Save</value>
+  </data>
+  <data name="SaveBlockList" xml:space="preserve">
+    <value>Are you sure save the current block list?</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>Search</value>

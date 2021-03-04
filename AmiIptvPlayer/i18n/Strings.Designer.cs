@@ -151,11 +151,38 @@ namespace AmiIptvPlayer.i18n {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Credentials.
+        /// </summary>
+        public static string ASK_PASS {
+            get {
+                return ResourceManager.GetString("ASK_PASS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Block List.
+        /// </summary>
+        public static string BlockList {
+            get {
+                return ResourceManager.GetString("BlockList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Cancel.
         /// </summary>
         public static string CANCEL {
             get {
                 return ResourceManager.GetString("CANCEL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Channel List.
+        /// </summary>
+        public static string ChannelList {
+            get {
+                return ResourceManager.GetString("ChannelList", resourceCulture);
             }
         }
         
@@ -264,6 +291,15 @@ namespace AmiIptvPlayer.i18n {
         public static string FileTool {
             get {
                 return ResourceManager.GetString("FileTool", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a You must set a parental password in your settings before lock any channels..
+        /// </summary>
+        public static string FillParentalPass {
+            get {
+                return ResourceManager.GetString("FillParentalPass", resourceCulture);
             }
         }
         
@@ -394,6 +430,24 @@ namespace AmiIptvPlayer.i18n {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Please set your parental control credentials.
+        /// </summary>
+        public static string lbAskPass {
+            get {
+                return ResourceManager.GetString("lbAskPass", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a You set incorrect pass.
+        /// </summary>
+        public static string lbAskPassError {
+            get {
+                return ResourceManager.GetString("lbAskPassError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Categories:.
         /// </summary>
         public static string lbCategoryTitle {
@@ -426,6 +480,15 @@ namespace AmiIptvPlayer.i18n {
         public static string lbEndTimeTitle {
             get {
                 return ResourceManager.GetString("lbEndTimeTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Parental control password.
+        /// </summary>
+        public static string lbParentalControl {
+            get {
+                return ResourceManager.GetString("lbParentalControl", resourceCulture);
             }
         }
         
@@ -619,6 +682,15 @@ namespace AmiIptvPlayer.i18n {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Parental Control.
+        /// </summary>
+        public static string ParentalControl {
+            get {
+                return ResourceManager.GetString("ParentalControl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Poster of VOD.
         /// </summary>
         public static string PosterEmail {
@@ -696,6 +768,15 @@ namespace AmiIptvPlayer.i18n {
         public static string SAVE {
             get {
                 return ResourceManager.GetString("SAVE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Are you sure save the current block list?.
+        /// </summary>
+        public static string SaveBlockList {
+            get {
+                return ResourceManager.GetString("SaveBlockList", resourceCulture);
             }
         }
         
