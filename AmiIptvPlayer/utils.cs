@@ -6,6 +6,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
+#if _PORTABLE
+using System.Reflection;
+#endif
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -203,6 +206,7 @@ namespace AmiIptvPlayer
         public string DEF_LANG { get; set; }
         public string DEF_SUB { get; set; }
         public string REQ_EMAIL { get; set; }
+        public string PARENTAL_PASS { get; set; }
 
     }
 
@@ -237,8 +241,13 @@ namespace AmiIptvPlayer
 
     public class Utils
     {
+#if _PORTABLE
+        public static string CONF_PATH = System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location)+ "\\AmiIptvPlayer\\";
+        public static string CONF_PATH_OLD = System.Environment.GetEnvironmentVariable("USERPROFILE") + "\\";
+#else
         public static string CONF_PATH = System.Environment.GetEnvironmentVariable("USERPROFILE") + "\\AmiIptvPlayer\\";
         public static string CONF_PATH_OLD = System.Environment.GetEnvironmentVariable("USERPROFILE") + "\\";
+#endif
         public static string LastSearch = "";
         public static string PosterBasePath = "https://image.tmdb.org/t/p/original";
         public static Dictionary<string, string> audios = new Dictionary<string, string>
@@ -253,7 +262,21 @@ namespace AmiIptvPlayer
             { "spa", Strings.AS_SP},
             { "eng", Strings.AS_EN }
         };
-
+#if _PORTABLE
+        public static string PORTABLE_VERSION = "1.3.1.1";
+#endif
+        public static string Base64Encode(string plainText)
+        {
+            var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(plainText);
+            return System.Convert.ToBase64String(plainTextBytes);
+        }
+        public static string Base64Decode(string base64EncodedData)
+        {
+            if (String.IsNullOrEmpty(base64EncodedData))
+                return "";
+            var base64EncodedBytes = System.Convert.FromBase64String(base64EncodedData);
+            return System.Text.Encoding.UTF8.GetString(base64EncodedBytes);
+        }
         public static void MoveFile(string fileSource, string fileDest)
         {
             if (File.Exists(fileSource))
