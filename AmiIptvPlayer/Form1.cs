@@ -120,9 +120,15 @@ namespace AmiIptvPlayer
             playerForm.SetDockIcon(true);
             lstListsChannels[ALL_GROUP] = new List<ChannelListItem>();
             selectedList = ALL_GROUP;
+#if _PORTABLE
+            lbVersion.Text = Utils.PORTABLE_VERSION;
+            lbPortables.Visible = true;
+#else
             lbVersion.Text = ApplicationDeployment.IsNetworkDeployed
                ? ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString()
                : Assembly.GetExecutingAssembly().GetName().Version.ToString();
+          : Assembly.GetExecutingAssembly().GetName().Version.ToString();
+#endif
 
             
             chList.FullRowSelect = true;
