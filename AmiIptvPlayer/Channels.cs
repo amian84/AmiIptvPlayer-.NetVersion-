@@ -52,6 +52,16 @@ namespace AmiIptvPlayer
             return instance;
         }
 
+        public List<GrpInfo> GetGroups()
+        {
+            return new List<GrpInfo>(groupsInfo.Keys);
+        }
+
+        public List<ChannelInfo> GetChannelsByGroup(GrpInfo group)
+        {
+            return groupsInfo[group];
+        }
+
         public static Channels LoadFromJSON()
         {
             if (instance == null)
