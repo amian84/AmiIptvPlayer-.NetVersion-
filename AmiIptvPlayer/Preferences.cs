@@ -99,15 +99,34 @@ namespace AmiIptvPlayer
             var encode = Utils.Base64Encode(txtParentalControl.Text);
             if (amiconf.PARENTAL_PASS != encode && !string.IsNullOrEmpty(txtParentalControl.Text))
             {
-                using (var askForm = new AskPass())
+                if (!string.IsNullOrEmpty(amiconf.PARENTAL_PASS))
                 {
-                    var result = askForm.ShowDialog();
-                    if (result == DialogResult.Cancel)
+                    using (var askForm = new AskPass())
                     {
-                        return;
+                        var result = askForm.ShowDialog();
+                        if (result == DialogResult.Cancel)
+                        {
+                            return;
+                        }
                     }
                 }
                 amiconf.PARENTAL_PASS = encode;
+            }
+            if(string.IsNullOrEmpty(txtParentalControl.Text) && !string.IsNullOrEmpty(amiconf.PARENTAL_PASS))
+            {
+                if (!string.IsNullOrEmpty(amiconf.PARENTAL_PASS))
+                {
+                    using (var askForm = new AskPass())
+                    {
+                        var result = askForm.ShowDialog();
+                        if (result == DialogResult.Cancel)
+                        {
+                            return;
+                        }
+                    }
+                }
+
+                amiconf.PARENTAL_PASS = "";
             }
             if (amiconf.URL_IPTV != txtURL.Text)
             {
