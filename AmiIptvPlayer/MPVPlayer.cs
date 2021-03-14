@@ -68,7 +68,7 @@ namespace AmiIptvPlayer
             ReloadLang();
         }
 
-        private void ReloadLang()
+        public void ReloadLang()
         {
             lbDuration.Text = Strings.Duration + "--/--";
             lbVol.Text = Strings.Volume;

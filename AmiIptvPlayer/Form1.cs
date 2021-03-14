@@ -106,6 +106,7 @@ namespace AmiIptvPlayer
             lbStartTimeTitle.Text = Strings.lbStartTimeTitle;
             chName.Text = Strings.lbTitleTitle + ":";
             accountInfoToolStripMenuItem.Text = Strings.AccountInfoTitle;
+            playerForm.ReloadLang();
         }
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -183,6 +184,7 @@ namespace AmiIptvPlayer
                     {
                         Strings.Culture = new CultureInfo(item.UI_LANG);
                     }
+                    
                 }
             }
         }
