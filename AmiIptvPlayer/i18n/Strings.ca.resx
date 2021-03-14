@@ -118,316 +118,316 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AboutUs" xml:space="preserve">
-    <value>AmiIPTVPlayer is a simple iptv player using MVP library</value>
+    <value>AmiIPTVPlayer és un senzill reproductor fent servir les llibreries de MVP</value>
   </data>
   <data name="AboutUsTitle" xml:space="preserve">
-    <value>AboutUs...</value>
-  </data>
-  <data name="AccountInfoHead" xml:space="preserve">
-    <value>This is your account info:</value>
-  </data>
-  <data name="AccountInfoTitle" xml:space="preserve">
-    <value>Account Info</value>
+    <value>Sobre...</value>
   </data>
   <data name="ACCOUNT_INFO_ERROR" xml:space="preserve">
-    <value>Can't obtain any account info result for your iptv url, please review it</value>
+    <value>No s'ha pogut trobar informació sobre el teu compte. Si us plau comprova la URL del IPTV als Ajustos
+Activar la compatibilidad con lectores de pantalla</value>
+  </data>
+  <data name="AccountInfoHead" xml:space="preserve">
+    <value>Aquesta és la informació del teu compte:</value>
+  </data>
+  <data name="AccountInfoTitle" xml:space="preserve">
+    <value>Informació del compte</value>
   </data>
   <data name="ActiveCons" xml:space="preserve">
-    <value>Active connections:</value>
-  </data>
-  <data name="ASK_PASS" xml:space="preserve">
-    <value>Credentials</value>
+    <value>Connexions actives:</value>
   </data>
   <data name="AS_EN" xml:space="preserve">
-    <value>English</value>
+    <value>Anglès</value>
   </data>
   <data name="AS_NONE" xml:space="preserve">
-    <value>None</value>
+    <value>Cap</value>
   </data>
   <data name="AS_SP" xml:space="preserve">
-    <value>Spanish</value>
+    <value>Espanyol</value>
   </data>
   <data name="AS_UN" xml:space="preserve">
-    <value>Unknown</value>
+    <value>Desconegut</value>
   </data>
-  <data name="BlockList" xml:space="preserve">
-    <value>Block List</value>
+  <data name="ASK_PASS" xml:space="preserve">
+    <value>Introdueixi la contrasenya</value>
   </data>
   <data name="CANCEL" xml:space="preserve">
-    <value>Cancel</value>
-  </data>
-  <data name="ChannelList" xml:space="preserve">
-    <value>Channel List</value>
+    <value>Cancel·lar</value>
   </data>
   <data name="CLEAR" xml:space="preserve">
-    <value>Clear</value>
+    <value>Netejar</value>
   </data>
   <data name="Close" xml:space="preserve">
-    <value>Close</value>
+    <value>Tancar</value>
   </data>
   <data name="DEFAULT_MSG_NO_LIST" xml:space="preserve">
-    <value>Please load iptv list</value>
+    <value>Si us plau carregui una llista IPTV vàlida</value>
   </data>
   <data name="Duration" xml:space="preserve">
-    <value>Time: </value>
+    <value>Temps: </value>
   </data>
   <data name="EmailHeader" xml:space="preserve">
-    <value>New VOD's request</value>
+    <value>Nova petició de VOD</value>
   </data>
   <data name="EmailText" xml:space="preserve">
-    <value>Hi this is a new request sended via AmiIptvPlayer app.</value>
+    <value>Hola, aquesta és una nova petició de VOD a través de l'aplicació AmiIPTVPlayer.</value>
   </data>
   <data name="EPGloaded" xml:space="preserve">
-    <value>EPG Loaded:</value>
+    <value>Estat EPG:</value>
   </data>
   <data name="ERROR" xml:space="preserve">
     <value>Error</value>
   </data>
   <data name="ERROR_EPG" xml:space="preserve">
-    <value>Error processing EPG, please check your url</value>
+    <value>Error processant l'EPG, comprova la URL</value>
   </data>
   <data name="ExitBtn" xml:space="preserve">
-    <value>Exit</value>
+    <value>Sortir</value>
   </data>
   <data name="ExpirationDate" xml:space="preserve">
-    <value>Expiration date:</value>
+    <value>Data d'expiració:</value>
   </data>
   <data name="FileTool" xml:space="preserve">
-    <value>File</value>
+    <value>Arxiu</value>
   </data>
   <data name="FillParentalPass" xml:space="preserve">
-    <value>You must set a parental password in your settings before lock any channels.</value>
+    <value>És obligatori tenir una clau parental en els ajustos abans de poder bloquejar canals.</value>
   </data>
   <data name="FillReqEmail" xml:space="preserve">
-    <value>For send new request you must set your provider iptv email request into settings</value>
+    <value>Per poder enviar una nova petició és necessari tenir omplert l'email de peticions del teu proveïdor de IPTV a l'apartat d'ajustos</value>
   </data>
   <data name="FillReqVOD" xml:space="preserve">
-    <value>Please fill title and year before send request</value>
+    <value>Si us plau ompli almenys el títol i la data per la nova petició</value>
   </data>
   <data name="FILTER" xml:space="preserve">
-    <value>Filter</value>
+    <value>Filtrar</value>
   </data>
   <data name="FilterList" xml:space="preserve">
-    <value>Filter list:</value>
-  </data>
-  <data name="FIOrigTitle" xml:space="preserve">
-    <value>Original title</value>
+    <value>Filtrar llista:</value>
   </data>
   <data name="FITitle" xml:space="preserve">
-    <value>Title</value>
+    <value>Titol</value>
+  </data>
+  <data name="FIOrigTitle" xml:space="preserve">
+    <value>Títol original</value>
   </data>
   <data name="FixIdentTitle" xml:space="preserve">
-    <value>Fix Identification</value>
+    <value>Corregir identificació</value>
   </data>
   <data name="FIYear" xml:space="preserve">
-    <value>Year</value>
+    <value>Any</value>
   </data>
   <data name="GROUPS" xml:space="preserve">
-    <value>Groups:</value>
+    <value>Grups:</value>
   </data>
   <data name="HELP" xml:space="preserve">
-    <value>Help</value>
+    <value>Ajuda</value>
   </data>
   <data name="LangEN" xml:space="preserve">
-    <value>English</value>
+    <value>Anglès</value>
   </data>
   <data name="LangSP" xml:space="preserve">
-    <value>Spanish (Spain)</value>
+    <value>Espanyol</value>
   </data>
   <data name="LangSYS" xml:space="preserve">
-    <value>Default system language</value>
+    <value>Llenguatge del sistema per defecte</value>
   </data>
   <data name="Language" xml:space="preserve">
-    <value>Language:</value>
-  </data>
-  <data name="lbAskPass" xml:space="preserve">
-    <value>Please set your parental control credentials</value>
-  </data>
-  <data name="lbAskPassError" xml:space="preserve">
-    <value>You set incorrect pass</value>
+    <value>Llengua:</value>
   </data>
   <data name="lbCategoryTitle" xml:space="preserve">
     <value>Categories:</value>
   </data>
   <data name="lbCountryTitle" xml:space="preserve">
-    <value>Country</value>
+    <value>País</value>
   </data>
   <data name="lbDescriptionTitle" xml:space="preserve">
-    <value>Description</value>
+    <value>Descripció</value>
   </data>
   <data name="lbEndTimeTitle" xml:space="preserve">
-    <value>EndTime:</value>
-  </data>
-  <data name="lbParentalControl" xml:space="preserve">
-    <value>Parental control password</value>
+    <value>Temps de Finalització:</value>
   </data>
   <data name="lbRatingsTitle" xml:space="preserve">
-    <value>Ratings:</value>
+    <value>Qualificació d'edat:</value>
   </data>
   <data name="lbReleaseDateTitle" xml:space="preserve">
-    <value>Release Date:</value>
+    <value>Data:</value>
   </data>
   <data name="lbRequestEmail" xml:space="preserve">
-    <value>Email for VOD request:</value>
+    <value>Email per peticions:</value>
   </data>
   <data name="lbSettingsDefAud" xml:space="preserve">
-    <value>Default audio language:</value>
+    <value>Àudio per defecte:</value>
   </data>
   <data name="lbSettingsDefSub" xml:space="preserve">
-    <value>Default sub language:</value>
+    <value>Subtítols per defecte:</value>
   </data>
   <data name="lbSettingsEPG" xml:space="preserve">
     <value>URL EPG:</value>
   </data>
   <data name="lbSettingsUILang" xml:space="preserve">
-    <value>UI Language:</value>
+    <value>Llengua de la interfície:</value>
   </data>
   <data name="lbSettingsURL" xml:space="preserve">
     <value>URL IPTV:</value>
   </data>
   <data name="lbStarsTitle" xml:space="preserve">
-    <value>Stars:</value>
+    <value>Puntuació:</value>
   </data>
   <data name="lbStartTimeTitle" xml:space="preserve">
-    <value>StartTime:</value>
+    <value>Temps de Començament:</value>
   </data>
   <data name="lbTitleTitle" xml:space="preserve">
-    <value>Title</value>
+    <value>Títol</value>
   </data>
   <data name="lbYearsTitle" xml:space="preserve">
-    <value>Years release:</value>
+    <value>Any:</value>
   </data>
   <data name="LOADED" xml:space="preserve">
-    <value>Loaded</value>
+    <value>Carregat</value>
   </data>
   <data name="LOADING" xml:space="preserve">
-    <value>Loading...</value>
+    <value>Carregant...</value>
   </data>
   <data name="LOADING_CHANNELS" xml:space="preserve">
-    <value>Laoding channels... please wait a moment</value>
+    <value>Carregant llista... si us plau esperi un moment</value>
   </data>
   <data name="LongDescriptionTitle" xml:space="preserve">
-    <value>Show Description</value>
+    <value>Fitxa complerta</value>
   </data>
   <data name="MaxCons" xml:space="preserve">
-    <value>Max. connections:</value>
+    <value>Màxim de connexions:</value>
   </data>
   <data name="MORE_DETAILS" xml:space="preserve">
-    <value>Click for more details</value>
-  </data>
-  <data name="Movie" xml:space="preserve">
-    <value>Movie</value>
+    <value>Click per més detalls</value>
   </data>
   <data name="NOT_FOUND" xml:space="preserve">
-    <value>Not found</value>
+    <value>Sense resultats</value>
   </data>
   <data name="NOT_FOUND_CH" xml:space="preserve">
-    <value>Doesn't exists channel number: </value>
-  </data>
-  <data name="ParentalControl" xml:space="preserve">
-    <value>Parental Control</value>
-  </data>
-  <data name="PosterEmail" xml:space="preserve">
-    <value>Poster of VOD</value>
+    <value>No existeix el canal: </value>
   </data>
   <data name="PreferencesTitle" xml:space="preserve">
-    <value>AmiIPTVPlayer: Settings</value>
+    <value>AmiIPTVPlayer: Ajustos</value>
   </data>
   <data name="QUIT" xml:space="preserve">
-    <value>Quit</value>
+    <value>Sortir</value>
   </data>
   <data name="Refresh" xml:space="preserve">
-    <value>Refresh</value>
+    <value>Actualitzar</value>
   </data>
   <data name="RefreshEPGTool" xml:space="preserve">
-    <value>Refresh EPG list</value>
+    <value>Actualitzar llista EPG</value>
   </data>
   <data name="RefreshListTool" xml:space="preserve">
-    <value>Refresh IPTV list</value>
-  </data>
-  <data name="RequestNewVOD" xml:space="preserve">
-    <value>Request new VOD</value>
+    <value>Actualitzar IPTV</value>
   </data>
   <data name="Resume" xml:space="preserve">
-    <value>Do you want to resume the video?</value>
+    <value>Desitja continuar la reproducció?</value>
   </data>
   <data name="SAVE" xml:space="preserve">
-    <value>Save</value>
-  </data>
-  <data name="SaveBlockList" xml:space="preserve">
-    <value>Are you sure save the current block list?</value>
+    <value>Guardar</value>
   </data>
   <data name="Search" xml:space="preserve">
-    <value>Search</value>
+    <value>Cercar</value>
   </data>
   <data name="SearchAgainBtn" xml:space="preserve">
-    <value>Search again</value>
+    <value>Cercar</value>
   </data>
   <data name="SearchLb" xml:space="preserve">
-    <value>Search:</value>
+    <value>Cerca:</value>
   </data>
   <data name="Seen" xml:space="preserve">
-    <value>Mark as seen</value>
-  </data>
-  <data name="Send" xml:space="preserve">
-    <value>Send</value>
-  </data>
-  <data name="SendExtra" xml:space="preserve">
-    <value>Fill info manually</value>
+    <value>Assenyalar com visualitzada</value>
   </data>
   <data name="Server" xml:space="preserve">
-    <value>Server:</value>
+    <value>Servidor:</value>
   </data>
   <data name="Settings" xml:space="preserve">
-    <value>Settings</value>
-  </data>
-  <data name="Show" xml:space="preserve">
-    <value>Show</value>
-  </data>
-  <data name="SubjectEmail" xml:space="preserve">
-    <value>AmiIptvPlayer: new request VOD</value>
+    <value>Ajustos</value>
   </data>
   <data name="Subs" xml:space="preserve">
-    <value>Subtitles:</value>
-  </data>
-  <data name="ThanksEmail" xml:space="preserve">
-    <value>Thanks for using the app</value>
-  </data>
-  <data name="Tools" xml:space="preserve">
-    <value>Tools</value>
-  </data>
-  <data name="Type" xml:space="preserve">
-    <value>Type</value>
+    <value>Subtítols:</value>
   </data>
   <data name="UNKNOWN" xml:space="preserve">
-    <value>Unknown</value>
+    <value>Desconegut</value>
   </data>
   <data name="UnResume" xml:space="preserve">
-    <value>Clean resume position</value>
+    <value>Esborrar posició de continuat</value>
   </data>
   <data name="UnSeen" xml:space="preserve">
-    <value>Mark as unseen</value>
+    <value>Assenyalar com no visualitzada</value>
   </data>
   <data name="URLinfo" xml:space="preserve">
-    <value>Get Track URL</value>
+    <value>URL del visionat</value>
   </data>
   <data name="URLInfoFooter" xml:space="preserve">
-    <value>Please copy that URL and set in your favourite player.</value>
+    <value>Copia aquesta URL i reprodueix-la amb el teu reproductor favorit.</value>
   </data>
   <data name="URLInfoHead" xml:space="preserve">
-    <value>The URL for that track is:</value>
+    <value>La URL pel canal/VOS és:</value>
   </data>
   <data name="User" xml:space="preserve">
-    <value>User</value>
+    <value>Usuari</value>
   </data>
   <data name="Version" xml:space="preserve">
-    <value>Version:</value>
-    <comment>:</comment>
+    <value>Versió:</value>
   </data>
   <data name="Volume" xml:space="preserve">
-    <value>Volume:</value>
+    <value>Volum:</value>
+  </data>
+  <data name="Tools" xml:space="preserve">
+    <value>Eines</value>
+  </data>
+  <data name="RequestNewVOD" xml:space="preserve">
+    <value>Petició de VOD</value>
+  </data>
+  <data name="Send" xml:space="preserve">
+    <value>Enviar</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Tipus</value>
+  </data>
+  <data name="Movie" xml:space="preserve">
+    <value>Pel.lícula</value>
+  </data>
+  <data name="Show" xml:space="preserve">
+    <value>Sèrie</value>
+  </data>
+  <data name="SendExtra" xml:space="preserve">
+    <value>Omplir la informació manualment</value>
+  </data>
+  <data name="lbAskPassError" xml:space="preserve">
+    <value>Ha introduït una contrasenya incorrecta</value>
+  </data>
+  <data name="lbParentalControl" xml:space="preserve">
+    <value>Clau parental</value>
+  </data>
+  <data name="ParentalControl" xml:space="preserve">
+    <value>Control parental</value>
+  </data>
+  <data name="PosterEmail" xml:space="preserve">
+    <value>Caràtula de la petició</value>
+  </data>
+  <data name="SaveBlockList" xml:space="preserve">
+    <value>Està segur de salvar la llista actual del bloqueig?</value>
+  </data>
+  <data name="SubjectEmail" xml:space="preserve">
+    <value>AmiIPTVPlayer: nova petició VOD</value>
+  </data>
+  <data name="ThanksEmail" xml:space="preserve">
+    <value>Gràcies per fer servir l'aplicació</value>
+  </data>
+  <data name="lbAskPass" xml:space="preserve">
+    <value>Si us plau introduïu la contrasenya del control parental</value>
+  </data>
+  <data name="ChannelList" xml:space="preserve">
+    <value>Llista de canals</value>
+  </data>
+  <data name="BlockList" xml:space="preserve">
+    <value>Llista de bloquejos</value>
   </data>
   <data name="LangCAT" xml:space="preserve">
-    <value>Catalan</value>
+    <value>Catalá</value>
   </data>
 </root>

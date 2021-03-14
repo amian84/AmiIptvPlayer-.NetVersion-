@@ -70,7 +70,7 @@ namespace AmiIptvPlayer.i18n {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a AboutUs.
+        ///   Busca una cadena traducida similar a AboutUs....
         /// </summary>
         public static string AboutUsTitle {
             get {
@@ -390,6 +390,15 @@ namespace AmiIptvPlayer.i18n {
         public static string HELP {
             get {
                 return ResourceManager.GetString("HELP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Catalan.
+        /// </summary>
+        public static string LangCAT {
+            get {
+                return ResourceManager.GetString("LangCAT", resourceCulture);
             }
         }
         

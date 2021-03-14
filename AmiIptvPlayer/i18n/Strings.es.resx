@@ -196,7 +196,7 @@
     <value>Archivo</value>
   </data>
   <data name="FillParentalPass" xml:space="preserve">
-    <value>Es obligatorio tener una clave parental en los ajustes antes de poder bloquear canales.s</value>
+    <value>Es obligatorio tener una clave parental en los ajustes antes de poder bloquear canales.</value>
   </data>
   <data name="FillReqEmail" xml:space="preserve">
     <value>Para poder enviar una nueva petición es necesario tener rellenado el email de peticiones de tu proveedor de IPTV en el apartado de ajustes</value>
@@ -406,7 +406,7 @@
     <value>Borrar posición de continuado</value>
   </data>
   <data name="UnSeen" xml:space="preserve">
-    <value>s</value>
+    <value>Marcar como no vista</value>
   </data>
   <data name="URLinfo" xml:space="preserve">
     <value>URL del visionado</value>
@@ -425,5 +425,8 @@
   </data>
   <data name="Volume" xml:space="preserve">
     <value>Volumen:</value>
+  </data>
+  <data name="LangCAT" xml:space="preserve">
+    <value>Catalán</value>
   </data>
 </root>
