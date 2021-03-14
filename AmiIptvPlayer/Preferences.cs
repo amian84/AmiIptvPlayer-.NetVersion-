@@ -36,6 +36,7 @@ namespace AmiIptvPlayer
             cmbUI.Items.Add(Strings.LangSYS);
             cmbUI.Items.Add(Strings.LangSP);
             cmbUI.Items.Add(Strings.LangEN);
+            cmbUI.Items.Add(Strings.LangCAT);
             cmbUI.SelectedIndex = amiconf.availableLangs[amiconf.UI_LANG];
 
             audio.Items.Clear();
