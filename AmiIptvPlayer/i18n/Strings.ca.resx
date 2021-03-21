@@ -430,4 +430,10 @@ Activar la compatibilidad con lectores de pantalla</value>
   <data name="LangCAT" xml:space="preserve">
     <value>Catalá</value>
   </data>
+  <data name="lbI18N" xml:space="preserve">
+    <value>Internacionalització</value>
+  </data>
+  <data name="LangFR" xml:space="preserve">
+    <value>Francès</value>
+  </data>
 </root>

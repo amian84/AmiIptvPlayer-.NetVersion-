@@ -412,6 +412,15 @@ namespace AmiIptvPlayer.i18n {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a French.
+        /// </summary>
+        public static string LangFR {
+            get {
+                return ResourceManager.GetString("LangFR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Spanish (Spain).
         /// </summary>
         public static string LangSP {
@@ -489,6 +498,15 @@ namespace AmiIptvPlayer.i18n {
         public static string lbEndTimeTitle {
             get {
                 return ResourceManager.GetString("lbEndTimeTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Internationalization.
+        /// </summary>
+        public static string lbI18N {
+            get {
+                return ResourceManager.GetString("lbI18N", resourceCulture);
             }
         }
         

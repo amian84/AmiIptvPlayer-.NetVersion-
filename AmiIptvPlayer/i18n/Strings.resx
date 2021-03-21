@@ -430,4 +430,11 @@
   <data name="LangCAT" xml:space="preserve">
     <value>Catalan</value>
   </data>
+  <data name="lbI18N" xml:space="preserve">
+    <value>Internationalization</value>
+    
+  </data>
+  <data name="LangFR" xml:space="preserve">
+    <value>French</value>
+  </data>
 </root>
