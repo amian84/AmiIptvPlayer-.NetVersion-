@@ -34,6 +34,8 @@
             this.label2 = new System.Windows.Forms.Label();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.lbVersion = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -60,7 +62,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(214, 40);
+            this.label2.Location = new System.Drawing.Point(220, 9);
             this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(108, 13);
@@ -70,7 +72,7 @@
             // linkLabel1
             // 
             this.linkLabel1.AutoSize = true;
-            this.linkLabel1.Location = new System.Drawing.Point(233, 116);
+            this.linkLabel1.Location = new System.Drawing.Point(241, 23);
             this.linkLabel1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.linkLabel1.Name = "linkLabel1";
             this.linkLabel1.Size = new System.Drawing.Size(74, 13);
@@ -88,11 +90,30 @@
             this.lbVersion.Size = new System.Drawing.Size(0, 13);
             this.lbVersion.TabIndex = 4;
             // 
+            // label3
+            // 
+            this.label3.Location = new System.Drawing.Point(21, 162);
+            this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(368, 25);
+            this.label3.TabIndex = 5;
+            // 
+            // label4
+            // 
+            this.label4.Location = new System.Drawing.Point(21, 180);
+            this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(368, 73);
+            this.label4.TabIndex = 6;
+            this.label4.Text = "Beltrán:";
+            // 
             // AboutUs
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(411, 181);
+            this.ClientSize = new System.Drawing.Size(411, 281);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.lbVersion);
             this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.label2);
@@ -121,5 +142,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.LinkLabel linkLabel1;
         private System.Windows.Forms.Label lbVersion;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
     }
 }

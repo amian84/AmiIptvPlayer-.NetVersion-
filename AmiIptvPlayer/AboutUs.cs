@@ -21,7 +21,9 @@ namespace AmiIptvPlayer
                : Assembly.GetExecutingAssembly().GetName().Version.ToString();
             this.Text = Strings.AboutUsTitle;
             label1.Text = Strings.AboutUs;
-
+            label3.Text = Strings.lbI18N + ":";
+            label4.Text = "Beltrán Rodríguez: " + Strings.LangCAT + ", " + Strings.LangFR + "\n" +
+                "Amian: " + Strings.LangEN + ", " + Strings.LangSP;
         }
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
