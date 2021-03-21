@@ -176,7 +176,7 @@ namespace AmiIptvPlayer
                     AmiConfiguration item = JsonConvert.DeserializeObject<AmiConfiguration>(json);
                     AmiConfiguration.SetInstance(item);
 
-                    if (item.UI_LANG == "SYSTEM")
+                    if (string.IsNullOrEmpty(item.UI_LANG) || item.UI_LANG == "SYSTEM" )
                     {
                         Strings.Culture = CultureInfo.InstalledUICulture;
                     }
