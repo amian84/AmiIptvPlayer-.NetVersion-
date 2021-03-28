@@ -29,7 +29,7 @@
     <InstallUrl>http://amian.es/amiiptv/</InstallUrl>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>7</ApplicationRevision>
+    <ApplicationRevision>8</ApplicationRevision>
     <ApplicationVersion>1.3.1.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -201,6 +201,7 @@
     <EmbeddedResource Include="i18n\Strings.ca.resx" />
     <EmbeddedResource Include="i18n\Strings.es.resx" />
     <EmbeddedResource Include="i18n\Strings.fr-FR.resx" />
+    <EmbeddedResource Include="i18n\Strings.tr-TR.resx" />
     <EmbeddedResource Include="LongDescription.resx">
       <DependentUpon>LongDescription.cs</DependentUpon>
     </EmbeddedResource>
@@ -325,22 +326,22 @@
   <ItemGroup>
     <PublishFile Include="DLLs\mpv-1.dll">
       <Visible>False</Visible>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
-      <PublishState>Include</PublishState>
-      <IncludeHash>True</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="mpv">
       <Visible>False</Visible>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
-      <PublishState>Include</PublishState>
-      <IncludeHash>True</IncludeHash>
       <FileType>Assembly</FileType>
     </PublishFile>
   </ItemGroup>
