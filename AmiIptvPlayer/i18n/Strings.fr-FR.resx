@@ -435,4 +435,7 @@
   <data name="BlockList" xml:space="preserve">
     <value>Liste de blocage</value>
   </data>
+  <data name="LangTR" xml:space="preserve">
+    <value>Turc</value>
+  </data>
 </root>

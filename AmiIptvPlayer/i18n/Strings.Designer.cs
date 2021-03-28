@@ -439,6 +439,15 @@ namespace AmiIptvPlayer.i18n {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Turkish.
+        /// </summary>
+        public static string LangTR {
+            get {
+                return ResourceManager.GetString("LangTR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Language:.
         /// </summary>
         public static string Language {

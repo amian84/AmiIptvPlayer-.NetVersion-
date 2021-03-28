@@ -118,325 +118,324 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AboutUs" xml:space="preserve">
-    <value>AmiIPTVPlayer és un senzill reproductor fent servir les llibreries de MVP</value>
+    <value>AmiIPTVPlayer, MVP kitaplığını kullanan basit bir iptv oynatıcısıdır</value>
   </data>
   <data name="AboutUsTitle" xml:space="preserve">
-    <value>Sobre...</value>
+    <value>Hakkımızda...</value>
   </data>
   <data name="ACCOUNT_INFO_ERROR" xml:space="preserve">
-    <value>No s'ha pogut trobar informació sobre el teu compte. Si us plau comprova la URL del IPTV als Ajustos
-Activar la compatibilidad con lectores de pantalla</value>
+    <value>IPTV url'niz için herhangi bir hesap bilgisi alınamıyor, lütfen kontrol ediniz</value>
   </data>
   <data name="AccountInfoHead" xml:space="preserve">
-    <value>Aquesta és la informació del teu compte:</value>
+    <value>Hesap bilgileriniz:</value>
   </data>
   <data name="AccountInfoTitle" xml:space="preserve">
-    <value>Informació del compte</value>
+    <value>Hesap Bilgisi</value>
   </data>
   <data name="ActiveCons" xml:space="preserve">
-    <value>Connexions actives:</value>
+    <value>Aktif bağlantılar:</value>
   </data>
   <data name="AS_EN" xml:space="preserve">
-    <value>Anglès</value>
+    <value>İngilizce</value>
   </data>
   <data name="AS_NONE" xml:space="preserve">
-    <value>Cap</value>
+    <value>Yok</value>
   </data>
   <data name="AS_SP" xml:space="preserve">
-    <value>Espanyol</value>
+    <value>İspanyolca</value>
   </data>
   <data name="AS_UN" xml:space="preserve">
-    <value>Desconegut</value>
-  </data>
-  <data name="ASK_PASS" xml:space="preserve">
-    <value>Introdueixi la contrasenya</value>
+    <value>Bilinmeyen</value>
   </data>
   <data name="CANCEL" xml:space="preserve">
-    <value>Cancel·lar</value>
+    <value>İptal</value>
   </data>
   <data name="CLEAR" xml:space="preserve">
-    <value>Netejar</value>
+    <value>Temizle</value>
   </data>
   <data name="Close" xml:space="preserve">
-    <value>Tancar</value>
+    <value>Kapat</value>
   </data>
   <data name="DEFAULT_MSG_NO_LIST" xml:space="preserve">
-    <value>Si us plau carregui una llista IPTV vàlida</value>
+    <value>Lütfen iptv listesini yükleyin</value>
   </data>
   <data name="Duration" xml:space="preserve">
-    <value>Temps: </value>
-  </data>
-  <data name="EmailHeader" xml:space="preserve">
-    <value>Nova petició de VOD</value>
-  </data>
-  <data name="EmailText" xml:space="preserve">
-    <value>Hola, aquesta és una nova petició de VOD a través de l'aplicació AmiIPTVPlayer.</value>
+    <value>Zaman: </value>
   </data>
   <data name="EPGloaded" xml:space="preserve">
-    <value>Estat EPG:</value>
+    <value>EPG Yüklendi:</value>
   </data>
   <data name="ERROR" xml:space="preserve">
-    <value>Error</value>
+    <value>Hata</value>
   </data>
   <data name="ERROR_EPG" xml:space="preserve">
-    <value>Error processant l'EPG, comprova la URL</value>
+    <value>EPG işlenirken hata oluştu, lütfen url'nizi kontrol edin</value>
   </data>
   <data name="ExitBtn" xml:space="preserve">
-    <value>Sortir</value>
+    <value>Çıkış</value>
   </data>
   <data name="ExpirationDate" xml:space="preserve">
-    <value>Data d'expiració:</value>
+    <value>Son kullanma tarihi:</value>
   </data>
   <data name="FileTool" xml:space="preserve">
-    <value>Arxiu</value>
-  </data>
-  <data name="FillParentalPass" xml:space="preserve">
-    <value>És obligatori tenir una clau parental en els ajustos abans de poder bloquejar canals.</value>
-  </data>
-  <data name="FillReqEmail" xml:space="preserve">
-    <value>Per poder enviar una nova petició és necessari tenir omplert l'email de peticions del teu proveïdor de IPTV a l'apartat d'ajustos</value>
-  </data>
-  <data name="FillReqVOD" xml:space="preserve">
-    <value>Si us plau ompli almenys el títol i la data per la nova petició</value>
+    <value>Dosya</value>
   </data>
   <data name="FILTER" xml:space="preserve">
-    <value>Filtrar</value>
+    <value>Filtrele</value>
   </data>
   <data name="FilterList" xml:space="preserve">
-    <value>Filtrar llista:</value>
+    <value>Filtre listesi:</value>
   </data>
   <data name="FITitle" xml:space="preserve">
-    <value>Titol</value>
-  </data>
-  <data name="FIOrigTitle" xml:space="preserve">
-    <value>Títol original</value>
+    <value>Başlık</value>
   </data>
   <data name="FixIdentTitle" xml:space="preserve">
-    <value>Corregir identificació</value>
+    <value>Kimliği Düzelt</value>
   </data>
   <data name="FIYear" xml:space="preserve">
-    <value>Any</value>
+    <value>Yıl</value>
   </data>
   <data name="GROUPS" xml:space="preserve">
-    <value>Grups:</value>
+    <value>Grup:</value>
   </data>
   <data name="HELP" xml:space="preserve">
-    <value>Ajuda</value>
+    <value>Yardım</value>
   </data>
   <data name="LangEN" xml:space="preserve">
-    <value>Anglès</value>
+    <value>İngilizce</value>
   </data>
   <data name="LangSP" xml:space="preserve">
-    <value>Espanyol</value>
+    <value>İspanyolca</value>
   </data>
   <data name="LangSYS" xml:space="preserve">
-    <value>Llenguatge del sistema per defecte</value>
+    <value>Varsayılan sistem dili</value>
   </data>
   <data name="Language" xml:space="preserve">
-    <value>Llengua:</value>
+    <value>Dil:</value>
   </data>
   <data name="lbCategoryTitle" xml:space="preserve">
-    <value>Categories:</value>
+    <value>Kategoriler:</value>
   </data>
   <data name="lbCountryTitle" xml:space="preserve">
-    <value>País</value>
+    <value>Ülke</value>
   </data>
   <data name="lbDescriptionTitle" xml:space="preserve">
-    <value>Descripció</value>
+    <value>Açıklama</value>
   </data>
   <data name="lbEndTimeTitle" xml:space="preserve">
-    <value>Temps de Finalització:</value>
+    <value>Bitiş Zamanı:</value>
   </data>
   <data name="lbRatingsTitle" xml:space="preserve">
-    <value>Qualificació d'edat:</value>
+    <value>Değerlendirme:</value>
   </data>
   <data name="lbReleaseDateTitle" xml:space="preserve">
-    <value>Data:</value>
+    <value>Yayın Tarihi:</value>
   </data>
   <data name="lbRequestEmail" xml:space="preserve">
-    <value>Email per peticions:</value>
+    <value>VOD talebi için e-posta:</value>
   </data>
   <data name="lbSettingsDefAud" xml:space="preserve">
-    <value>Àudio per defecte:</value>
+    <value>Varsayılan ses dili:</value>
   </data>
   <data name="lbSettingsDefSub" xml:space="preserve">
-    <value>Subtítols per defecte:</value>
+    <value>Varsayılan altyazı dili:</value>
   </data>
   <data name="lbSettingsEPG" xml:space="preserve">
     <value>URL EPG:</value>
   </data>
   <data name="lbSettingsUILang" xml:space="preserve">
-    <value>Llengua de la interfície:</value>
+    <value>UI Dili:</value>
   </data>
   <data name="lbSettingsURL" xml:space="preserve">
     <value>URL IPTV:</value>
   </data>
   <data name="lbStarsTitle" xml:space="preserve">
-    <value>Puntuació:</value>
+    <value>Noktalama:</value>
   </data>
   <data name="lbStartTimeTitle" xml:space="preserve">
-    <value>Temps de Començament:</value>
+    <value>Başlangıç Zamanı:</value>
   </data>
   <data name="lbTitleTitle" xml:space="preserve">
-    <value>Títol</value>
+    <value>Başık</value>
   </data>
   <data name="lbYearsTitle" xml:space="preserve">
-    <value>Any:</value>
+    <value>Çıkış Yılı:</value>
   </data>
   <data name="LOADED" xml:space="preserve">
-    <value>Carregat</value>
+    <value>Yüklendi</value>
   </data>
   <data name="LOADING" xml:space="preserve">
-    <value>Carregant...</value>
+    <value>Yükleniyor...</value>
   </data>
   <data name="LOADING_CHANNELS" xml:space="preserve">
-    <value>Carregant llista... si us plau esperi un moment</value>
+    <value>Kanallar yükleniyor... lütfen biraz bekleyin</value>
   </data>
   <data name="LongDescriptionTitle" xml:space="preserve">
-    <value>Fitxa complerta</value>
+    <value>Açıklamayı Göster</value>
   </data>
   <data name="MaxCons" xml:space="preserve">
-    <value>Màxim de connexions:</value>
+    <value>Maksimum bağlantılar:</value>
   </data>
   <data name="MORE_DETAILS" xml:space="preserve">
-    <value>Click per més detalls</value>
+    <value>Daha fazla detay için tıklayın</value>
   </data>
   <data name="NOT_FOUND" xml:space="preserve">
-    <value>Sense resultats</value>
+    <value>Bulunamadı</value>
   </data>
   <data name="NOT_FOUND_CH" xml:space="preserve">
-    <value>No existeix el canal: </value>
+    <value>Kanal numarası yok: </value>
   </data>
   <data name="PreferencesTitle" xml:space="preserve">
-    <value>AmiIPTVPlayer: Ajustos</value>
+    <value>AmiIPTVPlayer: Ayarlar</value>
   </data>
   <data name="QUIT" xml:space="preserve">
-    <value>Sortir</value>
+    <value>Çık</value>
   </data>
   <data name="Refresh" xml:space="preserve">
-    <value>Actualitzar</value>
+    <value>Yenile</value>
   </data>
   <data name="RefreshEPGTool" xml:space="preserve">
-    <value>Actualitzar llista EPG</value>
+    <value>EPG listesini yenile</value>
   </data>
   <data name="RefreshListTool" xml:space="preserve">
-    <value>Actualitzar IPTV</value>
+    <value>IPTV listesini yenile</value>
   </data>
   <data name="Resume" xml:space="preserve">
-    <value>Desitja continuar la reproducció?</value>
+    <value>Videoyu devam ettirmek istiyor musunuz?</value>
   </data>
   <data name="SAVE" xml:space="preserve">
-    <value>Guardar</value>
+    <value>Kaydet</value>
   </data>
   <data name="Search" xml:space="preserve">
-    <value>Cercar</value>
-  </data>
-  <data name="SearchAgainBtn" xml:space="preserve">
-    <value>Cercar</value>
+    <value>Arama</value>
   </data>
   <data name="SearchLb" xml:space="preserve">
-    <value>Cerca:</value>
+    <value>Arama:</value>
   </data>
   <data name="Seen" xml:space="preserve">
-    <value>Assenyalar com visualitzada</value>
+    <value>Görüldü olarak işaretle</value>
   </data>
   <data name="Server" xml:space="preserve">
-    <value>Servidor:</value>
+    <value>Sunucu:</value>
   </data>
   <data name="Settings" xml:space="preserve">
-    <value>Ajustos</value>
+    <value>Ayarlar</value>
   </data>
   <data name="Subs" xml:space="preserve">
-    <value>Subtítols:</value>
+    <value>Altyazılar:</value>
   </data>
   <data name="UNKNOWN" xml:space="preserve">
-    <value>Desconegut</value>
+    <value>Bilinmeyen</value>
   </data>
   <data name="UnResume" xml:space="preserve">
-    <value>Esborrar posició de continuat</value>
+    <value>Devam eden pozizyonu temizle</value>
   </data>
   <data name="UnSeen" xml:space="preserve">
-    <value>Assenyalar com no visualitzada</value>
+    <value>Görülmedi olarak işaretle</value>
   </data>
   <data name="URLinfo" xml:space="preserve">
-    <value>URL del visionat</value>
+    <value>Parça URL'sini Al</value>
   </data>
   <data name="URLInfoFooter" xml:space="preserve">
-    <value>Copia aquesta URL i reprodueix-la amb el teu reproductor favorit.</value>
+    <value>Bu URL'yi kopyalayın ve favori oynatıcınızla oynatın.</value>
   </data>
   <data name="URLInfoHead" xml:space="preserve">
-    <value>La URL pel canal/VOS és:</value>
+    <value>Bu parçanın URL'si şu şekildedir:</value>
   </data>
   <data name="User" xml:space="preserve">
-    <value>Usuari</value>
+    <value>Kullanıcı</value>
   </data>
   <data name="Version" xml:space="preserve">
-    <value>Versió:</value>
+    <value>Sürüm:</value>
   </data>
   <data name="Volume" xml:space="preserve">
-    <value>Volum:</value>
-  </data>
-  <data name="Tools" xml:space="preserve">
-    <value>Eines</value>
-  </data>
-  <data name="RequestNewVOD" xml:space="preserve">
-    <value>Petició de VOD</value>
-  </data>
-  <data name="Send" xml:space="preserve">
-    <value>Enviar</value>
-  </data>
-  <data name="Type" xml:space="preserve">
-    <value>Tipus</value>
-  </data>
-  <data name="Movie" xml:space="preserve">
-    <value>Pel.lícula</value>
-  </data>
-  <data name="Show" xml:space="preserve">
-    <value>Sèrie</value>
-  </data>
-  <data name="SendExtra" xml:space="preserve">
-    <value>Omplir la informació manualment</value>
-  </data>
-  <data name="lbAskPassError" xml:space="preserve">
-    <value>Ha introduït una contrasenya incorrecta</value>
-  </data>
-  <data name="lbParentalControl" xml:space="preserve">
-    <value>Clau parental</value>
-  </data>
-  <data name="ParentalControl" xml:space="preserve">
-    <value>Control parental</value>
-  </data>
-  <data name="PosterEmail" xml:space="preserve">
-    <value>Caràtula de la petició</value>
-  </data>
-  <data name="SaveBlockList" xml:space="preserve">
-    <value>Està segur de salvar la llista actual del bloqueig?</value>
+    <value>Ses:</value>
   </data>
   <data name="SubjectEmail" xml:space="preserve">
-    <value>AmiIPTVPlayer: nova petició VOD</value>
+    <value>AmiIptvPlayer: VOD için yeni istek</value>
+  </data>
+  <data name="FillReqVOD" xml:space="preserve">
+    <value>Lütfen isteği göndermeden önce başlığı ve yılı doldurun</value>
+  </data>
+  <data name="FillReqEmail" xml:space="preserve">
+    <value>Yeni bir istek göndermek için, iptv sağlayıcınızın e-posta adresini ayarlamalısınız</value>
+  </data>
+  <data name="FIOrigTitle" xml:space="preserve">
+    <value>Orjinal başlık</value>
+  </data>
+  <data name="SendExtra" xml:space="preserve">
+    <value>Bilgileri manuel olarak doldurun</value>
+  </data>
+  <data name="EmailText" xml:space="preserve">
+    <value>Merhaba, bu AmiIptvPlayer uygulaması aracılığıyla yeni bir VOD isteğidir.</value>
+  </data>
+  <data name="EmailHeader" xml:space="preserve">
+    <value>Yeni VOD talebi</value>
+  </data>
+  <data name="PosterEmail" xml:space="preserve">
+    <value>VOD Afişi</value>
   </data>
   <data name="ThanksEmail" xml:space="preserve">
-    <value>Gràcies per fer servir l'aplicació</value>
+    <value>Uygulamayı kullandığınız için teşekkürler</value>
   </data>
-  <data name="lbAskPass" xml:space="preserve">
-    <value>Si us plau introduïu la contrasenya del control parental</value>
+  <data name="Tools" xml:space="preserve">
+    <value>Araçlar</value>
   </data>
-  <data name="ChannelList" xml:space="preserve">
-    <value>Llista de canals</value>
+  <data name="ParentalControl" xml:space="preserve">
+    <value>Ebeveyn Kontrolü</value>
   </data>
-  <data name="BlockList" xml:space="preserve">
-    <value>Llista de bloquejos</value>
+  <data name="SaveBlockList" xml:space="preserve">
+    <value>Mevcut engelleme listesini kaydettiğinizden emin misiniz?</value>
   </data>
-  <data name="LangCAT" xml:space="preserve">
-    <value>Catalá</value>
+  <data name="lbParentalControl" xml:space="preserve">
+    <value>Ebeveyn şifresi</value>
   </data>
-  <data name="lbI18N" xml:space="preserve">
-    <value>Internacionalització</value>
+  <data name="FillParentalPass" xml:space="preserve">
+    <value>Herhangi bir kanalı kilitlemeden önce ayarlarınızda bir ebeveyn şifresi belirlemelisiniz.</value>
+  </data>
+  <data name="ASK_PASS" xml:space="preserve">
+    <value>Kimlik Bilgileri (Şifre)</value>
+  </data>
+  <data name="lbAskPassError" xml:space="preserve">
+    <value>Yanlış şifre ayarladınız</value>
   </data>
   <data name="LangFR" xml:space="preserve">
-    <value>Francès</value>
+    <value>Fransızca</value>
+  </data>
+  <data name="lbAskPass" xml:space="preserve">
+    <value>Lütfen ebeveyn denetimi kimlik bilgilerinizi ayarlayın</value>
+  </data>
+  <data name="LangCAT" xml:space="preserve">
+    <value>Katalanca</value>
+  </data>
+  <data name="ChannelList" xml:space="preserve">
+    <value>Kanal Listesi</value>
+  </data>
+  <data name="BlockList" xml:space="preserve">
+    <value>Blok Listesi</value>
+  </data>
+  <data name="lbI18N" xml:space="preserve">
+    <value>Uluslaştırma</value>
+  </data>
+  <data name="Movie" xml:space="preserve">
+    <value>Film</value>
+  </data>
+  <data name="RequestNewVOD" xml:space="preserve">
+    <value>Yeni VOD talep edin</value>
+  </data>
+  <data name="SearchAgainBtn" xml:space="preserve">
+    <value>Tekrar arama</value>
+  </data>
+  <data name="Send" xml:space="preserve">
+    <value>Gönder</value>
+  </data>
+  <data name="Show" xml:space="preserve">
+    <value>Dizi</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Tür</value>
   </data>
   <data name="LangTR" xml:space="preserve">
-    <value>Turc</value>
+    <value>Türk</value>
   </data>
 </root>

@@ -23,7 +23,8 @@ namespace AmiIptvPlayer
             label1.Text = Strings.AboutUs;
             label3.Text = Strings.lbI18N + ":";
             label4.Text = "Beltrán Rodríguez: " + Strings.LangCAT + ", " + Strings.LangFR + "\n" +
-                "Amian: " + Strings.LangEN + ", " + Strings.LangSP;
+                "Amian: " + Strings.LangEN + ", " + Strings.LangSP + "\n" +
+                "TeLaSe: " + Strings.LangTR;
         }
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -32,6 +33,5 @@ namespace AmiIptvPlayer
             System.Diagnostics.Process.Start("http://github.com");
         }
 
-        
     }
 }

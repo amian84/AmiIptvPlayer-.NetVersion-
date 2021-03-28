@@ -106,6 +106,7 @@
             this.label4.Size = new System.Drawing.Size(368, 73);
             this.label4.TabIndex = 6;
             this.label4.Text = "Beltrán:";
+            
             // 
             // AboutUs
             // 

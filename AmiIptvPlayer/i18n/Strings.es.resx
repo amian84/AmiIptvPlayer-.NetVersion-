@@ -435,4 +435,7 @@
   <data name="LangFR" xml:space="preserve">
     <value>Francés</value>
   </data>
+  <data name="LangTR" xml:space="preserve">
+    <value>Turco</value>
+  </data>
 </root>
