@@ -189,6 +189,7 @@ namespace AmiIptvPlayer
             availableLangs.Add("en-US", 2);
             availableLangs.Add("ca-ES", 3);
             availableLangs.Add("fr-FR", 4);
+            availableLangs.Add("tr-TR", 5);
         }
         private static AmiConfiguration instance;
         public Dictionary<string, int> availableLangs = new Dictionary<string, int>();
@@ -265,7 +266,7 @@ namespace AmiIptvPlayer
             { "eng", Strings.AS_EN }
         };
 #if _PORTABLE
-        public static string PORTABLE_VERSION = "1.3.1.6";
+        public static string PORTABLE_VERSION = "1.3.1.7";
 #endif
         public static string Base64Encode(string plainText)
         {
