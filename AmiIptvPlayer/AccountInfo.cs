@@ -40,6 +40,7 @@ namespace AmiIptvPlayer
             lbUserText.Text = Strings.User + ":";
             btnClose.Text = Strings.Close;
             btnRefresh.Text = Strings.Refresh;
+            Utils.GetAccountInfo();
         }
 
         private void btnRefresh_Click(object sender, EventArgs e)
@@ -51,8 +52,8 @@ namespace AmiIptvPlayer
         private void PrintValues()
         {
             IPTVData data = IPTVData.Get();
-            lbServer.Text = data.HOST;
-            lbUser.Text = data.USER;
+            txtServer.Text = data.HOST;
+            txtUser.Text = data.USER;
             lbMaxCon.Text = data.MAX_CONECTIONS;
             lbActiveCons.Text = data.ACTIVE_CONECTIONS;
             lbExp.Text = data.EXPIRE_DATE.ToString();

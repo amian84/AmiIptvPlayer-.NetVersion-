@@ -37,11 +37,11 @@
             this.lbActiveConsText = new System.Windows.Forms.Label();
             this.btnClose = new System.Windows.Forms.Button();
             this.btnRefresh = new System.Windows.Forms.Button();
-            this.lbServer = new System.Windows.Forms.Label();
-            this.lbUser = new System.Windows.Forms.Label();
             this.lbExp = new System.Windows.Forms.Label();
             this.lbMaxCon = new System.Windows.Forms.Label();
             this.lbActiveCons = new System.Windows.Forms.Label();
+            this.txtUser = new System.Windows.Forms.TextBox();
+            this.txtServer = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // lbHeader
@@ -106,7 +106,7 @@
             // 
             // btnClose
             // 
-            this.btnClose.Location = new System.Drawing.Point(422, 198);
+            this.btnClose.Location = new System.Drawing.Point(474, 198);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(75, 23);
             this.btnClose.TabIndex = 6;
@@ -116,33 +116,13 @@
             // 
             // btnRefresh
             // 
-            this.btnRefresh.Location = new System.Drawing.Point(327, 198);
+            this.btnRefresh.Location = new System.Drawing.Point(368, 198);
             this.btnRefresh.Name = "btnRefresh";
             this.btnRefresh.Size = new System.Drawing.Size(75, 23);
             this.btnRefresh.TabIndex = 7;
             this.btnRefresh.Text = "Refresh";
             this.btnRefresh.UseVisualStyleBackColor = true;
             this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
-            // 
-            // lbServer
-            // 
-            this.lbServer.AutoSize = true;
-            this.lbServer.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbServer.Location = new System.Drawing.Point(329, 51);
-            this.lbServer.Name = "lbServer";
-            this.lbServer.Size = new System.Drawing.Size(14, 20);
-            this.lbServer.TabIndex = 8;
-            this.lbServer.Text = "-";
-            // 
-            // lbUser
-            // 
-            this.lbUser.AutoSize = true;
-            this.lbUser.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbUser.Location = new System.Drawing.Point(329, 75);
-            this.lbUser.Name = "lbUser";
-            this.lbUser.Size = new System.Drawing.Size(14, 20);
-            this.lbUser.TabIndex = 9;
-            this.lbUser.Text = "-";
             // 
             // lbExp
             // 
@@ -174,16 +154,32 @@
             this.lbActiveCons.TabIndex = 12;
             this.lbActiveCons.Text = "-";
             // 
+            // txtUser
+            // 
+            this.txtUser.Location = new System.Drawing.Point(330, 79);
+            this.txtUser.Name = "txtUser";
+            this.txtUser.ReadOnly = true;
+            this.txtUser.Size = new System.Drawing.Size(219, 20);
+            this.txtUser.TabIndex = 13;
+            // 
+            // txtServer
+            // 
+            this.txtServer.Location = new System.Drawing.Point(330, 51);
+            this.txtServer.Name = "txtServer";
+            this.txtServer.ReadOnly = true;
+            this.txtServer.Size = new System.Drawing.Size(219, 20);
+            this.txtServer.TabIndex = 14;
+            // 
             // AccountInfo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(509, 233);
+            this.ClientSize = new System.Drawing.Size(597, 233);
+            this.Controls.Add(this.txtServer);
+            this.Controls.Add(this.txtUser);
             this.Controls.Add(this.lbActiveCons);
             this.Controls.Add(this.lbMaxCon);
             this.Controls.Add(this.lbExp);
-            this.Controls.Add(this.lbUser);
-            this.Controls.Add(this.lbServer);
             this.Controls.Add(this.btnRefresh);
             this.Controls.Add(this.btnClose);
             this.Controls.Add(this.lbActiveConsText);
@@ -215,10 +211,10 @@
         private System.Windows.Forms.Label lbActiveConsText;
         private System.Windows.Forms.Button btnClose;
         private System.Windows.Forms.Button btnRefresh;
-        private System.Windows.Forms.Label lbServer;
-        private System.Windows.Forms.Label lbUser;
         private System.Windows.Forms.Label lbExp;
         private System.Windows.Forms.Label lbMaxCon;
         private System.Windows.Forms.Label lbActiveCons;
+        private System.Windows.Forms.TextBox txtUser;
+        private System.Windows.Forms.TextBox txtServer;
     }
 }
