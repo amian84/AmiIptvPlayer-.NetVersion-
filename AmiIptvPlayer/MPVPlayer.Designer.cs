@@ -267,7 +267,7 @@
             // lbSub
             // 
             this.lbSub.AutoSize = true;
-            this.lbSub.Location = new System.Drawing.Point(129, -2);
+            this.lbSub.Location = new System.Drawing.Point(129, 0);
             this.lbSub.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lbSub.Name = "lbSub";
             this.lbSub.Size = new System.Drawing.Size(50, 13);
@@ -277,7 +277,7 @@
             // lbLang
             // 
             this.lbLang.AutoSize = true;
-            this.lbLang.Location = new System.Drawing.Point(5, -3);
+            this.lbLang.Location = new System.Drawing.Point(5, 0);
             this.lbLang.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lbLang.Name = "lbLang";
             this.lbLang.Size = new System.Drawing.Size(58, 13);
