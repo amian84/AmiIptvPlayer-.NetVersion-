@@ -439,4 +439,16 @@ Activar la compatibilidad con lectores de pantalla</value>
   <data name="LangTR" xml:space="preserve">
     <value>Turc</value>
   </data>
+  <data name="ALLGROUP" xml:space="preserve">
+    <value>Tots</value>
+  </data>
+  <data name="WOGROUP" xml:space="preserve">
+    <value>Sense grup</value>
+  </data>
+  <data name="AS_FR" xml:space="preserve">
+    <value>Francès</value>
+  </data>
+  <data name="AS_TR" xml:space="preserve">
+    <value>Turc</value>
+  </data>
 </root>

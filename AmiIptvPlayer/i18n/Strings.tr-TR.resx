@@ -127,7 +127,7 @@
     <value>IPTV url'niz için herhangi bir hesap bilgisi alınamıyor, lütfen kontrol ediniz</value>
   </data>
   <data name="AccountInfoHead" xml:space="preserve">
-    <value>Hesap bilgileriniz:</value>
+    <value>Hesap Bilgileriniz:</value>
   </data>
   <data name="AccountInfoTitle" xml:space="preserve">
     <value>Hesap Bilgisi</value>
@@ -198,6 +198,9 @@
   <data name="GROUPS" xml:space="preserve">
     <value>Grup:</value>
   </data>
+  <data name="ALLGROUP" xml:space="preserve">
+    <value>Hepsi</value>
+  </data>
   <data name="HELP" xml:space="preserve">
     <value>Yardım</value>
   </data>
@@ -244,13 +247,13 @@
     <value>URL EPG:</value>
   </data>
   <data name="lbSettingsUILang" xml:space="preserve">
-    <value>UI Dili:</value>
+    <value>Arayüz Dili:</value>
   </data>
   <data name="lbSettingsURL" xml:space="preserve">
     <value>URL IPTV:</value>
   </data>
   <data name="lbStarsTitle" xml:space="preserve">
-    <value>Noktalama:</value>
+    <value>Puan:</value>
   </data>
   <data name="lbStartTimeTitle" xml:space="preserve">
     <value>Başlangıç Zamanı:</value>
@@ -289,7 +292,7 @@
     <value>AmiIPTVPlayer: Ayarlar</value>
   </data>
   <data name="QUIT" xml:space="preserve">
-    <value>Çık</value>
+    <value>Çıkış</value>
   </data>
   <data name="Refresh" xml:space="preserve">
     <value>Yenile</value>
@@ -436,6 +439,15 @@
     <value>Tür</value>
   </data>
   <data name="LangTR" xml:space="preserve">
+    <value>Türk</value>
+  </data>
+  <data name="WOGROUP" xml:space="preserve">
+    <value>Grupsuz</value>
+  </data>
+  <data name="AS_FR" xml:space="preserve">
+    <value>Fransızca</value>
+  </data>
+  <data name="AS_TR" xml:space="preserve">
     <value>Türk</value>
   </data>
 </root>

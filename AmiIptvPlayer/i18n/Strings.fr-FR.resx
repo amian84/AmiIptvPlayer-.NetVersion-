@@ -438,4 +438,16 @@
   <data name="LangTR" xml:space="preserve">
     <value>Turc</value>
   </data>
+  <data name="ALLGROUP" xml:space="preserve">
+    <value>Tous</value>
+  </data>
+  <data name="WOGROUP" xml:space="preserve">
+    <value>Sans groupe</value>
+  </data>
+  <data name="AS_FR" xml:space="preserve">
+    <value>Français</value>
+  </data>
+  <data name="AS_TR" xml:space="preserve">
+    <value>Turc</value>
+  </data>
 </root>

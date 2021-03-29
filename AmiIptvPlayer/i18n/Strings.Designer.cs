@@ -115,11 +115,29 @@ namespace AmiIptvPlayer.i18n {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a All.
+        /// </summary>
+        public static string ALLGROUP {
+            get {
+                return ResourceManager.GetString("ALLGROUP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a English.
         /// </summary>
         public static string AS_EN {
             get {
                 return ResourceManager.GetString("AS_EN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a French.
+        /// </summary>
+        public static string AS_FR {
+            get {
+                return ResourceManager.GetString("AS_FR", resourceCulture);
             }
         }
         
@@ -138,6 +156,15 @@ namespace AmiIptvPlayer.i18n {
         public static string AS_SP {
             get {
                 return ResourceManager.GetString("AS_SP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Turkish.
+        /// </summary>
+        public static string AS_TR {
+            get {
+                return ResourceManager.GetString("AS_TR", resourceCulture);
             }
         }
         
@@ -1020,6 +1047,15 @@ namespace AmiIptvPlayer.i18n {
         public static string Volume {
             get {
                 return ResourceManager.GetString("Volume", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Without group.
+        /// </summary>
+        public static string WOGROUP {
+            get {
+                return ResourceManager.GetString("WOGROUP", resourceCulture);
             }
         }
     }

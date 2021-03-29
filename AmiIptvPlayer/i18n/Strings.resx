@@ -422,7 +422,7 @@
   </data>
   <data name="Version" xml:space="preserve">
     <value>Version:</value>
-    <comment>:</comment>
+    
   </data>
   <data name="Volume" xml:space="preserve">
     <value>Volume:</value>
@@ -438,6 +438,18 @@
     <value>French</value>
   </data>
   <data name="LangTR" xml:space="preserve">
+    <value>Turkish</value>
+  </data>
+  <data name="ALLGROUP" xml:space="preserve">
+    <value>All</value>
+  </data>
+  <data name="WOGROUP" xml:space="preserve">
+    <value>Without group</value>
+  </data>
+  <data name="AS_FR" xml:space="preserve">
+    <value>French</value>
+  </data>
+  <data name="AS_TR" xml:space="preserve">
     <value>Turkish</value>
   </data>
 </root>
