@@ -26,6 +26,7 @@ namespace AmiIptvPlayer
 
         public void ReloadLang()
         {
+            Utils.ReloadLangs();
             AmiConfiguration amiconf = AmiConfiguration.Get();
             cmbUI.Items.Clear();
             if (string.IsNullOrEmpty(amiconf.UI_LANG))
