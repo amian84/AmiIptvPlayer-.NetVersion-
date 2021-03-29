@@ -17,7 +17,6 @@ using System.Windows.Forms;
 
 namespace AmiIptvPlayer
 {
-
     public enum EPG_STATUS
     {
         Loading,
@@ -263,14 +262,38 @@ namespace AmiIptvPlayer
         {
             { "spa", Strings.AS_SP},
             { "eng", Strings.AS_EN },
+            { "fr", Strings.AS_FR},
+            { "tr", Strings.AS_TR},
             { "unk", Strings.AS_UN }
         };
         public static Dictionary<string, string> subs = new Dictionary<string, string>
         {
             { "none", Strings.AS_NONE},
             { "spa", Strings.AS_SP},
-            { "eng", Strings.AS_EN }
+            { "eng", Strings.AS_EN },
+            { "fr", Strings.AS_FR},
+            { "tr", Strings.AS_TR},
         };
+
+        public static void ReloadLangs()
+        {
+            audios = new Dictionary<string, string>
+            {
+                { "spa", Strings.AS_SP},
+                { "eng", Strings.AS_EN },
+                { "fr", Strings.AS_FR},
+                { "tr", Strings.AS_TR},
+                { "unk", Strings.AS_UN }
+            };
+            subs = new Dictionary<string, string>
+            {
+                { "none", Strings.AS_NONE},
+                { "spa", Strings.AS_SP},
+                { "eng", Strings.AS_EN },
+                { "fr", Strings.AS_FR},
+                { "tr", Strings.AS_TR},
+            };
+        }
 #if _PORTABLE
         public static string PORTABLE_VERSION = "1.3.1.7";
 #endif
