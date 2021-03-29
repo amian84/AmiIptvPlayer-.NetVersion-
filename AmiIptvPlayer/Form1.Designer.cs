@@ -298,7 +298,7 @@
             this.btnClear.Location = new System.Drawing.Point(238, 166);
             this.btnClear.Margin = new System.Windows.Forms.Padding(2);
             this.btnClear.Name = "btnClear";
-            this.btnClear.Size = new System.Drawing.Size(50, 24);
+            this.btnClear.Size = new System.Drawing.Size(60, 24);
             this.btnClear.TabIndex = 21;
             this.btnClear.Text = "Clear";
             this.btnClear.UseVisualStyleBackColor = true;
