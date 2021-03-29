@@ -66,8 +66,8 @@ namespace AmiIptvPlayer
         private int currLang = -1;
         private int currSub = -1;
         private int dockFullScreen = -1;
-        private static string ALL_GROUP = "All";
-        private static string EMPTY_GROUP = "Without group";
+        private string ALL_GROUP = Strings.ALLGROUP;
+        private string EMPTY_GROUP = Strings.WOGROUP;
         
         public Form1()
         {
@@ -107,7 +107,24 @@ namespace AmiIptvPlayer
             chName.Text = Strings.lbTitleTitle + ":";
             accountInfoToolStripMenuItem.Text = Strings.AccountInfoTitle;
             playerForm.ReloadLang();
+            ALL_GROUP = Strings.ALLGROUP;
+            RepaintEPGLoadedLabel();
+            EMPTY_GROUP = Strings.WOGROUP;
         }
+
+        private void RepaintEPGLoadedLabel()
+        {
+            lbProcessingEPG.Text = Strings.LOADING;
+            if (EPG_DB.Get().Loaded == EPG_STATUS.Loaded)
+            {
+                lbProcessingEPG.Text = Strings.LOADED;
+            }
+            if (EPG_DB.Get().Loaded == EPG_STATUS.Error)
+            {
+                lbProcessingEPG.Text = Strings.ERROR;
+            }
+        }
+
         private void Form1_Load(object sender, EventArgs e)
         {
             MoveConf();
@@ -470,7 +487,7 @@ namespace AmiIptvPlayer
                 VisibleEPGLabes(true);
                 
                 EPG_DB epg = EPG_DB.Get();
-                if (epg.Loaded)
+                if (epg.Loaded == EPG_STATUS.Loaded)
                 {
                     PrgInfo prg = epg.GetCurrentProgramm(channel);
                     if (prg != null)
