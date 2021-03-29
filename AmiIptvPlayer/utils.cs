@@ -18,6 +18,12 @@ using System.Windows.Forms;
 namespace AmiIptvPlayer
 {
 
+    public enum EPG_STATUS
+    {
+        Loading,
+        Loaded,
+        Error
+    }
     public class SeenResumeChannels
     {
         private static SeenResumeChannels instance;

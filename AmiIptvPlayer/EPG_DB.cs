@@ -15,7 +15,7 @@ namespace AmiIptvPlayer
         public bool Error { get; set; }
         
     }
-
+    
     public class EPG_DB
     {
         private Thread parseThread;
@@ -23,7 +23,7 @@ namespace AmiIptvPlayer
         public delegate void FinishParsed(EPG_DB epg, EPGEventArgs e);
         private static EPG_DB _instance;
         public bool Refresh { get; set; }
-        public bool Loaded{ get; set; }
+        public EPG_STATUS Loaded { get; set; }
         private Dictionary<string, Dictionary<int, Dictionary<int, Dictionary<int, List<PrgInfo>>>>> DB = new Dictionary<string, Dictionary<int, Dictionary<int, Dictionary<int, List<PrgInfo>>>>>();
         
         private EPG_DB()
@@ -36,7 +36,7 @@ namespace AmiIptvPlayer
             if (_instance == null)
             {
                 _instance = new EPG_DB();
-                _instance.Loaded = false;
+                _instance.Loaded = EPG_STATUS.Loading;
             }
             return _instance;
         }
@@ -56,11 +56,11 @@ namespace AmiIptvPlayer
                     EPGEventArgs epgEvent = new EPGEventArgs();
                     epgEvent.Error = false;
                     _instance.epgEventFinish(_instance, epgEvent);
-                    _instance.Loaded = true;
+                    _instance.Loaded = EPG_STATUS.Loaded;
                 }catch (Exception ex)
                 {
                     deleteJson = true;
-                    _instance.Loaded = false;
+                    _instance.Loaded = EPG_STATUS.Error;
                     Console.WriteLine("Error trying read epg json: " + ex.ToString());
                     
                 }
@@ -167,13 +167,13 @@ namespace AmiIptvPlayer
                     serializer.Serialize(file, DB);
                 }
                 epgEventFinish?.Invoke(this, epgEvent);
-                Loaded = true;
+                Loaded = EPG_STATUS.Loaded;
             }catch (Exception ex)
             {
                 File.Delete(Utils.CONF_PATH + "amiiptvepg.xml");
                 epgEvent.Error = true;
                 epgEventFinish?.Invoke(this, epgEvent);
-                Loaded = false;
+                Loaded = EPG_STATUS.Error;
             }
             
         }
