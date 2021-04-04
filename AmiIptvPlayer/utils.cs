@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Net;
 #if _PORTABLE
@@ -93,10 +94,14 @@ namespace AmiIptvPlayer
             {
                 foreach(var item in srch)
                 {
-                    item.seen = value;
-                    item.date = now;
-                    if (item.totalDuration > 0)
-                        item.totalDuration = totalSeconds;
+                    if (item.title == title)
+                    {
+                        item.seen = value;
+                        item.date = now;
+                        if (item.totalDuration > 0)
+                            item.totalDuration = totalSeconds;
+                    }
+                    
                 }
             }
         }
@@ -112,10 +117,13 @@ namespace AmiIptvPlayer
             {
                 foreach (var item in srch)
                 {
-                    item.position = value;
-                    item.date = now;
-                    if (item.totalDuration>0)
-                        item.totalDuration = totalSeconds;
+                    if (item.title == title)
+                    {
+                        item.position = value;
+                        item.date = now;
+                        if (item.totalDuration > 0)
+                            item.totalDuration = totalSeconds;
+                    }
                 }
             }
         }
@@ -295,7 +303,7 @@ namespace AmiIptvPlayer
             };
         }
 #if _PORTABLE
-        public static string PORTABLE_VERSION = "1.3.1.7";
+        public static string PORTABLE_VERSION = "1.3.1.9";
 #endif
         public static string Base64Encode(string plainText)
         {
@@ -392,6 +400,26 @@ namespace AmiIptvPlayer
             return listSearch;
         }
 
+        public static string YearFromFilmName(string name)
+        {
+            string movie_date = "";
+            if (Regex.IsMatch(name, @"\(\d\d\d\d\)\s*?$"))
+            {
+                movie_date = name.Substring(name.Length - 6, name.Length - (name.Length - 6)).Trim();
+                name = name.Substring(0, name.Length - 7);
+            }
+            if (Regex.IsMatch(name, @"\-\s*?\d\d\d\d\s*?$"))
+            {
+                movie_date = name.Substring(name.Length - 5, name.Length - (name.Length - 5)).Trim();
+                name = name.Substring(0, name.Length - 7);
+            }
+            if (Regex.IsMatch(name, @"\s*?S\d\d\sE\d\d\s*?$"))
+            {
+                movie_date = null;
+            }
+            return movie_date;
+        }
+
         public static dynamic GetFilmInfo(ChannelInfo channel, string lang)
         {
             string name = channel.Title;
@@ -457,7 +485,7 @@ namespace AmiIptvPlayer
         public static Dictionary<string, JArray> GetFilmInfo( string title, string year, string lang)
         {
             var result = new Dictionary<string, JArray>() { };
-            
+            lang = Strings.Culture.TwoLetterISOLanguageName;
             var movies = GetFilmInfo(ChType.CHANNEL, title, year, lang);
             result["movies"] = movies["results"];
             var shows = GetFilmInfo(ChType.SHOW, title, year, lang);
@@ -467,6 +495,7 @@ namespace AmiIptvPlayer
 
         public static dynamic GetFilmInfo(ChType chType, string title, string year, string lang)
         {
+            lang = Strings.Culture.TwoLetterISOLanguageName;
             string apiUrl = "https://api.themoviedb.org/3/search/$$FTYPE$$?api_key=$$APIKEY$$&language=$$LANG$$&query=$$NAME$$&$$YEAR$$page=1&include_adult=false";
             string apiKey = "9e92adff436095fb58d51262de09385a";
             string ftype = "movie";
