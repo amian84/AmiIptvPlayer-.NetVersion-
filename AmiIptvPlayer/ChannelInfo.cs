@@ -65,7 +65,7 @@ namespace AmiIptvPlayer
         }
         public void CalculateType()
         {
-            if (URL.EndsWith(".mkv") || URL.EndsWith(".avi") || URL.EndsWith(".mp4"))
+            if (URL.EndsWith(".mkv") || URL.EndsWith(".avi") || URL.EndsWith(".mp4") || URL.EndsWith(".m3u8"))
             {
                 ChannelType = ChType.MOVIE;
                 if (Regex.IsMatch(Title, @"S\d\d\s*?E\d\d$"))
