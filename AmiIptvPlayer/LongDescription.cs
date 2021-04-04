@@ -101,16 +101,14 @@ namespace AmiIptvPlayer
             this.Close();
         }
 
-        public void FillMovieData()
+        public void FillMovieData(JObject filmInfo, ChType chType)
         {
             VisibleChannel(false);
-            JObject filmInfo = Form1.Get().GetFilmInfo();
-            
             string title = "";
             string description = "";
             string stars = "";
             string year = "";
-            if (Form1.Get().GetCurrentChannel().ChannelType == ChType.MOVIE)
+            if (chType == ChType.MOVIE)
             {
                 title = filmInfo["title"].ToString();
                 year = filmInfo["release_date"].ToString().Split('-')[0];
@@ -135,7 +133,7 @@ namespace AmiIptvPlayer
                 logoPRG.LoadAsync(Utils.PosterBasePath + poster_path);
                 logoPRG.LoadCompleted += logoEPGLoaded;
             }
-            
+
             /*List<string> genre_ids = new List<string>();
             foreach (JValue genre in (JArray)filmInfo["genre_ids"])
             {
@@ -145,7 +143,11 @@ namespace AmiIptvPlayer
             {
                 lbRatings.Text = string.Join(",", genre_ids.ToArray<string>());
             }*/
-            
+        }
+        public void FillMovieData()
+        {
+            JObject filmInfo = Form1.Get().GetFilmInfo();
+            FillMovieData(filmInfo, Form1.Get().GetCurrentChannel().ChannelType);
         }
     }
 }
