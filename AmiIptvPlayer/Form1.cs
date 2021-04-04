@@ -893,13 +893,19 @@ namespace AmiIptvPlayer
                 {
                     if (ch.seen)
                     {
-                        SeenResumeChannels.Get().UpdateOrSetSeen(ch.Title, true, ch.totalDuration == null ? -1 : (double)ch.totalDuration, DateTime.Now);     
+                        if (!SeenResumeChannels.Get().IsSeen(ch.Title)){
+                            SeenResumeChannels.Get().UpdateOrSetSeen(ch.Title, true, ch.totalDuration == null ? -1 : (double)ch.totalDuration, DateTime.Now);
+                        }
+                        
                     }
                     else
                     {
                         if (ch.currentPostion != null)
                         {
-                            SeenResumeChannels.Get().UpdateOrSetResume(ch.Title, (double)ch.currentPostion, ch.totalDuration==null ? -1:(double)ch.totalDuration, DateTime.Now);
+                            if (!SeenResumeChannels.Get().IsResume(ch.Title))
+                            {
+                                SeenResumeChannels.Get().UpdateOrSetResume(ch.Title, (double)ch.currentPostion, ch.totalDuration == null ? -1 : (double)ch.totalDuration, DateTime.Now);
+                            }
                         }
                     }
                 }
