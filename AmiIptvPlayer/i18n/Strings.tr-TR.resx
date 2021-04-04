@@ -450,4 +450,22 @@
   <data name="AS_TR" xml:space="preserve">
     <value>Türk</value>
   </data>
+  <data name="lbHistory" xml:space="preserve">
+    <value>Tarihsel</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Sil</value>
+  </data>
+  <data name="ERROR_DELETE_HIS" xml:space="preserve">
+    <value>Silmek için herhangi bir öğe seçmelisiniz</value>
+  </data>
+  <data name="ERROR_INFO_HIS" xml:space="preserve">
+    <value>Daha fazla bilgi görmek için lütfen bir öğe seçin</value>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>Tarih</value>
+  </data>
+  <data name="WARN" xml:space="preserve">
+    <value>Uyarı</value>
+  </data>
 </root>

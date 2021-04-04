@@ -450,4 +450,22 @@
   <data name="AS_TR" xml:space="preserve">
     <value>Turco</value>
   </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Eliminar</value>
+  </data>
+  <data name="lbHistory" xml:space="preserve">
+    <value>Historial</value>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>Fecha</value>
+  </data>
+  <data name="ERROR_DELETE_HIS" xml:space="preserve">
+    <value>Por favor, debe seleccionar algún elemento antes de eliminarlo</value>
+  </data>
+  <data name="WARN" xml:space="preserve">
+    <value>Advertencia</value>
+  </data>
+  <data name="ERROR_INFO_HIS" xml:space="preserve">
+    <value>Por favor seleccione sólo un elemento para ver más información</value>
+  </data>
 </root>

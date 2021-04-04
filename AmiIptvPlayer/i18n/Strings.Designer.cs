@@ -232,11 +232,29 @@ namespace AmiIptvPlayer.i18n {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Date.
+        /// </summary>
+        public static string Date {
+            get {
+                return ResourceManager.GetString("Date", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Please load iptv list.
         /// </summary>
         public static string DEFAULT_MSG_NO_LIST {
             get {
                 return ResourceManager.GetString("DEFAULT_MSG_NO_LIST", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Delete.
+        /// </summary>
+        public static string Delete {
+            get {
+                return ResourceManager.GetString("Delete", resourceCulture);
             }
         }
         
@@ -286,11 +304,29 @@ namespace AmiIptvPlayer.i18n {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Please you must select any items before delete it.
+        /// </summary>
+        public static string ERROR_DELETE_HIS {
+            get {
+                return ResourceManager.GetString("ERROR_DELETE_HIS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Error processing EPG, please check your url.
         /// </summary>
         public static string ERROR_EPG {
             get {
                 return ResourceManager.GetString("ERROR_EPG", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Please you must select only one item to get more info.
+        /// </summary>
+        public static string ERROR_INFO_HIS {
+            get {
+                return ResourceManager.GetString("ERROR_INFO_HIS", resourceCulture);
             }
         }
         
@@ -534,6 +570,15 @@ namespace AmiIptvPlayer.i18n {
         public static string lbEndTimeTitle {
             get {
                 return ResourceManager.GetString("lbEndTimeTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a History.
+        /// </summary>
+        public static string lbHistory {
+            get {
+                return ResourceManager.GetString("lbHistory", resourceCulture);
             }
         }
         
@@ -1047,6 +1092,15 @@ namespace AmiIptvPlayer.i18n {
         public static string Volume {
             get {
                 return ResourceManager.GetString("Volume", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Warning.
+        /// </summary>
+        public static string WARN {
+            get {
+                return ResourceManager.GetString("WARN", resourceCulture);
             }
         }
         

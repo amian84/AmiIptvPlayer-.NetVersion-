@@ -451,4 +451,16 @@ Activar la compatibilidad con lectores de pantalla</value>
   <data name="AS_TR" xml:space="preserve">
     <value>Turc</value>
   </data>
+  <data name="lbHistory" xml:space="preserve">
+    <value>Històric</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Esborrar</value>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>Data</value>
+  </data>
+  <data name="WARN" xml:space="preserve">
+    <value>Advertència</value>
+  </data>
 </root>

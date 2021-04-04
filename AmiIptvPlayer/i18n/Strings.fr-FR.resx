@@ -450,4 +450,16 @@
   <data name="AS_TR" xml:space="preserve">
     <value>Turc</value>
   </data>
+  <data name="lbHistory" xml:space="preserve">
+    <value>Historique</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Effacer</value>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="WARN" xml:space="preserve">
+    <value>Attention</value>
+  </data>
 </root>

@@ -452,4 +452,22 @@
   <data name="AS_TR" xml:space="preserve">
     <value>Turkish</value>
   </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="lbHistory" xml:space="preserve">
+    <value>History</value>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="ERROR_DELETE_HIS" xml:space="preserve">
+    <value>Please you must select any items before delete it</value>
+  </data>
+  <data name="WARN" xml:space="preserve">
+    <value>Warning</value>
+  </data>
+  <data name="ERROR_INFO_HIS" xml:space="preserve">
+    <value>Please you must select only one item to get more info</value>
+  </data>
 </root>
