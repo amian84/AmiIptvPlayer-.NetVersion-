@@ -40,6 +40,7 @@
             this.accountInfoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.requestNewVODToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.parentalControlToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.HistoryMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.chList = new System.Windows.Forms.ListView();
@@ -152,7 +153,8 @@
             this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.accountInfoToolStripMenuItem,
             this.requestNewVODToolStripMenuItem,
-            this.parentalControlToolStripMenuItem});
+            this.parentalControlToolStripMenuItem,
+            this.HistoryMenuItem1});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
             this.toolsToolStripMenuItem.Size = new System.Drawing.Size(46, 20);
             this.toolsToolStripMenuItem.Text = "Tools";
@@ -160,23 +162,29 @@
             // accountInfoToolStripMenuItem
             // 
             this.accountInfoToolStripMenuItem.Name = "accountInfoToolStripMenuItem";
-            this.accountInfoToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.accountInfoToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.accountInfoToolStripMenuItem.Text = "Account Info";
             this.accountInfoToolStripMenuItem.Click += new System.EventHandler(this.accountInfoToolStripMenuItem_Click);
             // 
             // requestNewVODToolStripMenuItem
             // 
             this.requestNewVODToolStripMenuItem.Name = "requestNewVODToolStripMenuItem";
-            this.requestNewVODToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.requestNewVODToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.requestNewVODToolStripMenuItem.Text = "Request new VOD";
             this.requestNewVODToolStripMenuItem.Click += new System.EventHandler(this.requestNewVODToolStripMenuItem_Click);
             // 
             // parentalControlToolStripMenuItem
             // 
             this.parentalControlToolStripMenuItem.Name = "parentalControlToolStripMenuItem";
-            this.parentalControlToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.parentalControlToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.parentalControlToolStripMenuItem.Text = "Parental Control";
             this.parentalControlToolStripMenuItem.Click += new System.EventHandler(this.parentalControlToolStripMenuItem_Click);
+            // 
+            // HistoryMenuItem1
+            // 
+            this.HistoryMenuItem1.Name = "HistoryMenuItem1";
+            this.HistoryMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.HistoryMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
             // 
             // helpToolStripMenuItem
             // 
@@ -710,6 +718,7 @@
         private System.Windows.Forms.ToolStripMenuItem requestNewVODToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem parentalControlToolStripMenuItem;
         private System.Windows.Forms.Label lbPortables;
+        private System.Windows.Forms.ToolStripMenuItem HistoryMenuItem1;
     }
 }
 

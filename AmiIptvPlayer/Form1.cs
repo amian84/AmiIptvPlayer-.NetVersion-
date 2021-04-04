@@ -110,6 +110,7 @@ namespace AmiIptvPlayer
             ALL_GROUP = Strings.ALLGROUP;
             RepaintEPGLoadedLabel();
             EMPTY_GROUP = Strings.WOGROUP;
+            HistoryMenuItem1.Text = Strings.lbHistory;
         }
 
         private void RepaintEPGLoadedLabel()
@@ -1241,6 +1242,12 @@ namespace AmiIptvPlayer
                 }
                 
             }
+        }
+
+        private void toolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            History his = new History();
+            his.ShowDialog();
         }
     }
 }
