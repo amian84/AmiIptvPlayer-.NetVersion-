@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MPVPlayer));
             this.pnPrincipal = new System.Windows.Forms.TableLayoutPanel();
+            this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
             this.panelvideo = new System.Windows.Forms.Panel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -55,7 +56,9 @@
             this.btnMuteUnmute = new System.Windows.Forms.Button();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.txtNumbers = new System.Windows.Forms.TextBox();
+            this.btnNextEpisode = new System.Windows.Forms.Button();
             this.pnPrincipal.SuspendLayout();
+            this.tableLayoutPanel5.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -76,30 +79,49 @@
             this.pnPrincipal.AutoSize = true;
             this.pnPrincipal.ColumnCount = 1;
             this.pnPrincipal.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.pnPrincipal.Controls.Add(this.panelvideo, 0, 1);
-            this.pnPrincipal.Controls.Add(this.tableLayoutPanel2, 0, 2);
-            this.pnPrincipal.Controls.Add(this.tableLayoutPanel4, 0, 3);
-            this.pnPrincipal.Controls.Add(this.tableLayoutPanel1, 0, 0);
+            this.pnPrincipal.Controls.Add(this.tableLayoutPanel5, 0, 0);
+            this.pnPrincipal.Controls.Add(this.panelvideo, 0, 2);
+            this.pnPrincipal.Controls.Add(this.tableLayoutPanel2, 0, 3);
+            this.pnPrincipal.Controls.Add(this.tableLayoutPanel4, 0, 4);
+            this.pnPrincipal.Controls.Add(this.tableLayoutPanel1, 0, 1);
             this.pnPrincipal.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnPrincipal.Location = new System.Drawing.Point(0, 0);
             this.pnPrincipal.Name = "pnPrincipal";
-            this.pnPrincipal.RowCount = 4;
+            this.pnPrincipal.RowCount = 5;
+            this.pnPrincipal.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.pnPrincipal.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.pnPrincipal.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.pnPrincipal.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
             this.pnPrincipal.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+            this.pnPrincipal.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.pnPrincipal.Size = new System.Drawing.Size(535, 447);
             this.pnPrincipal.TabIndex = 0;
+            // 
+            // tableLayoutPanel5
+            // 
+            this.tableLayoutPanel5.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.tableLayoutPanel5.ColumnCount = 2;
+            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 150F));
+            this.tableLayoutPanel5.Controls.Add(this.btnNextEpisode, 1, 0);
+            this.tableLayoutPanel5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel5.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel5.Margin = new System.Windows.Forms.Padding(0);
+            this.tableLayoutPanel5.Name = "tableLayoutPanel5";
+            this.tableLayoutPanel5.RowCount = 1;
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel5.Size = new System.Drawing.Size(535, 30);
+            this.tableLayoutPanel5.TabIndex = 28;
             // 
             // panelvideo
             // 
             this.panelvideo.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.panelvideo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelvideo.ForeColor = System.Drawing.Color.Black;
-            this.panelvideo.Location = new System.Drawing.Point(0, 30);
+            this.panelvideo.Location = new System.Drawing.Point(0, 60);
             this.panelvideo.Margin = new System.Windows.Forms.Padding(0);
             this.panelvideo.Name = "panelvideo";
-            this.panelvideo.Size = new System.Drawing.Size(535, 317);
+            this.panelvideo.Size = new System.Drawing.Size(535, 287);
             this.panelvideo.TabIndex = 24;
             this.panelvideo.Click += new System.EventHandler(this.panelvideo_Click_1);
             this.panelvideo.DoubleClick += new System.EventHandler(this.panelvideo_DoubleClick);
@@ -355,7 +377,7 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 50F));
             this.tableLayoutPanel1.Controls.Add(this.txtNumbers, 1, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 30);
             this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
@@ -371,6 +393,16 @@
             this.txtNumbers.Size = new System.Drawing.Size(44, 20);
             this.txtNumbers.TabIndex = 0;
             // 
+            // btnNextEpisode
+            // 
+            this.btnNextEpisode.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnNextEpisode.Location = new System.Drawing.Point(388, 3);
+            this.btnNextEpisode.Name = "btnNextEpisode";
+            this.btnNextEpisode.Size = new System.Drawing.Size(144, 24);
+            this.btnNextEpisode.TabIndex = 0;
+            this.btnNextEpisode.Text = "button1";
+            this.btnNextEpisode.UseVisualStyleBackColor = true;
+            // 
             // MPVPlayer
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -384,6 +416,7 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MPVPlayer_FormClosing);
             this.Load += new System.EventHandler(this.MPVPlayer_Load);
             this.pnPrincipal.ResumeLayout(false);
+            this.tableLayoutPanel5.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
@@ -435,5 +468,7 @@
         private System.Windows.Forms.Button btnMuteUnmute;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.TextBox txtNumbers;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel5;
+        private System.Windows.Forms.Button btnNextEpisode;
     }
 }

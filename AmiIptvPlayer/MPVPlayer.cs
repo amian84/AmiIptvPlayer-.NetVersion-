@@ -62,10 +62,16 @@ namespace AmiIptvPlayer
         {
             InitializeComponent();
             player = new MpvPlayer(panelvideo.Handle);
+            //player.MediaError += MediaError;
             originalSizePanel = panelvideo.Bounds;
             originalSizeWin = this.Bounds;
             originalPositionWin = new Tuple<int, int>(this.Top, this.Left);
             ReloadLang();
+        }
+
+        private void MediaError(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         public void ReloadLang()
@@ -75,6 +81,7 @@ namespace AmiIptvPlayer
             lbLang.Text = Strings.Language;
             lbSub.Text = Strings.Subs;
             pnPrincipal.RowStyles[0].Height = 0;
+            pnPrincipal.RowStyles[1].Height = 0;
         }
 
         public void SetDockedEvent (bool value)
@@ -99,10 +106,10 @@ namespace AmiIptvPlayer
 
             player.Stop();
             isPaused = true;
-            if (isFullScreen)
-            {
-                GoFullscreen(false);
-            }
+            //if (isFullScreen)
+            //{
+            //    GoFullscreen(false);
+            //}
         }
 
         private void setProperty(string prop, string value)
@@ -213,7 +220,8 @@ namespace AmiIptvPlayer
         {
             player.MediaLoaded -= MediaLoaded;
             player.MediaUnloaded -= StopPlayEvent;
-            
+            player.MediaError -= MediaError;
+
         }
 
         private void StopPlayEvent(object sender, EventArgs e)
@@ -268,19 +276,19 @@ namespace AmiIptvPlayer
         {
             if (docked && !isFullScreen)
             {
-                pnPrincipal.RowStyles[2].Height = 50;
                 pnPrincipal.RowStyles[3].Height = 50;
+                pnPrincipal.RowStyles[4].Height = 50;
             }
             else{
-                if (pnPrincipal.RowStyles[2].Height == 50)
+                if (pnPrincipal.RowStyles[3].Height == 50)
                 {
-                    pnPrincipal.RowStyles[2].Height = 0;
                     pnPrincipal.RowStyles[3].Height = 0;
+                    pnPrincipal.RowStyles[4].Height = 0;
                 }
                 else
                 {
-                    pnPrincipal.RowStyles[2].Height = 50;
                     pnPrincipal.RowStyles[3].Height = 50;
+                    pnPrincipal.RowStyles[4].Height = 50;
                 }
             }
             ((Panel)sender).Focus();
@@ -655,7 +663,14 @@ namespace AmiIptvPlayer
                 }
                 principalForm.GetCurrentChannel().currentPostion = player.Position.TotalSeconds;
             }
-            
+
+            if (player.Position.TotalSeconds > 0 && player.Position.TotalSeconds >= player.Duration.TotalSeconds - 30)
+            {
+                pnPrincipal.Invoke((System.Threading.ThreadStart)delegate
+                {
+                    pnPrincipal.RowStyles[0].Height = 50;
+                });
+            }
 
         }
 
@@ -692,19 +707,19 @@ namespace AmiIptvPlayer
 
         private void panelvideo_DoubleClick(object sender, EventArgs e)
         {
-            if (player.IsMediaLoaded)
+            /*if (player.IsMediaLoaded)
+            {*/
+            if (docked)
             {
-                if (docked)
-                {
-                    principalForm.DockFullScreen(isFullScreen);
-                }
-                else
-                {
-                    GoFullscreen(!isFullScreen);
-                    isFullScreen = !isFullScreen;
-                }
-                
+                principalForm.DockFullScreen(isFullScreen);
             }
+            else
+            {
+                GoFullscreen(!isFullScreen);
+                isFullScreen = !isFullScreen;
+            }
+                
+            //}
         }
 
         public void SetFullScreenAttr(bool value)
@@ -810,14 +825,14 @@ namespace AmiIptvPlayer
             if (isNumric(e.KeyCode) )
             {
 
-                if (pnPrincipal.RowStyles[0].Height == 0)
+                if (pnPrincipal.RowStyles[1].Height == 0)
                 {
-                    pnPrincipal.RowStyles[0].Height = 50;
+                    pnPrincipal.RowStyles[1].Height = 50;
                     NumbersTaks = Task.Run(async () => {
                         await Task.Delay(3000);
                         pnPrincipal.Invoke((System.Threading.ThreadStart)delegate
                         {
-                            pnPrincipal.RowStyles[0].Height = 0;
+                            pnPrincipal.RowStyles[1].Height = 0;
                         });
                         this.Invoke(new Action(() => principalForm.ChannelToNumber(int.Parse(txtNumbers.Text))));
                         txtNumbers.Invoke((System.Threading.ThreadStart)delegate

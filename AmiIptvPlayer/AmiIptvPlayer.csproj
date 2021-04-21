@@ -64,7 +64,7 @@
     <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>true</SignManifests>
+    <SignManifests>false</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>resources\images\nochannel.ico</ApplicationIcon>
@@ -243,8 +243,6 @@
     <EmbeddedResource Include="URLInfo.resx">
       <DependentUpon>URLInfo.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="AmiIptvPlayer_1_TemporaryKey.pfx" />
-    <None Include="AmiIptvPlayer_TemporaryKey.pfx" />
     <None Include="app.manifest" />
     <None Include="Lang">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -364,6 +362,9 @@
     <PackageReference Include="Microsoft.Bcl.Async">
       <Version>1.0.168</Version>
     </PackageReference>
+    <PackageReference Include="Mpv.NET">
+      <Version>1.2.0</Version>
+    </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
       <Version>12.0.3</Version>
     </PackageReference>
@@ -379,12 +380,6 @@
       <Name>mpv-1.dll</Name>
       <HintPath>DLLs\mpv-1.dll</HintPath>
     </NativeReference>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Mpv.NET-lib-\src\Mpv.NET\Mpv.NET.csproj">
-      <Project>{5ab987d9-efb8-44f2-ac9d-729628628d3b}</Project>
-      <Name>Mpv.NET</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

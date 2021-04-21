@@ -1,6 +1,6 @@
 ﻿
 using AmiIptvPlayer.i18n;
-using Mpv.NET.Player;
+
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -1023,8 +1023,12 @@ namespace AmiIptvPlayer
             {
                 currLang = playerForm.GetLangValue();
                 currSub = playerForm.GetSubValue();
+                playerForm.Stop();
             }
-            playerForm.Stop();
+            else
+            {
+                ShowAgainPlayer();
+            }
             
         }
 
@@ -1048,6 +1052,7 @@ namespace AmiIptvPlayer
 
         private void PlayerForm_Disposed(object sender, EventArgs e)
         {
+            playerForm.UnloadPlayerEvents();
             playerForm.Close();
             playerForm = null;
             playerForm = new MPVPlayer();
@@ -1092,8 +1097,12 @@ namespace AmiIptvPlayer
             {
                 currLang = playerForm.GetLangValue();
                 currSub = playerForm.GetSubValue();
+                playerForm.Stop();
             }
-            playerForm.Stop();
+            else
+            {
+                ShowAgainPlayer();
+            }
             
         }
 
