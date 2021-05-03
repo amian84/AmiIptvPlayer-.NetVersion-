@@ -45,6 +45,8 @@
             this.txtRequestEmail = new System.Windows.Forms.TextBox();
             this.txtParentalControl = new System.Windows.Forms.TextBox();
             this.lbParentalControl = new System.Windows.Forms.Label();
+            this.lbLog = new System.Windows.Forms.Label();
+            this.chLog = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // lbSettingsURL
@@ -87,7 +89,7 @@
             // 
             // btnOk
             // 
-            this.btnOk.Location = new System.Drawing.Point(201, 263);
+            this.btnOk.Location = new System.Drawing.Point(201, 299);
             this.btnOk.Margin = new System.Windows.Forms.Padding(2);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(66, 30);
@@ -98,7 +100,7 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(287, 263);
+            this.btnCancel.Location = new System.Drawing.Point(287, 299);
             this.btnCancel.Margin = new System.Windows.Forms.Padding(2);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
@@ -203,11 +205,33 @@
             this.lbParentalControl.TabIndex = 14;
             this.lbParentalControl.Text = "Request Email:";
             // 
+            // lbLog
+            // 
+            this.lbLog.AutoSize = true;
+            this.lbLog.Location = new System.Drawing.Point(11, 233);
+            this.lbLog.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lbLog.Name = "lbLog";
+            this.lbLog.Size = new System.Drawing.Size(78, 13);
+            this.lbLog.TabIndex = 16;
+            this.lbLog.Text = "Request Email:";
+            // 
+            // chLog
+            // 
+            this.chLog.AutoSize = true;
+            this.chLog.Location = new System.Drawing.Point(334, 233);
+            this.chLog.Name = "chLog";
+            this.chLog.Size = new System.Drawing.Size(15, 14);
+            this.chLog.TabIndex = 17;
+            this.chLog.UseVisualStyleBackColor = true;
+
+            // 
             // Preferences
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(361, 313);
+            this.ClientSize = new System.Drawing.Size(361, 347);
+            this.Controls.Add(this.chLog);
+            this.Controls.Add(this.lbLog);
             this.Controls.Add(this.txtParentalControl);
             this.Controls.Add(this.lbParentalControl);
             this.Controls.Add(this.txtRequestEmail);
@@ -257,5 +281,7 @@
         private System.Windows.Forms.TextBox txtRequestEmail;
         private System.Windows.Forms.TextBox txtParentalControl;
         private System.Windows.Forms.Label lbParentalControl;
+        private System.Windows.Forms.Label lbLog;
+        private System.Windows.Forms.CheckBox chLog;
     }
 }

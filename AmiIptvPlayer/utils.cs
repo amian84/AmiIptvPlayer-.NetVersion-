@@ -1,5 +1,7 @@
 using AmiIptvPlayer.i18n;
+using AmiIptvPlayer.Tools;
 using Json.Net;
+using Mpv.NET.API;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -223,7 +225,7 @@ namespace AmiIptvPlayer
         public string DEF_SUB { get; set; }
         public string REQ_EMAIL { get; set; }
         public string PARENTAL_PASS { get; set; }
-
+        public bool ENABLE_LOG { get; set; }
     }
 
     public class IPTVData
@@ -303,7 +305,7 @@ namespace AmiIptvPlayer
             };
         }
 #if _PORTABLE
-        public static string PORTABLE_VERSION = "1.3.1.9";
+        public static string PORTABLE_VERSION = "1.3.2.1";
 #endif
         public static string Base64Encode(string plainText)
         {
@@ -528,6 +530,18 @@ namespace AmiIptvPlayer
             byte[] bytes = Encoding.Default.GetBytes(strParam);
             strParam = Encoding.UTF8.GetString(bytes);
             return strParam;
+        }
+
+        public static void WriteMPVLog(string msg, MpvLogLevel level)
+        {
+            if (level == MpvLogLevel.Info)
+                Logger.Current.Info(msg);
+            else if (level == MpvLogLevel.Debug)
+                Logger.Current.Debug(msg);
+            else if (level == MpvLogLevel.Error)
+                Logger.Current.Error(msg);
+            else
+                Logger.Current.Info(msg);
         }
     }
 }

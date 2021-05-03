@@ -61,6 +61,7 @@ namespace AmiIptvPlayer
             lbSettingsURL.Text = Strings.lbSettingsURL;
             lbRequestEmail.Text = Strings.lbRequestEmail;
             lbParentalControl.Text = Strings.lbParentalControl + ":";
+            lbLog.Text = Strings.lbLog + ":";
             this.Text = Strings.PreferencesTitle;
             btnCancel.Text = Strings.CANCEL;
             btnOk.Text = Strings.SAVE;
@@ -78,7 +79,7 @@ namespace AmiIptvPlayer
             audio.SelectedItem = Utils.audios[audioConf];
             string subConf = amiconf.DEF_SUB;
             sub.SelectedItem = Utils.subs[subConf];
-            
+            chLog.Checked = amiconf.ENABLE_LOG;
         }
 
         
@@ -155,6 +156,16 @@ namespace AmiIptvPlayer
                 EPG_DB epgDB = EPG_DB.Get();
                 epgDB.Refresh = true;
 
+            }
+            if (!amiconf.ENABLE_LOG && chLog.Checked)
+            {
+                amiconf.ENABLE_LOG = true;
+                PrincipalForm.RepaintLabels();
+            }
+            if (amiconf.ENABLE_LOG && !chLog.Checked)
+            {
+                amiconf.ENABLE_LOG = false;
+                PrincipalForm.RepaintLabels();
             }
             amiconf.DEF_LANG = Utils.GetAudioConfName(audio.SelectedItem.ToString());
             amiconf.DEF_SUB = Utils.GetSubConfName(sub.SelectedItem.ToString());
