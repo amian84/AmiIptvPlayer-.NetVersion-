@@ -1,9 +1,12 @@
 ﻿using AmiIptvPlayer.i18n;
+using AmiIptvPlayer.Tools;
+using Mpv.NET.API;
 using Mpv.NET.Player;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Drawing;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -62,16 +65,17 @@ namespace AmiIptvPlayer
         {
             InitializeComponent();
             player = new MpvPlayer(panelvideo.Handle);
-            //player.MediaError += MediaError;
+            player.API.LogMessage += LogMessage;
+            
             originalSizePanel = panelvideo.Bounds;
             originalSizeWin = this.Bounds;
             originalPositionWin = new Tuple<int, int>(this.Top, this.Left);
             ReloadLang();
         }
 
-        private void MediaError(object sender, EventArgs e)
+        private void LogMessage(object sender, MpvLogMessageEventArgs e)
         {
-            throw new NotImplementedException();
+            Utils.WriteMPVLog($"[{e.Message.Prefix}] {e.Message.Text}", player.LogLevel);
         }
 
         public void ReloadLang()
@@ -82,6 +86,14 @@ namespace AmiIptvPlayer
             lbSub.Text = Strings.Subs;
             pnPrincipal.RowStyles[0].Height = 0;
             pnPrincipal.RowStyles[1].Height = 0;
+            if (AmiConfiguration.Get().ENABLE_LOG)
+            {
+                player.LogLevel = MpvLogLevel.Debug;
+            }
+            else
+            {
+                player.LogLevel = MpvLogLevel.Info;
+            }
         }
 
         public void SetDockedEvent (bool value)
@@ -146,6 +158,16 @@ namespace AmiIptvPlayer
 
         private void MediaLoaded(object sender, EventArgs e)
         {
+            if (AmiConfiguration.Get().ENABLE_LOG)
+            {
+                string msg = "[MediaLoaded-MPV] MPV load streaming with next values: ";
+                msg += $"SetPositionOnLoad => {SetPositionOnLoad} ";
+                msg += $"currLang => {currLang} ";
+                msg += $"isChannel=> {isChannel} ";
+                msg += $"positioncchangedevent=> {positioncchangedevent} ";
+                msg += $"player.Duration.TotalSeconds=> {player.Duration.TotalSeconds} ";
+                Logger.Current.Debug(msg);
+            }
             ParseTracksAndSetDefaults();
             
             if (!isChannel && player.Duration.TotalSeconds > 0)
@@ -214,18 +236,23 @@ namespace AmiIptvPlayer
                 panelvideo.Focus();
                 
             });
+            
         }
 
         public void UnloadPlayerEvents()
         {
             player.MediaLoaded -= MediaLoaded;
             player.MediaUnloaded -= StopPlayEvent;
-            player.MediaError -= MediaError;
+            player.API.LogMessage -= LogMessage;
 
         }
 
         private void StopPlayEvent(object sender, EventArgs e)
         {
+            if (AmiConfiguration.Get().ENABLE_LOG)
+            {
+                Logger.Current.Debug($"[STOPPLAYEVENT] MPV stopped the streaming with values: exitApp => {exitApp.ToString()} and dockedEvent {dockedEvent.ToString()}");
+            }
             //currentChannel = null;
             if (positioncchangedevent)
             {
@@ -664,13 +691,13 @@ namespace AmiIptvPlayer
                 principalForm.GetCurrentChannel().currentPostion = player.Position.TotalSeconds;
             }
 
-            if (player.Position.TotalSeconds > 0 && player.Position.TotalSeconds >= player.Duration.TotalSeconds - 30)
+           /* if (player.Position.TotalSeconds > 0 && player.Position.TotalSeconds >= player.Duration.TotalSeconds - 30)
             {
                 pnPrincipal.Invoke((System.Threading.ThreadStart)delegate
                 {
                     pnPrincipal.RowStyles[0].Height = 50;
                 });
-            }
+            }*/
 
         }
 
