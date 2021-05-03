@@ -1,6 +1,6 @@
 ﻿
 using AmiIptvPlayer.i18n;
-
+using AmiIptvPlayer.Tools;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -156,7 +156,9 @@ namespace AmiIptvPlayer
             imageList.Images.Add(Image.FromFile("./resources/images/resume.png"));
             chList.SmallImageList= imageList;
             LoadAmiSettings();
-            
+
+            Logger logger = Logger.Current;
+            logger.SetBasePath(Utils.CONF_PATH);
             RepaintLabels();
             
             Utils.GetAccountInfo();
@@ -180,6 +182,7 @@ namespace AmiIptvPlayer
                 amiConf.DEF_SUB = config.AppSettings.Settings["sub"].Value;
                 amiConf.URL_IPTV = config.AppSettings.Settings["Url"].Value;
                 amiConf.URL_EPG = config.AppSettings.Settings["Epg"].Value;
+                amiConf.ENABLE_LOG = false;
                 using (StreamWriter file = File.CreateText(Utils.CONF_PATH + "amiIptvConf.json"))
                 {
                     JsonSerializer serializer = new JsonSerializer();
@@ -337,11 +340,11 @@ namespace AmiIptvPlayer
         {
             if (e.Error)
             {
-                MessageBox.Show(Strings.ERROR_EPG, "EPG ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 lbProcessingEPG.Invoke((System.Threading.ThreadStart)delegate
                 {
                     lbProcessingEPG.Text = Strings.ERROR;
                 });
+                Logger.Current.Error("Error processing EPG: " + e.Error.ToString());
             }
             else
             {
@@ -349,6 +352,7 @@ namespace AmiIptvPlayer
                 {
                     lbProcessingEPG.Text = Strings.LOADED;
                 });
+                Logger.Current.Info("EPG Loaded correct");
             }
             
         }
@@ -392,6 +396,7 @@ namespace AmiIptvPlayer
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Error
                     );
+                    Logger.Current.Error($"Error: {ex.Message} .URL={url}");
                 }
 
             }).Start();
@@ -427,6 +432,7 @@ namespace AmiIptvPlayer
                         }
                     }
                 }
+                Logger.Current.Info($"[ChangeChannelTo] Change channel to {channel.TVGName}");
                 playerForm.Stop();
                 playerForm.SetIsChannel(channel.ChannelType == ChType.CHANNEL);
                 playerForm.SetIsPaused(false);
@@ -921,6 +927,7 @@ namespace AmiIptvPlayer
        
         private void exit()
         {
+            Logger.Current.Info($"[Exit] Exit APP");
             SaveSeen();
             playerForm.ExitApp(true);
             playerForm.Stop();
@@ -1008,7 +1015,7 @@ namespace AmiIptvPlayer
         }
         public void UnDockPlayer()
         {
-
+            Logger.Current.Info($"[UnDockPlayer] Undock player");
             Rectangle oldBound = playerForm.Bounds;
             Rectangle formBound = this.Bounds;
             newPositionUnDocked = new Point();
@@ -1089,6 +1096,7 @@ namespace AmiIptvPlayer
 
         public void DockPlayer()
         {
+            Logger.Current.Info($"[DockPlayer] Dock player");
             isLoaded = playerForm.IsMediaLoaded();
             currPos = playerForm.GetPosition();
             isDocked = true;
