@@ -462,4 +462,13 @@
   <data name="WARN" xml:space="preserve">
     <value>Attention</value>
   </data>
+  <data name="lbLog" xml:space="preserve">
+    <value>Activer le logs</value>
+  </data>
+  <data name="ERROR_DELETE_HIS" xml:space="preserve">
+    <value>Veuillez sélectionner un élément avant de le supprimer</value>
+  </data>
+  <data name="ERROR_INFO_HIS" xml:space="preserve">
+    <value>Veuillez sélectionner un seul élément pour voir plus d'informations</value>
+  </data>
 </root>

@@ -470,4 +470,7 @@
   <data name="ERROR_INFO_HIS" xml:space="preserve">
     <value>Please you must select only one item to get more info</value>
   </data>
+  <data name="lbLog" xml:space="preserve">
+    <value>Enable Logs</value>
+  </data>
 </root>

@@ -468,4 +468,7 @@
   <data name="ERROR_INFO_HIS" xml:space="preserve">
     <value>Por favor seleccione sólo un elemento para ver más información</value>
   </data>
+  <data name="lbLog" xml:space="preserve">
+    <value>Habilitar logs</value>
+  </data>
 </root>

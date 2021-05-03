@@ -463,4 +463,13 @@ Activar la compatibilidad con lectores de pantalla</value>
   <data name="WARN" xml:space="preserve">
     <value>Advertència</value>
   </data>
+  <data name="lbLog" xml:space="preserve">
+    <value>Habilitar logs</value>
+  </data>
+  <data name="ERROR_DELETE_HIS" xml:space="preserve">
+    <value>Si us plau, ha de seleccionar algun element abans d'eliminar-ho</value>
+  </data>
+  <data name="ERROR_INFO_HIS" xml:space="preserve">
+    <value>Si us plau seleccioni, només un element per veure més informació</value>
+  </data>
 </root>

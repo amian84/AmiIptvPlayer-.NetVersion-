@@ -592,6 +592,15 @@ namespace AmiIptvPlayer.i18n {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Enable Logs.
+        /// </summary>
+        public static string lbLog {
+            get {
+                return ResourceManager.GetString("lbLog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Parental control password.
         /// </summary>
         public static string lbParentalControl {

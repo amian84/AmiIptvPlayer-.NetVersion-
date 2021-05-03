@@ -468,4 +468,7 @@
   <data name="WARN" xml:space="preserve">
     <value>Uyarı</value>
   </data>
+  <data name="lbLog" xml:space="preserve">
+    <value>Logs'yi etkinleştirme</value>
+  </data>
 </root>
