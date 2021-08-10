@@ -37,6 +37,7 @@
             this.refreshEPGToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.quitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.manageListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.accountInfoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.requestNewVODToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.parentalControlToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -86,6 +87,8 @@
             this.menuItemChnResum = new System.Windows.Forms.ToolStripMenuItem();
             this.lbPortables = new System.Windows.Forms.Label();
             this.donateButton = new System.Windows.Forms.PictureBox();
+            this.lbList = new System.Windows.Forms.Label();
+            this.cmbLists = new System.Windows.Forms.ComboBox();
             this.menuStrip1.SuspendLayout();
             this.loadingPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.logoChannel)).BeginInit();
@@ -154,6 +157,7 @@
             // toolsToolStripMenuItem
             // 
             this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.manageListToolStripMenuItem,
             this.accountInfoToolStripMenuItem,
             this.requestNewVODToolStripMenuItem,
             this.parentalControlToolStripMenuItem,
@@ -162,31 +166,39 @@
             this.toolsToolStripMenuItem.Size = new System.Drawing.Size(46, 20);
             this.toolsToolStripMenuItem.Text = "Tools";
             // 
+            // manageListToolStripMenuItem
+            // 
+            this.manageListToolStripMenuItem.Name = "manageListToolStripMenuItem";
+            this.manageListToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.manageListToolStripMenuItem.Text = "Manage List";
+            this.manageListToolStripMenuItem.Click += new System.EventHandler(this.manageListToolStripMenuItem_Click);
+            // 
             // accountInfoToolStripMenuItem
             // 
             this.accountInfoToolStripMenuItem.Name = "accountInfoToolStripMenuItem";
-            this.accountInfoToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.accountInfoToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
             this.accountInfoToolStripMenuItem.Text = "Account Info";
             this.accountInfoToolStripMenuItem.Click += new System.EventHandler(this.accountInfoToolStripMenuItem_Click);
             // 
             // requestNewVODToolStripMenuItem
             // 
             this.requestNewVODToolStripMenuItem.Name = "requestNewVODToolStripMenuItem";
-            this.requestNewVODToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.requestNewVODToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
             this.requestNewVODToolStripMenuItem.Text = "Request new VOD";
             this.requestNewVODToolStripMenuItem.Click += new System.EventHandler(this.requestNewVODToolStripMenuItem_Click);
             // 
             // parentalControlToolStripMenuItem
             // 
             this.parentalControlToolStripMenuItem.Name = "parentalControlToolStripMenuItem";
-            this.parentalControlToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.parentalControlToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
             this.parentalControlToolStripMenuItem.Text = "Parental Control";
             this.parentalControlToolStripMenuItem.Click += new System.EventHandler(this.parentalControlToolStripMenuItem_Click);
             // 
             // HistoryMenuItem1
             // 
             this.HistoryMenuItem1.Name = "HistoryMenuItem1";
-            this.HistoryMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.HistoryMenuItem1.Size = new System.Drawing.Size(168, 22);
+            this.HistoryMenuItem1.Text = "History";
             this.HistoryMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
             // 
             // helpToolStripMenuItem
@@ -220,10 +232,10 @@
             this.chName});
             this.chList.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.chList.HideSelection = false;
-            this.chList.Location = new System.Drawing.Point(8, 197);
+            this.chList.Location = new System.Drawing.Point(8, 245);
             this.chList.Margin = new System.Windows.Forms.Padding(2);
             this.chList.Name = "chList";
-            this.chList.Size = new System.Drawing.Size(383, 616);
+            this.chList.Size = new System.Drawing.Size(383, 611);
             this.chList.TabIndex = 5;
             this.chList.UseCompatibleStateImageBehavior = false;
             this.chList.DoubleClick += new System.EventHandler(this.listView1_DoubleClick);
@@ -293,7 +305,7 @@
             // 
             // txtFilter
             // 
-            this.txtFilter.Location = new System.Drawing.Point(17, 169);
+            this.txtFilter.Location = new System.Drawing.Point(17, 210);
             this.txtFilter.Margin = new System.Windows.Forms.Padding(2);
             this.txtFilter.Name = "txtFilter";
             this.txtFilter.Size = new System.Drawing.Size(139, 20);
@@ -302,7 +314,7 @@
             // 
             // btnFilter
             // 
-            this.btnFilter.Location = new System.Drawing.Point(175, 165);
+            this.btnFilter.Location = new System.Drawing.Point(175, 206);
             this.btnFilter.Margin = new System.Windows.Forms.Padding(2);
             this.btnFilter.Name = "btnFilter";
             this.btnFilter.Size = new System.Drawing.Size(50, 24);
@@ -313,7 +325,7 @@
             // 
             // btnClear
             // 
-            this.btnClear.Location = new System.Drawing.Point(238, 166);
+            this.btnClear.Location = new System.Drawing.Point(238, 207);
             this.btnClear.Margin = new System.Windows.Forms.Padding(2);
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(60, 24);
@@ -325,7 +337,7 @@
             // lbFilterList
             // 
             this.lbFilterList.AutoSize = true;
-            this.lbFilterList.Location = new System.Drawing.Point(21, 151);
+            this.lbFilterList.Location = new System.Drawing.Point(21, 192);
             this.lbFilterList.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lbFilterList.Name = "lbFilterList";
             this.lbFilterList.Size = new System.Drawing.Size(47, 13);
@@ -348,7 +360,7 @@
             this.panel1.Controls.Add(this.lbDescriptionTitle);
             this.panel1.Controls.Add(this.lbTitleTitle);
             this.panel1.Controls.Add(this.lbTitleEPG);
-            this.panel1.Location = new System.Drawing.Point(403, 551);
+            this.panel1.Location = new System.Drawing.Point(403, 567);
             this.panel1.Margin = new System.Windows.Forms.Padding(2);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(594, 250);
@@ -510,7 +522,7 @@
             // lbVersionText
             // 
             this.lbVersionText.AutoSize = true;
-            this.lbVersionText.Location = new System.Drawing.Point(892, 803);
+            this.lbVersionText.Location = new System.Drawing.Point(406, 843);
             this.lbVersionText.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lbVersionText.Name = "lbVersionText";
             this.lbVersionText.Size = new System.Drawing.Size(45, 13);
@@ -520,7 +532,7 @@
             // lbVersion
             // 
             this.lbVersion.AutoSize = true;
-            this.lbVersion.Location = new System.Drawing.Point(948, 803);
+            this.lbVersion.Location = new System.Drawing.Point(462, 843);
             this.lbVersion.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lbVersion.Name = "lbVersion";
             this.lbVersion.Size = new System.Drawing.Size(40, 13);
@@ -530,7 +542,7 @@
             // lbEPGLoaded
             // 
             this.lbEPGLoaded.AutoSize = true;
-            this.lbEPGLoaded.Location = new System.Drawing.Point(866, 822);
+            this.lbEPGLoaded.Location = new System.Drawing.Point(406, 872);
             this.lbEPGLoaded.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lbEPGLoaded.Name = "lbEPGLoaded";
             this.lbEPGLoaded.Size = new System.Drawing.Size(71, 13);
@@ -540,7 +552,7 @@
             // lbProcessingEPG
             // 
             this.lbProcessingEPG.AutoSize = true;
-            this.lbProcessingEPG.Location = new System.Drawing.Point(948, 822);
+            this.lbProcessingEPG.Location = new System.Drawing.Point(488, 872);
             this.lbProcessingEPG.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lbProcessingEPG.Name = "lbProcessingEPG";
             this.lbProcessingEPG.Size = new System.Drawing.Size(23, 13);
@@ -549,10 +561,10 @@
             // 
             // txtLoadCh
             // 
-            this.txtLoadCh.Location = new System.Drawing.Point(8, 197);
+            this.txtLoadCh.Location = new System.Drawing.Point(8, 245);
             this.txtLoadCh.Multiline = true;
             this.txtLoadCh.Name = "txtLoadCh";
-            this.txtLoadCh.Size = new System.Drawing.Size(383, 616);
+            this.txtLoadCh.Size = new System.Drawing.Size(383, 611);
             this.txtLoadCh.TabIndex = 34;
             this.txtLoadCh.Text = "LOADwwwwwwwwwwwwwwwwwwwwwwwww";
             this.txtLoadCh.Visible = false;
@@ -578,7 +590,7 @@
             // cmbGroups
             // 
             this.cmbGroups.FormattingEnabled = true;
-            this.cmbGroups.Location = new System.Drawing.Point(17, 127);
+            this.cmbGroups.Location = new System.Drawing.Point(17, 168);
             this.cmbGroups.Name = "cmbGroups";
             this.cmbGroups.Size = new System.Drawing.Size(227, 21);
             this.cmbGroups.TabIndex = 45;
@@ -587,7 +599,7 @@
             // lbGroups
             // 
             this.lbGroups.AutoSize = true;
-            this.lbGroups.Location = new System.Drawing.Point(20, 110);
+            this.lbGroups.Location = new System.Drawing.Point(20, 151);
             this.lbGroups.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lbGroups.Name = "lbGroups";
             this.lbGroups.Size = new System.Drawing.Size(44, 13);
@@ -617,7 +629,7 @@
             // lbPortables
             // 
             this.lbPortables.AutoSize = true;
-            this.lbPortables.Location = new System.Drawing.Point(14, 829);
+            this.lbPortables.Location = new System.Drawing.Point(13, 872);
             this.lbPortables.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lbPortables.Name = "lbPortables";
             this.lbPortables.Size = new System.Drawing.Size(81, 13);
@@ -636,11 +648,34 @@
             this.donateButton.TabIndex = 48;
             this.donateButton.TabStop = false;
             this.donateButton.Click += new System.EventHandler(this.pictureBox1_Click);
+            // 
+            // lbList
+            // 
+            this.lbList.AutoSize = true;
+            this.lbList.Location = new System.Drawing.Point(21, 109);
+            this.lbList.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lbList.Name = "lbList";
+            this.lbList.Size = new System.Drawing.Size(31, 13);
+            this.lbList.TabIndex = 50;
+            this.lbList.Text = "lbList";
+            // 
+            // cmbLists
+            // 
+            this.cmbLists.FormattingEnabled = true;
+            this.cmbLists.Location = new System.Drawing.Point(18, 126);
+            this.cmbLists.Name = "cmbLists";
+            this.cmbLists.Size = new System.Drawing.Size(227, 21);
+            this.cmbLists.TabIndex = 49;
+            this.cmbLists.SelectedIndexChanged += new System.EventHandler(this.cmbLists_SelectedIndexChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1022, 851);
+            this.ClientSize = new System.Drawing.Size(1022, 894);
+            this.Controls.Add(this.lbList);
+            this.Controls.Add(this.cmbLists);
+            this.Controls.Add(this.donateButton);
             this.Controls.Add(this.lbPortables);
             this.Controls.Add(this.lbGroups);
             this.Controls.Add(this.cmbGroups);
@@ -679,6 +714,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.logoEPG)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).EndInit();
             this.contextMenuChannel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.donateButton)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -740,6 +776,11 @@
         private System.Windows.Forms.ToolStripMenuItem parentalControlToolStripMenuItem;
         private System.Windows.Forms.Label lbPortables;
         private System.Windows.Forms.ToolStripMenuItem HistoryMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem donationToolStripMenuItem;
+        private System.Windows.Forms.PictureBox donateButton;
+        private System.Windows.Forms.ToolStripMenuItem manageListToolStripMenuItem;
+        private System.Windows.Forms.Label lbList;
+        private System.Windows.Forms.ComboBox cmbLists;
     }
 }
 
