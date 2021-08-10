@@ -42,6 +42,7 @@
             this.parentalControlToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.HistoryMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.donationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.chList = new System.Windows.Forms.ListView();
             this.chNumber = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -84,6 +85,7 @@
             this.menuItemChnSeen = new System.Windows.Forms.ToolStripMenuItem();
             this.menuItemChnResum = new System.Windows.Forms.ToolStripMenuItem();
             this.lbPortables = new System.Windows.Forms.Label();
+            this.donateButton = new System.Windows.Forms.PictureBox();
             this.menuStrip1.SuspendLayout();
             this.loadingPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.logoChannel)).BeginInit();
@@ -91,6 +93,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.logoEPG)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
             this.contextMenuChannel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.donateButton)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -189,10 +192,17 @@
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.donationToolStripMenuItem,
             this.aboutToolStripMenuItem});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
             this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.helpToolStripMenuItem.Text = "Help";
+            // 
+            // donationToolStripMenuItem
+            // 
+            this.donationToolStripMenuItem.Name = "donationToolStripMenuItem";
+            this.donationToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
+            this.donationToolStripMenuItem.Click += new System.EventHandler(this.donationToolStripMenuItem_Click);
             // 
             // aboutToolStripMenuItem
             // 
@@ -615,6 +625,17 @@
             this.lbPortables.Text = "PortableVersion";
             this.lbPortables.Visible = false;
             // 
+            // donateButton
+            // 
+            this.donateButton.Image = ((System.Drawing.Image)(resources.GetObject("donateButton.Image")));
+            this.donateButton.ImageLocation = "";
+            this.donateButton.Location = new System.Drawing.Point(265, 134);
+            this.donateButton.Name = "donateButton";
+            this.donateButton.Size = new System.Drawing.Size(126, 55);
+            this.donateButton.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.donateButton.TabIndex = 48;
+            this.donateButton.TabStop = false;
+            this.donateButton.Click += new System.EventHandler(this.pictureBox1_Click);
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
