@@ -283,7 +283,7 @@
     <value>Idioma de la interfaz:</value>
   </data>
   <data name="lbSettingsURL" xml:space="preserve">
-    <value>URL IPTV:</value>
+    <value>Url IPTV</value>
   </data>
   <data name="lbStarsTitle" xml:space="preserve">
     <value>Puntuación:</value>
@@ -470,5 +470,51 @@
   </data>
   <data name="lbLog" xml:space="preserve">
     <value>Habilitar logs</value>
+  </data>
+  <data name="NextEpisode" xml:space="preserve">
+    <value>Siguiente episodio en</value>
+  </data>
+  <data name="Seconds" xml:space="preserve">
+    <value>segundos</value>
+  </data>
+  <data name="AutoPlayEpisodes" xml:space="preserve">
+    <value>Reproducir automaticamente nuevos episodios</value>
+  </data>
+  <data name="Donation" xml:space="preserve">
+    <value>Donación</value>
+  </data>
+  <data name="DonationText" xml:space="preserve">
+    <value>Como todos sabéis, AmiIptvPlayer es un reproductor de IPTV totalmente libre y redisitribuible, y así seguira siendolo. Detrás de ésto hay mucho esfuerzo y dedicación en los ratos libres. Así que si quieres agradecermelo de alguna forma, o simplemente invitarme a unas cervezas, puedes realizar una donación en el siguiente enlace.
+Muchas gracias!</value>
+  </data>
+  <data name="RemoveDonate" xml:space="preserve">
+    <value>Quitar botón de donación del formulario principal</value>
+  </data>
+  <data name="Main" xml:space="preserve">
+    <value>Principal</value>
+  </data>
+  <data name="lbIptvLists" xml:space="preserve">
+    <value>Lista IPTV</value>
+  </data>
+  <data name="lbName" xml:space="preserve">
+    <value>Nombre</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>Añadir</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Editar</value>
+  </data>
+  <data name="FillUrlError" xml:space="preserve">
+    <value>Debe completar la URL y el nombre, y la URL debe ser una URL válida</value>
+  </data>
+  <data name="ERROR_SELECT_IPTV_LIST" xml:space="preserve">
+    <value>Debes seleccionar una lista IPTV</value>
+  </data>
+  <data name="UrlExists" xml:space="preserve">
+    <value>Ya existe una lista con dicho nombre</value>
+  </data>
+  <data name="ManageLists" xml:space="preserve">
+    <value>Gestión de listas IPTV</value>
   </data>
 </root>

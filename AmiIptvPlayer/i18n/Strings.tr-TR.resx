@@ -250,7 +250,7 @@
     <value>Arayüz Dili:</value>
   </data>
   <data name="lbSettingsURL" xml:space="preserve">
-    <value>URL IPTV:</value>
+    <value>Url IPTV</value>
   </data>
   <data name="lbStarsTitle" xml:space="preserve">
     <value>Puan:</value>
@@ -470,5 +470,51 @@
   </data>
   <data name="lbLog" xml:space="preserve">
     <value>Logs'yi etkinleştirme</value>
+  </data>
+  <data name="AutoPlayEpisodes" xml:space="preserve">
+    <value>Yeni bölümleri otomatik oynat</value>
+  </data>
+  <data name="NextEpisode" xml:space="preserve">
+    <value>Sonraki Bölüm</value>
+  </data>
+  <data name="Seconds" xml:space="preserve">
+    <value>saniye</value>
+  </data>
+  <data name="Donation" xml:space="preserve">
+    <value>Bağış</value>
+  </data>
+  <data name="DonationText" xml:space="preserve">
+    <value>As you all know, AmiIptvPlayer is a totally free and redistributable IPTV player, and it will continue to be so. Behind this there is a lot of effort and dedication in spare time. So if you want to thank me in some way, or just buy me some beers, you can make a donation at the following link.
+Thank you!</value>
+  </data>
+  <data name="RemoveDonate" xml:space="preserve">
+    <value>Remove Donation button in principal form</value>
+  </data>
+  <data name="Main" xml:space="preserve">
+    <value>Ana</value>
+  </data>
+  <data name="lbIptvLists" xml:space="preserve">
+    <value>IPTV listesi</value>
+  </data>
+  <data name="lbName" xml:space="preserve">
+    <value>Isim</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>Ekle</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Düzenle</value>
+  </data>
+  <data name="FillUrlError" xml:space="preserve">
+    <value>URL'yi ve adı doldurmalısınız ve URL geçerli bir uri olmalıdır</value>
+  </data>
+  <data name="ERROR_SELECT_IPTV_LIST" xml:space="preserve">
+    <value>Bir IPTV listesi seçmelisiniz</value>
+  </data>
+  <data name="UrlExists" xml:space="preserve">
+    <value>Liste adı zaten var</value>
+  </data>
+  <data name="ManageLists" xml:space="preserve">
+    <value>Listeleri Yönet</value>
   </data>
 </root>

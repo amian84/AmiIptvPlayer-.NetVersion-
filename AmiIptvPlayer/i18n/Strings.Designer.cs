@@ -115,6 +115,15 @@ namespace AmiIptvPlayer.i18n {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Add.
+        /// </summary>
+        public static string Add {
+            get {
+                return ResourceManager.GetString("Add", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a All.
         /// </summary>
         public static string ALLGROUP {
@@ -183,6 +192,15 @@ namespace AmiIptvPlayer.i18n {
         public static string ASK_PASS {
             get {
                 return ResourceManager.GetString("ASK_PASS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Autoplay new episodes.
+        /// </summary>
+        public static string AutoPlayEpisodes {
+            get {
+                return ResourceManager.GetString("AutoPlayEpisodes", resourceCulture);
             }
         }
         
@@ -259,11 +277,39 @@ namespace AmiIptvPlayer.i18n {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Donation.
+        /// </summary>
+        public static string Donation {
+            get {
+                return ResourceManager.GetString("Donation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a As you all know, AmiIptvPlayer is a totally free and redistributable IPTV player, and it will continue to be so. Behind this there is a lot of effort and dedication in spare time. So if you want to thank me in some way, or just buy me some beers, you can make a donation at the following link.
+        ///Thank you!.
+        /// </summary>
+        public static string DonationText {
+            get {
+                return ResourceManager.GetString("DonationText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Time: .
         /// </summary>
         public static string Duration {
             get {
                 return ResourceManager.GetString("Duration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Edit.
+        /// </summary>
+        public static string Edit {
+            get {
+                return ResourceManager.GetString("Edit", resourceCulture);
             }
         }
         
@@ -331,6 +377,15 @@ namespace AmiIptvPlayer.i18n {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a You must select a IPTV list.
+        /// </summary>
+        public static string ERROR_SELECT_IPTV_LIST {
+            get {
+                return ResourceManager.GetString("ERROR_SELECT_IPTV_LIST", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Exit.
         /// </summary>
         public static string ExitBtn {
@@ -381,6 +436,15 @@ namespace AmiIptvPlayer.i18n {
         public static string FillReqVOD {
             get {
                 return ResourceManager.GetString("FillReqVOD", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a You must fill url and name, and url must be a valid uri.
+        /// </summary>
+        public static string FillUrlError {
+            get {
+                return ResourceManager.GetString("FillUrlError", resourceCulture);
             }
         }
         
@@ -592,11 +656,29 @@ namespace AmiIptvPlayer.i18n {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a IPTV List.
+        /// </summary>
+        public static string lbIptvLists {
+            get {
+                return ResourceManager.GetString("lbIptvLists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Enable Logs.
         /// </summary>
         public static string lbLog {
             get {
                 return ResourceManager.GetString("lbLog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Name.
+        /// </summary>
+        public static string lbName {
+            get {
+                return ResourceManager.GetString("lbName", resourceCulture);
             }
         }
         
@@ -673,7 +755,7 @@ namespace AmiIptvPlayer.i18n {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a URL IPTV:.
+        ///   Busca una cadena traducida similar a Url IPTV.
         /// </summary>
         public static string lbSettingsURL {
             get {
@@ -754,6 +836,24 @@ namespace AmiIptvPlayer.i18n {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Main.
+        /// </summary>
+        public static string Main {
+            get {
+                return ResourceManager.GetString("Main", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Manage IPTV lists.
+        /// </summary>
+        public static string ManageLists {
+            get {
+                return ResourceManager.GetString("ManageLists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Max. connections:.
         /// </summary>
         public static string MaxCons {
@@ -777,6 +877,15 @@ namespace AmiIptvPlayer.i18n {
         public static string Movie {
             get {
                 return ResourceManager.GetString("Movie", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Next Episode in.
+        /// </summary>
+        public static string NextEpisode {
+            get {
+                return ResourceManager.GetString("NextEpisode", resourceCulture);
             }
         }
         
@@ -862,6 +971,15 @@ namespace AmiIptvPlayer.i18n {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Remove Donation button in principal form.
+        /// </summary>
+        public static string RemoveDonate {
+            get {
+                return ResourceManager.GetString("RemoveDonate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Request new VOD.
         /// </summary>
         public static string RequestNewVOD {
@@ -921,6 +1039,15 @@ namespace AmiIptvPlayer.i18n {
         public static string SearchLb {
             get {
                 return ResourceManager.GetString("SearchLb", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a seconds.
+        /// </summary>
+        public static string Seconds {
+            get {
+                return ResourceManager.GetString("Seconds", resourceCulture);
             }
         }
         
@@ -1047,6 +1174,15 @@ namespace AmiIptvPlayer.i18n {
         public static string UnSeen {
             get {
                 return ResourceManager.GetString("UnSeen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a The list name already exists.
+        /// </summary>
+        public static string UrlExists {
+            get {
+                return ResourceManager.GetString("UrlExists", resourceCulture);
             }
         }
         
