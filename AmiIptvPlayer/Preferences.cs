@@ -58,9 +58,10 @@ namespace AmiIptvPlayer
             lbSettingsDefSub.Text = Strings.lbSettingsDefSub;
             lbSettingsEPG.Text = Strings.lbSettingsEPG;
             lbSettingsUILang.Text = Strings.lbSettingsUILang;
-            lbSettingsURL.Text = Strings.lbSettingsURL;
             lbRequestEmail.Text = Strings.lbRequestEmail;
             lbParentalControl.Text = Strings.lbParentalControl + ":";
+            lbAutoPlayEpisodes.Text = Strings.AutoPlayEpisodes + ":";
+            lbDonate.Text = Strings.RemoveDonate + ":";
             lbLog.Text = Strings.lbLog + ":";
             this.Text = Strings.PreferencesTitle;
             btnCancel.Text = Strings.CANCEL;
@@ -71,7 +72,6 @@ namespace AmiIptvPlayer
         {
             ReloadLang();
             AmiConfiguration amiconf = AmiConfiguration.Get();
-            txtURL.Text = amiconf.URL_IPTV;
             txtEPG.Text = amiconf.URL_EPG;
             txtRequestEmail.Text = amiconf.REQ_EMAIL;
             txtParentalControl.Text = Utils.Base64Decode(amiconf.PARENTAL_PASS);
@@ -80,6 +80,8 @@ namespace AmiIptvPlayer
             string subConf = amiconf.DEF_SUB;
             sub.SelectedItem = Utils.subs[subConf];
             chLog.Checked = amiconf.ENABLE_LOG;
+            chDonate.Checked = amiconf.REMOVE_DONATE;
+            chAutoPlayEpisodes.Checked = amiconf.AUTOPLAY_EPISODES;
         }
 
         
@@ -92,8 +94,8 @@ namespace AmiIptvPlayer
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            Channels channels = Channels.Get();
-            channels.SetNeedRefresh(false);
+            /*Channels channels = Channels.Get();
+            channels.SetNeedRefresh(false);*/
             this.Close();
             this.Dispose();
         }
@@ -133,7 +135,8 @@ namespace AmiIptvPlayer
 
                 amiconf.PARENTAL_PASS = "";
             }
-            if (amiconf.URL_IPTV != txtURL.Text)
+            amiconf.URL_IPTV = "NEW_VERSION";
+            /*if (amiconf.URL_IPTV != txtURL.Text)
             {
                 amiconf.URL_IPTV = txtURL.Text;
                 Channels channels = Channels.Get();
@@ -144,7 +147,7 @@ namespace AmiIptvPlayer
             {
                 Channels channels = Channels.Get();
                 channels.SetNeedRefresh(false);
-            }
+            }*/
             if (amiconf.REQ_EMAIL != txtRequestEmail.Text)
             {
                 amiconf.REQ_EMAIL = txtRequestEmail.Text;
@@ -167,8 +170,35 @@ namespace AmiIptvPlayer
                 amiconf.ENABLE_LOG = false;
                 PrincipalForm.RepaintLabels();
             }
-            amiconf.DEF_LANG = Utils.GetAudioConfName(audio.SelectedItem.ToString());
-            amiconf.DEF_SUB = Utils.GetSubConfName(sub.SelectedItem.ToString());
+            if (!amiconf.AUTOPLAY_EPISODES && chAutoPlayEpisodes.Checked)
+            {
+                amiconf.AUTOPLAY_EPISODES = true;
+                PrincipalForm.RepaintLabels();
+            }
+            if (amiconf.AUTOPLAY_EPISODES && !chAutoPlayEpisodes.Checked)
+            {
+                amiconf.AUTOPLAY_EPISODES = false;
+                PrincipalForm.RepaintLabels();
+                PrincipalForm.HideAutoPlay();
+            }
+            if (!amiconf.REMOVE_DONATE && chDonate.Checked)
+            {
+                amiconf.REMOVE_DONATE = true;
+                PrincipalForm.RepaintLabels();
+            }
+            if (amiconf.REMOVE_DONATE && !chDonate.Checked)
+            {
+                amiconf.REMOVE_DONATE = false;
+                PrincipalForm.RepaintLabels();
+            }
+            if (audio.SelectedItem != null)
+                amiconf.DEF_LANG = Utils.GetAudioConfName(audio.SelectedItem.ToString());
+            else
+                amiconf.DEF_LANG = "spa";
+            if (sub.SelectedItem != null)
+                amiconf.DEF_SUB = Utils.GetSubConfName(sub.SelectedItem.ToString());
+            else
+                amiconf.DEF_SUB = "none";
 
             using (StreamWriter file = File.CreateText(Utils.CONF_PATH + "amiIptvConf.json"))
             {

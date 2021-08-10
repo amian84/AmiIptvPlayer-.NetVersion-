@@ -31,6 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MPVPlayer));
             this.pnPrincipal = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
+            this.btnNextEpisode = new System.Windows.Forms.Button();
             this.panelvideo = new System.Windows.Forms.Panel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -56,7 +57,6 @@
             this.btnMuteUnmute = new System.Windows.Forms.Button();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.txtNumbers = new System.Windows.Forms.TextBox();
-            this.btnNextEpisode = new System.Windows.Forms.Button();
             this.pnPrincipal.SuspendLayout();
             this.tableLayoutPanel5.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
@@ -112,6 +112,17 @@
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel5.Size = new System.Drawing.Size(535, 30);
             this.tableLayoutPanel5.TabIndex = 28;
+            // 
+            // btnNextEpisode
+            // 
+            this.btnNextEpisode.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnNextEpisode.Location = new System.Drawing.Point(388, 3);
+            this.btnNextEpisode.Name = "btnNextEpisode";
+            this.btnNextEpisode.Size = new System.Drawing.Size(144, 24);
+            this.btnNextEpisode.TabIndex = 0;
+            this.btnNextEpisode.Text = "button1";
+            this.btnNextEpisode.UseVisualStyleBackColor = true;
+            this.btnNextEpisode.Click += new System.EventHandler(this.btnNextEpisode_Click);
             // 
             // panelvideo
             // 
@@ -325,7 +336,6 @@
             this.cmbLangs.Size = new System.Drawing.Size(90, 21);
             this.cmbLangs.TabIndex = 42;
             this.cmbLangs.SelectedIndexChanged += new System.EventHandler(this.cmbLangs_SelectedIndexChanged);
-            this.cmbLangs.DropDownClosed += new System.EventHandler(this.cmbLangs_DropDownClosed);
             // 
             // panel7
             // 
@@ -392,16 +402,6 @@
             this.txtNumbers.Name = "txtNumbers";
             this.txtNumbers.Size = new System.Drawing.Size(44, 20);
             this.txtNumbers.TabIndex = 0;
-            // 
-            // btnNextEpisode
-            // 
-            this.btnNextEpisode.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnNextEpisode.Location = new System.Drawing.Point(388, 3);
-            this.btnNextEpisode.Name = "btnNextEpisode";
-            this.btnNextEpisode.Size = new System.Drawing.Size(144, 24);
-            this.btnNextEpisode.TabIndex = 0;
-            this.btnNextEpisode.Text = "button1";
-            this.btnNextEpisode.UseVisualStyleBackColor = true;
             // 
             // MPVPlayer
             // 

@@ -1,4 +1,5 @@
 ﻿
+using AmiIptvPlayer.Tools;
 using Newtonsoft.Json;
 using PlaylistsNET.Content;
 using PlaylistsNET.Models;
@@ -9,6 +10,7 @@ using System.IO;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace AmiIptvPlayer
 {
@@ -37,7 +39,7 @@ namespace AmiIptvPlayer
     public class Channels
     {
         private static Channels instance;
-        private string url;
+        private UrlObject url;
         private bool needRefresh = false;
         private Dictionary<int, ChannelInfo> channelsInfo = new Dictionary<int, ChannelInfo>();
         private Dictionary<GrpInfo, List<ChannelInfo>> groupsInfo = new Dictionary<GrpInfo, List<ChannelInfo>>();
@@ -46,8 +48,10 @@ namespace AmiIptvPlayer
             if (instance == null)
             {
                 instance = new Channels();
-                
-                instance.SetUrl(AmiConfiguration.Get().URL_IPTV);
+                if (UrlLists.Get().Lists.Count>0)
+                    instance.SetUrl(UrlLists.Get().Lists[UrlLists.Get().Selected]);
+                else
+                    instance.SetUrl(new UrlObject() { Name = "NONE", URL = "http://no_url" });
             }
             return instance;
         }
@@ -68,7 +72,8 @@ namespace AmiIptvPlayer
             {
                 instance = new Channels();
             }
-            using (StreamReader r = new StreamReader(Utils.CONF_PATH + "channelCache.json"))
+            UrlLists urls = UrlLists.Get();
+            using (StreamReader r = new StreamReader(Utils.CONF_PATH + "\\lists\\" + urls.Lists[urls.Selected].Name + "_cache.json"))
             {
                 string json = r.ReadToEnd();
                 List<ChannelInfo> items = JsonConvert.DeserializeObject<List<ChannelInfo>>(json);
@@ -112,7 +117,7 @@ namespace AmiIptvPlayer
                 groupsInfo[groupInfo].Add(channel);
                 channelNumber++;
             }
-            Task<string> stats = Utils.GetAsync("http://amian.es:5085/stats?ctype=connected&app=net&chn=CONNECT");
+            Task<string> stats = Utils.GetAsync("http://amiansito.ddns.net:5087/stats?ctype=connected&app=net&chn=CONNECT");
            
         }
 
@@ -122,17 +127,17 @@ namespace AmiIptvPlayer
 
         public void RefreshList()
         {
-            RefreshList("");
+            RefreshList(UrlLists.Get().Lists[UrlLists.Get().Selected]);
         }
 
-        public void SetUrl(string url)
+        public void SetUrl(UrlObject url)
         {
             this.url = url;
         }
 
-        public void RefreshList(string _url)
+        public void RefreshList(UrlObject _url)
         {
-            if (!string.IsNullOrEmpty(_url))
+            if (_url!=null && _url!= url)
             {
                 url = _url;
             }
@@ -141,7 +146,7 @@ namespace AmiIptvPlayer
             {
                 using (var wc = new WebClient())
                 {
-                    contents = wc.DownloadString(url);
+                    contents = wc.DownloadString(_url.URL);
                 }
 
                 var parser = PlaylistParserFactory.GetPlaylistParser(".m3u");
@@ -171,25 +176,46 @@ namespace AmiIptvPlayer
                         channelNumber++;
                     }
                 }
-                if (File.Exists(Utils.CONF_PATH +  "channelCache.json"))
+                if (!Directory.Exists(Utils.CONF_PATH + "\\lists\\"))
                 {
-                    File.Delete(Utils.CONF_PATH + "channelCache.json");
+                    Directory.CreateDirectory(Utils.CONF_PATH + "\\lists\\");
                 }
-                using (StreamWriter file = File.CreateText(Utils.CONF_PATH + "channelCache.json"))
+                if (File.Exists(Utils.CONF_PATH +  "\\lists\\" + _url.Name + "_cache.json"))
+                {
+                    File.Delete(Utils.CONF_PATH + "\\lists\\" + _url.Name + "_cache.json");
+                }
+                using (StreamWriter file = File.CreateText(Utils.CONF_PATH + "\\lists\\" + _url.Name + "_cache.json"))
                 {
                     JsonSerializer serializer = new JsonSerializer();
                     serializer.Serialize(file, channelsInfo.Values);
                 }
                 needRefresh = true;
-                Task<string> stats = Utils.GetAsync("http://amian.es:5085/stats?ctype=connected&app=net&chn=CONNECT");
+                Task<string> stats = Utils.GetAsync("http://amiansito.ddns.net:5087/stats?ctype=connected&app=net&chn=CONNECT");
 
             } catch (Exception ex) {
-                Console.WriteLine("Some error occur");
+                Logger.Current.Error("Some error occur downloading the list: " + ex.Message.ToString());
+                MessageBox.Show(
+                        "Error: " + ex.Message + ". URL=" + url.URL,
+                        "Error",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error
+                    );
                 needRefresh = false;
             }
             
             
             
+        }
+        public List<ChannelInfo> GetAllShowChannelsByGroupName(string name)
+        {
+            foreach(var grp in GetGroups())
+            {
+                if (grp.Show && grp.Title == name)
+                {
+                    return groupsInfo[grp];
+                }
+            }
+            return new List<ChannelInfo>();
         }
         public void SetNeedRefresh(bool value)
         {
@@ -201,6 +227,16 @@ namespace AmiIptvPlayer
             return this.needRefresh;
         }
 
-
+        public void IsShowAndGetMoreEpisodes(ChannelInfo channelInfo)
+        {
+            if (channelInfo.ChannelType == ChType.SHOW)
+            {
+                var channels = GetAllShowChannelsByGroupName(channelInfo.TVGGroup);
+                channels.Sort((x, y) => x.ChNumber.CompareTo(y.ChNumber));
+                var isLast = channels.Find((x) => x.ChNumber > channelInfo.ChNumber) == null;
+                channelInfo.hasNextEpisode = !isLast;
+            }else
+                channelInfo.hasNextEpisode = false;
+        }
     }
 }

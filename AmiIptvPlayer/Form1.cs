@@ -23,6 +23,7 @@ using System.Windows.Forms;
 namespace AmiIptvPlayer
 {
 
+   
     public partial class Form1 : Form
     {
         private static Form1 _instance;
@@ -104,13 +105,25 @@ namespace AmiIptvPlayer
             lbEndTimeTitle.Text = Strings.lbEndTimeTitle;
             lbStarsTitle.Text = Strings.lbStarsTitle;
             lbStartTimeTitle.Text = Strings.lbStartTimeTitle;
+            lbList.Text = Strings.lbIptvLists + ":";
             chName.Text = Strings.lbTitleTitle + ":";
+            donationToolStripMenuItem.Text = Strings.Donation;
             accountInfoToolStripMenuItem.Text = Strings.AccountInfoTitle;
+            manageListToolStripMenuItem.Text = Strings.ManageLists;
             playerForm.ReloadLang();
             ALL_GROUP = Strings.ALLGROUP;
             RepaintEPGLoadedLabel();
             EMPTY_GROUP = Strings.WOGROUP;
+
             HistoryMenuItem1.Text = Strings.lbHistory;
+            if (AmiConfiguration.Get().REMOVE_DONATE)
+            {
+                donateButton.Visible = false;
+            }
+            else
+            {
+                donateButton.Visible = true;
+            }
         }
 
         private void RepaintEPGLoadedLabel()
@@ -128,7 +141,8 @@ namespace AmiIptvPlayer
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            MoveConf();
+            IPTVConfiguration cfg = new IPTVConfiguration();
+            cfg.MoveConf();
             playerForm = new MPVPlayer();
             playerForm.TopLevel = false;
             playerForm.FormBorderStyle = FormBorderStyle.None;
@@ -155,103 +169,50 @@ namespace AmiIptvPlayer
             imageList.Images.Add(Image.FromFile("./resources/images/seen2.png"));
             imageList.Images.Add(Image.FromFile("./resources/images/resume.png"));
             chList.SmallImageList= imageList;
-            LoadAmiSettings();
+            cfg.LoadAmiSettings();
 
             Logger logger = Logger.Current;
             logger.SetBasePath(Utils.CONF_PATH);
             RepaintLabels();
-            
+            cmbLists.SelectedIndexChanged -= new System.EventHandler(this.cmbLists_SelectedIndexChanged);
+            FillIPTVLists();
             Utils.GetAccountInfo();
-            LoadChannelSeen();
-            LoadParentalControl();
+            cfg.LoadChannelSeen();
+            cfg.LoadParentalControl();
             RefreshListView();
             LoadChannels();
             LoadEPG();
+            cmbLists.SelectedIndexChanged += new System.EventHandler(this.cmbLists_SelectedIndexChanged);
+
+
+        }
+
+        private void FillIPTVLists()
+        {
+            UrlLists urls = UrlLists.Get();
+            if (urls.Lists.Count > 0)
+            {
+                if (cmbLists.Items != null)
+                    cmbLists.Items.Clear();
+
+                foreach (var item in urls.Lists)
+                {
+                    cmbLists.Items.Add(item.Name);
+
+                }
+                cmbLists.SelectedIndex = urls.Selected;
+            }
             
-            
         }
 
-        private void LoadAmiSettings()
+        
+        public void HideAutoPlay()
         {
-            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-            if (!File.Exists(Utils.CONF_PATH + "amiIptvConf.json"))
-            {
-                MessageBox.Show("Please check your configuration and save again to use new way to store the configuration.", "Possible wrong settings", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                AmiConfiguration amiConf = AmiConfiguration.Get();
-                amiConf.DEF_LANG = config.AppSettings.Settings["audio"].Value;
-                amiConf.DEF_SUB = config.AppSettings.Settings["sub"].Value;
-                amiConf.URL_IPTV = config.AppSettings.Settings["Url"].Value;
-                amiConf.URL_EPG = config.AppSettings.Settings["Epg"].Value;
-                amiConf.ENABLE_LOG = false;
-                using (StreamWriter file = File.CreateText(Utils.CONF_PATH + "amiIptvConf.json"))
-                {
-                    JsonSerializer serializer = new JsonSerializer();
-                    serializer.Serialize(file, amiConf);
-                }
-            }
-            else
-            {
-                using (StreamReader r = new StreamReader(Utils.CONF_PATH + "amiIptvConf.json"))
-                {
-                    string json = r.ReadToEnd();
-                    AmiConfiguration item = JsonConvert.DeserializeObject<AmiConfiguration>(json);
-                    AmiConfiguration.SetInstance(item);
-
-                    if (string.IsNullOrEmpty(item.UI_LANG) || item.UI_LANG == "SYSTEM" )
-                    {
-                        Strings.Culture = CultureInfo.InstalledUICulture;
-                    }
-                    else
-                    {
-                        Strings.Culture = new CultureInfo(item.UI_LANG);
-                    }
-                    
-                }
-            }
+            if (playerForm != null)
+                playerForm.HideNextButton();
         }
 
-        private void MoveConf()
-        {
-            if (!Directory.Exists(Utils.CONF_PATH))
-            {
-                Directory.CreateDirectory(Utils.CONF_PATH);
-                Utils.MoveFile(Utils.CONF_PATH_OLD + "amiIptvChannelSeen.json", Utils.CONF_PATH + "amiIptvChannelSeen.json");
-                Utils.MoveFile(Utils.CONF_PATH_OLD + "channelCache.json", Utils.CONF_PATH + "channelCache.json");
-                Utils.MoveFile(Utils.CONF_PATH_OLD + "amiIptvConf.json", Utils.CONF_PATH + "amiIptvConf.json");
-                Utils.MoveFile(Utils.CONF_PATH_OLD + "amiiptvepg.xml", Utils.CONF_PATH + "amiiptvepg.xml");
-                Utils.MoveFile(Utils.CONF_PATH_OLD + "amiiptvepgCache.json", Utils.CONF_PATH + "amiiptvepgCache.json");
-                
-            }
-        }
-        private void LoadChannelSeen()
-        {
-            if (File.Exists(Utils.CONF_PATH + "amiIptvChannelSeen.json"))
-            {
-                using (StreamReader r = new StreamReader(Utils.CONF_PATH + "amiIptvChannelSeen.json"))
-                {
-                    string json = r.ReadToEnd();
-                    SeenResumeChannels items = JsonConvert.DeserializeObject<SeenResumeChannels>(json);
-                    SeenResumeChannels.Get().Set(items);
-                }
-            }
-        }
-
-        private void LoadParentalControl()
-        {
-            if (File.Exists(Utils.CONF_PATH + "amiIptvParentalControl.json"))
-            {
-                using (StreamReader r = new StreamReader(Utils.CONF_PATH + "amiIptvParentalControl.json"))
-                {
-                    string json = r.ReadToEnd();
-                    List<ChannelInfo> blockChannels = JsonConvert.DeserializeObject<List<ChannelInfo>>(json);
-                    foreach(var ch in blockChannels)
-                    {
-                        ParentalControl.Get().AddBlockList(ch);
-                    }
-                }
-            }
-        }
-
+       
         private void LoadEPG()
         {
             EPG_DB epg = EPG_DB.Get();
@@ -298,12 +259,27 @@ namespace AmiIptvPlayer
 
         private void LoadChannels()
         {
+            UrlLists urls = UrlLists.Get();
             Channels channels = Channels.Get();
-            channels.SetUrl(AmiConfiguration.Get().URL_IPTV);
-            if (File.Exists(Utils.CONF_PATH + "channelCache.json"))
+            bool withoutUrls = false;
+            bool refreshList = false;
+            if (urls.Lists.Count>0)
+                channels.SetUrl(urls.Lists[urls.Selected]);
+            else
+            {
+                channels.SetUrl(new UrlObject() { Name = "NONE", URL = "http://no_url" });
+                withoutUrls = true;
+            }
+            if (!withoutUrls && File.Exists(Utils.CONF_PATH + "\\lists\\" + urls.Lists[urls.Selected].Name + "_cache.json"))
             {
                 channels = Channels.LoadFromJSON();
                 fillChannelList();
+                DateTime creationCacheChannel = File.GetLastWriteTimeUtc(Utils.CONF_PATH + "\\lists\\" + urls.Lists[urls.Selected].Name + "_cache.json");
+                if (File.Exists(Utils.CONF_PATH + "\\lists\\" + urls.Lists[urls.Selected].Name + "_cache.json")
+                    && creationCacheChannel.Day < DateTime.Now.Day - 1)
+                {
+                    refreshList = true;
+                }
             }
             else
             {
@@ -311,29 +287,42 @@ namespace AmiIptvPlayer
                 ch.Title = Strings.DEFAULT_MSG_NO_LIST;
                 ListViewItem i = new ListViewItem("0");
                 i.SubItems.Add(Strings.DEFAULT_MSG_NO_LIST);
-                chList.Items.Add(i);
+                chList.Invoke((System.Threading.ThreadStart)delegate
+                {
+                    chList.Items.Add(i);
+                });
                 var x = new ChannelListItem(ch.Title, ch.ChNumber);
                 x.Seen = ch.seen;
                 x.Resume = ch.currentPostion!=null;
                 lstListsChannels[ALL_GROUP].Add(x);
                 lstChannels.Add(x);
+                if (urls.Lists.Count > 0 && !File.Exists(Utils.CONF_PATH + "\\lists\\" + urls.Lists[urls.Selected].Name + "_cache.json"))
+                {
+                    refreshList = true;
+                }
             }
 
-            cmbGroups.Items.Clear();
+            FillGroups();
 
-            foreach (string group in lstListsChannels.Keys)
+            if (refreshList){
+                RefreshChList(true);
+            }
+        }
+
+        private void FillGroups()
+        {
+            cmbGroups.Invoke((System.Threading.ThreadStart)delegate
             {
-                cmbGroups.Items.Add(group);
+                cmbGroups.SelectedIndexChanged -= new System.EventHandler(this.cmbGroups_SelectedIndexChanged);
+                cmbGroups.Items.Clear();
+                foreach (string group in lstListsChannels.Keys)
+                {
+                    cmbGroups.Items.Add(group);
 
-            }
-            cmbGroups.SelectedIndex = 0;
-
-            DateTime creationCacheChannel = File.GetLastWriteTimeUtc(Utils.CONF_PATH + "channelCache.json");
-            if (File.Exists(Utils.CONF_PATH + "channelCache.json")
-                && creationCacheChannel.Day < DateTime.Now.Day - 1)
-            {
-                RefreshChList(false);
-            }
+                }
+                cmbGroups.SelectedIndex = 0;
+                cmbGroups.SelectedIndexChanged += new System.EventHandler(this.cmbGroups_SelectedIndexChanged);
+            });
         }
 
         private void FinishLoadEpg(EPG_DB epg, EPGEventArgs e)
@@ -457,7 +446,7 @@ namespace AmiIptvPlayer
                 try
                 {
                     string chName = channel.TVGName.Length < 100 ? channel.TVGName : channel.TVGName.Substring(0, 99);
-                    Task<string> stats = Utils.GetAsync("http://amian.es:5085/stats?ctype=connected&app=net&chn=" + chName);
+                    Task<string> stats = Utils.GetAsync("http://amiansito.ddns.net:5087/stats?ctype=connected&app=net&chn=" + chName);
                 }
                 catch (Exception ex)
                 {
@@ -632,40 +621,13 @@ namespace AmiIptvPlayer
             return chnl;
         }
 
-        
         private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Preferences pref = new Preferences();
             pref.PrincipalForm = this;
             
             pref.ShowDialog();
-            Channels channels = Channels.Get();
-            if (channels.NeedRefresh())
-            {
-                loadingPanel.Visible = true;
-                
-                loadingPanel.Size = this.Size;
-                loadingPanel.BringToFront();
-                new System.Threading.Thread(delegate ()
-                {
-                    channels.RefreshList();
-                    fillChannelList();
-                    cmbGroups.Invoke((System.Threading.ThreadStart)delegate
-                    {
-                        cmbGroups.Items.Clear();
-                        foreach (string group in lstListsChannels.Keys)
-                        {
-                            cmbGroups.Items.Add(group);
-                        }
-                    }); 
-                    loadingPanel.Invoke((System.Threading.ThreadStart)delegate {
-                        loadingPanel.Visible = false;
-                        loadingPanel.Size = new Size(20, 20);
-                    });
-                    
-                }).Start();
-                
-            }
+            
             EPG_DB epgDB = EPG_DB.Get();
             if (epgDB.Refresh)
             {
@@ -735,6 +697,12 @@ namespace AmiIptvPlayer
             FillChList();
             chList.Invoke((System.Threading.ThreadStart)delegate
             {
+                txtLoadCh.Invoke((System.Threading.ThreadStart)delegate
+                {
+                    txtLoadCh.Text = Strings.LOADING_CHANNELS;
+                    txtLoadCh.BringToFront();
+                    txtLoadCh.Visible = true;
+                });
                 foreach (ListViewItem item in chList.Items)
                 {
                     item.ImageIndex = -1;
@@ -749,6 +717,11 @@ namespace AmiIptvPlayer
                     }
                     
                 }
+                txtLoadCh.Invoke((System.Threading.ThreadStart)delegate
+                {
+                    txtLoadCh.Text = Strings.LOADING_CHANNELS;
+                    txtLoadCh.Visible = false;
+                });
             });
         }
 
@@ -860,9 +833,12 @@ namespace AmiIptvPlayer
             Channels channels = Channels.Get();
             if (showLoading)
             {
-                loadingPanel.Size = this.Size;
-                loadingPanel.Visible = true;
-                loadingPanel.BringToFront();
+                loadingPanel.Invoke((System.Threading.ThreadStart)delegate {
+                    loadingPanel.Size = this.Size;
+                    loadingPanel.Visible = true;
+                    loadingPanel.BringToFront();
+                });
+                
             }
             new System.Threading.Thread(delegate ()
             {
@@ -1265,6 +1241,51 @@ namespace AmiIptvPlayer
         {
             History his = new History();
             his.ShowDialog();
+        }
+
+        private void donationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Donation don = new Donation();
+            don.ShowDialog();
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+            donationToolStripMenuItem_Click(sender, e);
+        }
+
+        private void manageListToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ManageLists mgList = new ManageLists();
+            mgList.ShowDialog();
+            if (UrlLists.Get().Refresh)
+            {
+                cmbLists.SelectedIndexChanged -= new System.EventHandler(this.cmbLists_SelectedIndexChanged);
+                FillIPTVLists();
+                UrlLists.Get().Refresh = false;
+                cmbLists.SelectedIndexChanged += new System.EventHandler(this.cmbLists_SelectedIndexChanged);
+            }
+        }
+
+        private void cmbLists_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+            int selected = ((ComboBox)sender).SelectedIndex;
+            UrlLists.Get().Selected = selected;
+            loadingPanel.Visible = true;
+
+            loadingPanel.Size = this.Size;
+            loadingPanel.BringToFront();
+            new System.Threading.Thread(delegate ()
+            {
+                LoadChannels();
+                loadingPanel.Invoke((System.Threading.ThreadStart)delegate {
+                    loadingPanel.Visible = false;
+                    loadingPanel.Size = new Size(20, 20);
+                });
+
+            }).Start();
+            
         }
     }
 }

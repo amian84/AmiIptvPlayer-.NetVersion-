@@ -26,11 +26,11 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <InstallUrl>http://amian.es/amiiptv/</InstallUrl>
+    <InstallUrl>http://amiansito.ddns.net:5092/amiiptv/</InstallUrl>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>2</ApplicationRevision>
-    <ApplicationVersion>1.3.2.%2a</ApplicationVersion>
+    <ApplicationRevision>3</ApplicationRevision>
+    <ApplicationVersion>1.4.1.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
@@ -123,6 +123,13 @@
     </Compile>
     <Compile Include="ChannelInfo.cs" />
     <Compile Include="Channels.cs" />
+    <Compile Include="IPTVConfiguration.cs" />
+    <Compile Include="Donation.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Donation.Designer.cs">
+      <DependentUpon>Donation.cs</DependentUpon>
+    </Compile>
     <Compile Include="EPG_DB.cs" />
     <Compile Include="FixIdent.cs">
       <SubType>Form</SubType>
@@ -147,6 +154,12 @@
     </Compile>
     <Compile Include="LongDescription.Designer.cs">
       <DependentUpon>LongDescription.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ManageLists.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ManageLists.Designer.cs">
+      <DependentUpon>ManageLists.cs</DependentUpon>
     </Compile>
     <Compile Include="MPVPlayer.cs">
       <SubType>Form</SubType>
@@ -199,6 +212,9 @@
     <EmbeddedResource Include="AskPass.resx">
       <DependentUpon>AskPass.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Donation.resx">
+      <DependentUpon>Donation.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FixIdent.resx">
       <DependentUpon>FixIdent.cs</DependentUpon>
     </EmbeddedResource>
@@ -214,6 +230,9 @@
     <EmbeddedResource Include="i18n\Strings.tr-TR.resx" />
     <EmbeddedResource Include="LongDescription.resx">
       <DependentUpon>LongDescription.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ManageLists.resx">
+      <DependentUpon>ManageLists.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MPVPlayer.resx">
       <DependentUpon>MPVPlayer.cs</DependentUpon>
@@ -278,6 +297,9 @@
     <Content Include="resources\images\pause.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="resources\images\paypal.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="resources\images\play.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -334,22 +356,22 @@
   <ItemGroup>
     <PublishFile Include="DLLs\mpv-1.dll">
       <Visible>False</Visible>
-      <PublishState>Include</PublishState>
-      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="mpv">
       <Visible>False</Visible>
-      <PublishState>Include</PublishState>
-      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
       <FileType>Assembly</FileType>
     </PublishFile>
   </ItemGroup>

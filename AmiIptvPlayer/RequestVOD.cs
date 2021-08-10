@@ -220,7 +220,7 @@ namespace AmiIptvPlayer
                 smtp.Host = "smtp.gmail.com"; //for gmail host  
                 smtp.EnableSsl = true;
                 smtp.UseDefaultCredentials = false;
-                smtp.Credentials = new NetworkCredential("amiiptvplayer@gmail.com", "H$2j3&!xPQoXJy");
+                smtp.Credentials = new NetworkCredential("amiiptvplayer@gmail.com", "%@tB53!oqW");
                 smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
                 smtp.Send(message);
                 this.Close();

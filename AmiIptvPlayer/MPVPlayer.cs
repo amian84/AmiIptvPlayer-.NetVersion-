@@ -236,6 +236,8 @@ namespace AmiIptvPlayer
                 panelvideo.Focus();
                 
             });
+           
+            Channels.Get().IsShowAndGetMoreEpisodes(principalForm.GetCurrentChannel());
             
         }
 
@@ -639,7 +641,8 @@ namespace AmiIptvPlayer
         {
             if (player.IsMediaLoaded)
             {
-                player.SeekAsync(seekBar.Value);
+                if (seekBar.Value>=0 && seekBar.Value< seekBar.Maximum)
+                    player.SeekAsync(seekBar.Value);
             }
 
             //player.Position.Seconds = seekBar.Value;
@@ -649,56 +652,121 @@ namespace AmiIptvPlayer
                 positioncchangedevent = true;
             }
         }
-
-        private void PositionChanged(object sender, EventArgs e)
+        public void HideNextButton()
         {
-            if (seekBar.Enabled)
+            pnPrincipal.Invoke((System.Threading.ThreadStart)delegate
             {
-                seekBar.Invoke((System.Threading.ThreadStart)delegate
+                pnPrincipal.RowStyles[0].Height = 0;
+            });
+        }
+        private void CheckNextEpisode()
+        {
+            if (player.Position.TotalSeconds > 0 &&
+                player.Position.TotalSeconds >= player.Duration.TotalSeconds - 30 &&
+                pnPrincipal.RowStyles[0].Height == 0 &&
+                principalForm.GetCurrentChannel().hasNextEpisode)
+            {
+                btnNextEpisode.Invoke((System.Threading.ThreadStart)delegate
                 {
-
-                    seekBar.Value = Convert.ToInt32(player.Position.TotalSeconds);
+                    btnNextEpisode.Text = Strings.NextEpisode + " 30 " +
+                        Strings.Seconds;
                 });
-                string durationText = (player.Duration.Hours < 10 ? "0" + player.Duration.Hours.ToString() : player.Duration.Hours.ToString())
-                    + ":" + (player.Duration.Minutes < 10 ? "0" + player.Duration.Minutes.ToString() : player.Duration.Minutes.ToString())
-                    + ":" + (player.Duration.Seconds < 10 ? "0" + player.Duration.Seconds.ToString() : player.Duration.Seconds.ToString());
-                string positionText = (player.Position.Hours < 10 ? "0" + player.Position.Hours.ToString() : player.Position.Hours.ToString())
-                    + ":" + (player.Position.Minutes < 10 ? "0" + player.Position.Minutes.ToString() : player.Position.Minutes.ToString())
-                    + ":" + (player.Position.Seconds < 10 ? "0" + player.Position.Seconds.ToString() : player.Position.Seconds.ToString());
-                lbDuration.Invoke((System.Threading.ThreadStart)delegate
-                {
-                    lbDuration.Text = Strings.Duration + positionText + " / " + durationText;
-                });
-
-            }
-            if (player.Position.TotalSeconds>0 && player.Position.TotalSeconds >= player.Duration.TotalSeconds - 300)
-            {
-                if (!principalForm.GetCurrentChannel().seen)
-                {
-                    SeenResumeChannels.Get().UpdateOrSetSeen(principalForm.GetCurrentChannel().Title, true, player.Duration.TotalSeconds, DateTime.Now);
-                    principalForm.GetCurrentChannel().seen = true;
-                    principalForm.RefreshListView();
-                }
-            }
-            if (player.Position.TotalSeconds >= 150)
-            {
-                if (principalForm.GetCurrentChannel().currentPostion == null)
-                {
-                    SeenResumeChannels.Get().UpdateOrSetResume(principalForm.GetCurrentChannel().Title, player.Position.TotalSeconds, player.Duration.TotalSeconds, DateTime.Now);
-                    principalForm.GetCurrentChannel().currentPostion = player.Position.TotalSeconds;
-                    principalForm.RefreshListView();
-                }
-                principalForm.GetCurrentChannel().currentPostion = player.Position.TotalSeconds;
-            }
-
-           /* if (player.Position.TotalSeconds > 0 && player.Position.TotalSeconds >= player.Duration.TotalSeconds - 30)
-            {
                 pnPrincipal.Invoke((System.Threading.ThreadStart)delegate
                 {
                     pnPrincipal.RowStyles[0].Height = 50;
                 });
-            }*/
+            }
+            else if (player.Position.TotalSeconds > 0 &&
+               player.Position.TotalSeconds < player.Duration.TotalSeconds - 30 &&
+               pnPrincipal.RowStyles[0].Height == 50)
+            {
+                
+                pnPrincipal.Invoke((System.Threading.ThreadStart)delegate
+                {
+                    pnPrincipal.RowStyles[0].Height = 0;
+                });
+                
+            }
 
+            if (player.Position.TotalSeconds > 0 &&
+                player.Position.TotalSeconds >= player.Duration.TotalSeconds - 2 &&
+                pnPrincipal.RowStyles[0].Height == 50 &&
+                principalForm.GetCurrentChannel().hasNextEpisode)
+            {
+                if (InvokeRequired)
+                {
+                    Invoke((MethodInvoker)delegate { principalForm.NextChannel(); });
+                }
+            }
+
+            if (player.Position.TotalSeconds > 0 &&
+                player.Position.TotalSeconds >= player.Duration.TotalSeconds - 29 &&
+                pnPrincipal.RowStyles[0].Height == 50 &&
+                principalForm.GetCurrentChannel().hasNextEpisode)
+            {
+                btnNextEpisode.Invoke((System.Threading.ThreadStart)delegate
+                {
+                    btnNextEpisode.Text = Strings.NextEpisode + " " +
+                        Convert.ToInt32(player.Duration.TotalSeconds - player.Position.TotalSeconds) + " " +
+                        Strings.Seconds;
+                });
+            }
+        }
+
+        private void PositionChanged(object sender, EventArgs e)
+        {
+            if (player.IsPlaying)
+            {
+                if (seekBar.Enabled)
+                {
+                    seekBar.Invoke((System.Threading.ThreadStart)delegate
+                    {
+                        try
+                        {
+                            seekBar.Value = Convert.ToInt32(player.Position.TotalSeconds);
+                        }
+                        catch (MpvAPIException ex){
+                            Utils.WriteMPVLog(ex.Message, MpvLogLevel.Warning);
+                            Stop();
+                            return;
+                        }
+
+                    });
+                    string durationText = (player.Duration.Hours < 10 ? "0" + player.Duration.Hours.ToString() : player.Duration.Hours.ToString())
+                        + ":" + (player.Duration.Minutes < 10 ? "0" + player.Duration.Minutes.ToString() : player.Duration.Minutes.ToString())
+                        + ":" + (player.Duration.Seconds < 10 ? "0" + player.Duration.Seconds.ToString() : player.Duration.Seconds.ToString());
+                    string positionText = (player.Position.Hours < 10 ? "0" + player.Position.Hours.ToString() : player.Position.Hours.ToString())
+                        + ":" + (player.Position.Minutes < 10 ? "0" + player.Position.Minutes.ToString() : player.Position.Minutes.ToString())
+                        + ":" + (player.Position.Seconds < 10 ? "0" + player.Position.Seconds.ToString() : player.Position.Seconds.ToString());
+                    lbDuration.Invoke((System.Threading.ThreadStart)delegate
+                    {
+                        lbDuration.Text = Strings.Duration + positionText + " / " + durationText;
+                    });
+
+                }
+                if (player.Position.TotalSeconds > 0 && player.Position.TotalSeconds >= player.Duration.TotalSeconds - 300)
+                {
+                    if (!principalForm.GetCurrentChannel().seen)
+                    {
+                        SeenResumeChannels.Get().UpdateOrSetSeen(principalForm.GetCurrentChannel().Title, true, player.Duration.TotalSeconds, DateTime.Now);
+                        principalForm.GetCurrentChannel().seen = true;
+                        principalForm.RefreshListView();
+                    }
+                }
+                if (player.Position.TotalSeconds >= 150)
+                {
+                    if (principalForm.GetCurrentChannel().currentPostion == null)
+                    {
+                        SeenResumeChannels.Get().UpdateOrSetResume(principalForm.GetCurrentChannel().Title, player.Position.TotalSeconds, player.Duration.TotalSeconds, DateTime.Now);
+                        principalForm.GetCurrentChannel().currentPostion = player.Position.TotalSeconds;
+                        principalForm.RefreshListView();
+                    }
+                    principalForm.GetCurrentChannel().currentPostion = player.Position.TotalSeconds;
+                }
+                if (AmiConfiguration.Get().AUTOPLAY_EPISODES)
+                    CheckNextEpisode();
+
+            }
         }
 
         public void SetIsChannel(bool isChannel)
@@ -937,9 +1005,11 @@ namespace AmiIptvPlayer
                    (key >= Keys.NumPad0 && key <= Keys.NumPad9);
         }
 
-        private void cmbLangs_DropDownClosed(object sender, EventArgs e)
+      
+
+        private void btnNextEpisode_Click(object sender, EventArgs e)
         {
-            
+            principalForm.NextChannel();
         }
     }
 }

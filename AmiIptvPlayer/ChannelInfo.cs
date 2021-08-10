@@ -24,11 +24,13 @@ namespace AmiIptvPlayer
         public int ChNumber { get; set; }
         public ChType ChannelType { get; set; }
         public bool seen { get; set; }
+        public bool hasNextEpisode { get; set; }
         public double? currentPostion { get; set; }
         public double? totalDuration { get; set; }
         public ChannelInfo()
         {
             seen = false;
+            hasNextEpisode = false;
         }
 
         public ChannelInfo(M3uPlaylistEntry channelEntry)

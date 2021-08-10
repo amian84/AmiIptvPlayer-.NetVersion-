@@ -226,6 +226,8 @@ namespace AmiIptvPlayer
         public string REQ_EMAIL { get; set; }
         public string PARENTAL_PASS { get; set; }
         public bool ENABLE_LOG { get; set; }
+        public bool AUTOPLAY_EPISODES { get; set; }
+        public bool REMOVE_DONATE { get; set; }
     }
 
     public class IPTVData
@@ -244,6 +246,74 @@ namespace AmiIptvPlayer
         public DateTime EXPIRE_DATE{ get; set; }
         public string HOST { get; set; }
         public int PORT { get; set; }
+    }
+    public class UrlObject
+    {
+        public string URL { get; set; }
+        public string Name { get; set; }
+        public string LogoList { get; set; }
+    }
+    public class UrlLists
+    {
+        private static UrlLists instance;
+        public static UrlLists Get()
+        {
+            if (instance == null)
+            {
+                instance = new UrlLists();
+                instance.Lists = new List<UrlObject>();
+
+            }
+            return instance;
+        }
+        public static void SetInstance(UrlLists value)
+        {
+            instance = value;
+        }
+
+        public void Add(string name, string url)
+        {
+            
+            foreach (var item in Lists)
+            {
+                if (item.Name == name)
+                {
+                    throw new Exception(Strings.UrlExists);
+                }
+            }
+            Lists.Add(new UrlObject() { Name = name, URL = url });
+        }
+
+        public void Remove(string name)
+        {
+            List<UrlObject> newList = new List<UrlObject>();
+            foreach(var url in Lists)
+            {
+                if (url.Name != name)
+                {
+                    newList.Add(url);
+                }
+            }
+            Lists = newList;
+        }
+
+        public void Edit(string name, string newurl)
+        {
+            List<UrlObject> newList = new List<UrlObject>();
+            foreach (var url in Lists)
+            {
+                if (url.Name == name)
+                {
+                    url.URL = newurl;
+                }
+                newList.Add(url);
+            }
+            Lists = newList;
+        }
+
+        public List<UrlObject> Lists { get; set; }
+        public int Selected { get; set; }
+        public bool Refresh { get; set; }
     }
 
     public class ComboboxItem
@@ -305,7 +375,7 @@ namespace AmiIptvPlayer
             };
         }
 #if _PORTABLE
-        public static string PORTABLE_VERSION = "1.3.2.1";
+        public static string PORTABLE_VERSION = "1.4.2.1 (MULTILISTA BETA)";
 #endif
         public static string Base64Encode(string plainText)
         {
@@ -446,12 +516,19 @@ namespace AmiIptvPlayer
 
         public static void GetAccountInfo()
         {
-            string url = AmiConfiguration.Get().URL_IPTV;
+            
             IPTVData data = IPTVData.Get();
-            Uri uri = new Uri(AmiConfiguration.Get().URL_IPTV);
+            UrlLists urls = UrlLists.Get();
+            UrlObject selectedUrl = null;
+            if (urls.Lists.Count>0)
+                selectedUrl = urls.Lists[urls.Selected];
+            else
+                selectedUrl = new UrlObject() { Name = "NONE", URL = "http://no_url" };
+            Uri uri = new Uri(selectedUrl.URL);
             data.HOST = uri.Host;
             data.PORT = uri.Port;
             data.USER = HttpUtility.ParseQueryString(uri.Query).Get("username");
+            string url = selectedUrl.URL;
             if (string.IsNullOrEmpty(data.USER))
             {
                 data.USER = Strings.UNKNOWN;
