@@ -30,7 +30,7 @@ namespace AmiIptvPlayer
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             linkLabel1.LinkVisited = true;
-            System.Diagnostics.Process.Start("http://github.com");
+            System.Diagnostics.Process.Start("https://github.com/amian84/AmiIptvPlayer-.NetVersion-");
         }
 
     }
