@@ -517,4 +517,10 @@ Thank you!</value>
   <data name="ManageLists" xml:space="preserve">
     <value>Gérer les listes IPTV</value>
   </data>
+  <data name="NOT_INFO_HISTORY_SHOW" xml:space="preserve">
+    <value>Actuellement, nous n'affichons pas d'informations sur les séries de l'historique</value>
+  </data>
+  <data name="NewPortableVersion" xml:space="preserve">
+    <value>Il existe une nouvelle version ($$ VERSION $$) portable, vous pouvez la télécharger à partir du lien suivant. Tu veux l'ouvrir ?</value>
+  </data>
 </root>

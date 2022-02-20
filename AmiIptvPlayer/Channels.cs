@@ -1,4 +1,5 @@
 ﻿
+using AmiIptvPlayer.i18n;
 using AmiIptvPlayer.Tools;
 using Newtonsoft.Json;
 using PlaylistsNET.Content;
@@ -7,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,6 +16,22 @@ using System.Windows.Forms;
 
 namespace AmiIptvPlayer
 {
+    public struct ChannelListItem
+    {
+        public ChannelListItem(string text, int number)
+        {
+            Seen = false;
+            Resume = false;
+            Text = text;
+            Number = number;
+
+        }
+        public bool Seen { get; set; }
+        public bool Resume { get; set; }
+        public string Text { get; set; }
+        public int Number { get; set; }
+    }
+
     public struct GrpInfo
     {
         public string Title { get; set; }
@@ -38,11 +56,27 @@ namespace AmiIptvPlayer
 
     public class Channels
     {
+        private Dictionary<string, List<ChannelListItem>> lstListsChannels = new Dictionary<string, List<ChannelListItem>>();
         private static Channels instance;
         private UrlObject url;
         private bool needRefresh = false;
         private Dictionary<int, ChannelInfo> channelsInfo = new Dictionary<int, ChannelInfo>();
         private Dictionary<GrpInfo, List<ChannelInfo>> groupsInfo = new Dictionary<GrpInfo, List<ChannelInfo>>();
+
+        #region events
+        public delegate void FillGroups(List<string> groups);
+        public event FillGroups OnFillGroups;
+        public delegate void StartLoadAndProcessChannels();
+        public event StartLoadAndProcessChannels OnStartLoadAndProcessChannels;
+        public delegate void EndLoadAndProcessChannels();
+        public event EndLoadAndProcessChannels OnEndLoadAndProcessChannels;
+
+        public delegate void RefreshChannelsList(Dictionary<string, List<ChannelListItem>> lstChannels);
+        public event RefreshChannelsList OnRefreshChannelsList;
+        #endregion
+
+
+
         public static Channels Get()
         {
             if (instance == null)
@@ -133,6 +167,8 @@ namespace AmiIptvPlayer
         public void SetUrl(UrlObject url)
         {
             this.url = url;
+            if (url.Name != "NONE")
+                this.SetNeedRefresh(true);
         }
 
         public void RefreshList(UrlObject _url)
@@ -238,5 +274,99 @@ namespace AmiIptvPlayer
             }else
                 channelInfo.hasNextEpisode = false;
         }
+
+        public void LoadChannels()
+        {
+            UrlLists urls = UrlLists.Get();
+            
+            bool withoutUrls = false;
+            bool refreshChList = false;
+            if (urls.Lists.Count > 0)
+                SetUrl(urls.Lists[urls.Selected]);
+            else
+            {
+                SetUrl(new UrlObject() { Name = "NONE", URL = "http://no_url" });
+                withoutUrls = true;
+            }
+            if (!withoutUrls && File.Exists(Utils.CONF_PATH + "\\lists\\" + urls.Lists[urls.Selected].Name + "_cache.json"))
+            {
+                LoadFromJSON();
+                FillChList();
+                DateTime creationCacheChannel = File.GetLastWriteTimeUtc(Utils.CONF_PATH + "\\lists\\" + urls.Lists[urls.Selected].Name + "_cache.json");
+                if (File.Exists(Utils.CONF_PATH + "\\lists\\" + urls.Lists[urls.Selected].Name + "_cache.json")
+                    && creationCacheChannel.Day < DateTime.Now.Day - 1)
+                {
+                    refreshChList = true;
+                }
+            }
+            else
+            {
+                
+                var x = new ChannelListItem(Strings.DEFAULT_MSG_NO_LIST, 0);
+                lstListsChannels[Strings.ALLGROUP].Add(x);
+                if (urls.Lists.Count > 0 && !File.Exists(Utils.CONF_PATH + "\\lists\\" + urls.Lists[urls.Selected].Name + "_cache.json"))
+                {
+                    refreshChList = true;
+                }
+            }
+
+            OnFillGroups(lstListsChannels.Keys.ToList());
+
+            if (refreshChList)
+            {
+                try
+                {
+                    OnStartLoadAndProcessChannels();
+                    RefreshList();
+                    FillChList();
+                    OnEndLoadAndProcessChannels();
+                }catch (Exception ex)
+                {
+                    Logger.Current.Error($"ERROR refreshing channels: {ex.ToString()}");
+                    OnEndLoadAndProcessChannels();
+                }
+            }
+            OnRefreshChannelsList(lstListsChannels);
+
+        }
+
+        public void FillChList()
+        {
+            List<ChannelListItem> woGroup = new List<ChannelListItem>();
+            lstListsChannels.Clear();
+            lstListsChannels[Strings.ALLGROUP] = new List<ChannelListItem>();
+            lstListsChannels[Strings.ALLGROUP].Clear();
+
+            foreach (var elem in channelsInfo)
+            {
+                int chNumber = elem.Key;
+                ChannelInfo channel = elem.Value;
+                ChannelListItem chanItem = new ChannelListItem(channel.Title, channel.ChNumber);
+                chanItem.Seen = channel.seen;
+                chanItem.Resume = channel.currentPostion != null;
+                lstListsChannels[Strings.ALLGROUP].Add(chanItem);
+                string group = channel.TVGGroup;
+                if (string.IsNullOrEmpty(group))
+                {
+                    woGroup.Add(chanItem);
+                }
+                else
+                {
+                    if (!lstListsChannels.ContainsKey(group))
+                    {
+                        lstListsChannels[group] = new List<ChannelListItem>();
+                    }
+                    lstListsChannels[group].Add(chanItem);
+                }
+            }
+            if (woGroup.Count > 0)
+            {
+                lstListsChannels[Strings.WOGROUP] = woGroup;
+            }
+        }
+
+
+
     }
+
 }

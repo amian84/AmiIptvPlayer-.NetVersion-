@@ -881,6 +881,15 @@ namespace AmiIptvPlayer.i18n {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a There is a new portable version ($$VERSION$$) you can download it in the next link, do you want open it?.
+        /// </summary>
+        public static string NewPortableVersion {
+            get {
+                return ResourceManager.GetString("NewPortableVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Next Episode in.
         /// </summary>
         public static string NextEpisode {
@@ -904,6 +913,15 @@ namespace AmiIptvPlayer.i18n {
         public static string NOT_FOUND_CH {
             get {
                 return ResourceManager.GetString("NOT_FOUND_CH", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Currently we not show info of shows from hisotry list.
+        /// </summary>
+        public static string NOT_INFO_HISTORY_SHOW {
+            get {
+                return ResourceManager.GetString("NOT_INFO_HISTORY_SHOW", resourceCulture);
             }
         }
         

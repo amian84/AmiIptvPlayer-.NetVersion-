@@ -750,7 +750,8 @@ namespace AmiIptvPlayer
                     {
                         SeenResumeChannels.Get().UpdateOrSetSeen(principalForm.GetCurrentChannel().Title, true, player.Duration.TotalSeconds, DateTime.Now);
                         principalForm.GetCurrentChannel().seen = true;
-                        principalForm.RefreshListView();
+                        //principalForm.RefreshListView();
+                        principalForm.MarkSeen(principalForm.GetCurrentChannel());
                     }
                 }
                 if (player.Position.TotalSeconds >= 150)
@@ -759,7 +760,8 @@ namespace AmiIptvPlayer
                     {
                         SeenResumeChannels.Get().UpdateOrSetResume(principalForm.GetCurrentChannel().Title, player.Position.TotalSeconds, player.Duration.TotalSeconds, DateTime.Now);
                         principalForm.GetCurrentChannel().currentPostion = player.Position.TotalSeconds;
-                        principalForm.RefreshListView();
+                        //principalForm.RefreshListView();
+                        principalForm.MarkResume(principalForm.GetCurrentChannel());
                     }
                     principalForm.GetCurrentChannel().currentPostion = player.Position.TotalSeconds;
                 }

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,7 +26,7 @@ namespace AmiIptvPlayer
             foreach (var saw in seen.channelsSeenResume["seen"])
             {
                 ListViewItem i = new ListViewItem(saw.title);
-                i.SubItems.Add(saw.date.ToString(Strings.Culture.DateTimeFormat.ShortDatePattern));
+                i.SubItems.Add(saw.date.ToString(CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern));
                 
                 historyList.BeginUpdate();
                 historyList.Items.Add(i);
@@ -84,18 +85,25 @@ namespace AmiIptvPlayer
                 ListViewItem item = historyList.SelectedItems[0];
                 LongDescription lDescriptionForm = new LongDescription();
                 string year = Utils.YearFromFilmName(item.Text);
-
-                dynamic result = Utils.GetFilmInfo(ChType.MOVIE, item.Text.Replace(year, ""), year, "es"); ;
-                JObject filmMatch = null;
-                if (result["results"].Count > 0)
+                if (year != null)
                 {
-                    filmMatch = result["results"][0];
-                    lDescriptionForm.FillMovieData(filmMatch, ChType.MOVIE);
-                    lDescriptionForm.ShowDialog();
+                    dynamic result = Utils.GetFilmInfo(ChType.MOVIE, item.Text.Replace(year, ""), year, "es"); ;
+                    JObject filmMatch = null;
+                    if (result["results"].Count > 0)
+                    {
+                        filmMatch = result["results"][0];
+                        lDescriptionForm.FillMovieData(filmMatch, ChType.MOVIE);
+                        lDescriptionForm.ShowDialog();
+                    }
+                    else
+                    {
+                        MessageBox.Show(Strings.NOT_FOUND, Strings.WARN, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
                 }
                 else
                 {
-                    MessageBox.Show(Strings.NOT_FOUND, Strings.WARN, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show(Strings.NOT_INFO_HISTORY_SHOW, Strings.WARN, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
                 }
 
             }

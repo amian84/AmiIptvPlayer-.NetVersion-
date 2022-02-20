@@ -33,25 +33,10 @@ namespace AmiIptvPlayer
             SUB
         }
 
-        private struct ChannelListItem
-        {
-            public ChannelListItem(string text, int number)
-            {
-                Seen = false;
-                Resume = false;
-                Text = text;
-                Number = number;
-                
-            }
-            public bool Seen { get; set; }
-            public bool Resume { get; set; }
-            public string Text { get; set; }
-            public int Number { get; set; }
-        }
+        
 
         
         private PrgInfo currentPrg = null;
-        private Dictionary<string, List<ChannelListItem>> lstListsChannels = new Dictionary<string, List<ChannelListItem>>();
         private List<ChannelListItem> lstChannels = new List<ChannelListItem>();
         
         private JArray fillFilmResults = null;
@@ -76,7 +61,9 @@ namespace AmiIptvPlayer
             chList.View = View.Details;
             logoEPG.WaitOnLoad = false;
             logoChannel.WaitOnLoad = false;
-            _instance = this; 
+            _instance = this;
+            Channels.Get().OnRefreshChannelsList += RefreshListView;
+            Channels.Get().OnFillGroups += FillGroups;
 
         }
         public void RepaintLabels()
@@ -151,7 +138,7 @@ namespace AmiIptvPlayer
             panel2.Controls.Add(playerForm);
             playerForm.Show();
             playerForm.SetDockIcon(true);
-            lstListsChannels[ALL_GROUP] = new List<ChannelListItem>();
+            
             selectedList = ALL_GROUP;
 #if _PORTABLE
             lbVersion.Text = Utils.PORTABLE_VERSION;
@@ -179,11 +166,14 @@ namespace AmiIptvPlayer
             Utils.GetAccountInfo();
             cfg.LoadChannelSeen();
             cfg.LoadParentalControl();
-            RefreshListView();
-            LoadChannels();
+            
+            Channels.Get().LoadChannels();
             LoadEPG();
             cmbLists.SelectedIndexChanged += new System.EventHandler(this.cmbLists_SelectedIndexChanged);
-
+            
+#if _PORTABLE
+            Utils.CheckNewVersion();
+#endif
 
         }
 
@@ -257,65 +247,15 @@ namespace AmiIptvPlayer
             }
         }
 
-        private void LoadChannels()
+
+        private void FillGroups(List<string> groups)
         {
-            UrlLists urls = UrlLists.Get();
             Channels channels = Channels.Get();
-            bool withoutUrls = false;
-            bool refreshList = false;
-            if (urls.Lists.Count>0)
-                channels.SetUrl(urls.Lists[urls.Selected]);
-            else
-            {
-                channels.SetUrl(new UrlObject() { Name = "NONE", URL = "http://no_url" });
-                withoutUrls = true;
-            }
-            if (!withoutUrls && File.Exists(Utils.CONF_PATH + "\\lists\\" + urls.Lists[urls.Selected].Name + "_cache.json"))
-            {
-                channels = Channels.LoadFromJSON();
-                fillChannelList();
-                DateTime creationCacheChannel = File.GetLastWriteTimeUtc(Utils.CONF_PATH + "\\lists\\" + urls.Lists[urls.Selected].Name + "_cache.json");
-                if (File.Exists(Utils.CONF_PATH + "\\lists\\" + urls.Lists[urls.Selected].Name + "_cache.json")
-                    && creationCacheChannel.Day < DateTime.Now.Day - 1)
-                {
-                    refreshList = true;
-                }
-            }
-            else
-            {
-                ChannelInfo ch = new ChannelInfo();
-                ch.Title = Strings.DEFAULT_MSG_NO_LIST;
-                ListViewItem i = new ListViewItem("0");
-                i.SubItems.Add(Strings.DEFAULT_MSG_NO_LIST);
-                chList.Invoke((System.Threading.ThreadStart)delegate
-                {
-                    chList.Items.Add(i);
-                });
-                var x = new ChannelListItem(ch.Title, ch.ChNumber);
-                x.Seen = ch.seen;
-                x.Resume = ch.currentPostion!=null;
-                lstListsChannels[ALL_GROUP].Add(x);
-                lstChannels.Add(x);
-                if (urls.Lists.Count > 0 && !File.Exists(Utils.CONF_PATH + "\\lists\\" + urls.Lists[urls.Selected].Name + "_cache.json"))
-                {
-                    refreshList = true;
-                }
-            }
-
-            FillGroups();
-
-            if (refreshList){
-                RefreshChList(true);
-            }
-        }
-
-        private void FillGroups()
-        {
             cmbGroups.Invoke((System.Threading.ThreadStart)delegate
             {
                 cmbGroups.SelectedIndexChanged -= new System.EventHandler(this.cmbGroups_SelectedIndexChanged);
                 cmbGroups.Items.Clear();
-                foreach (string group in lstListsChannels.Keys)
+                foreach (string group in groups)
                 {
                     cmbGroups.Items.Add(group);
 
@@ -324,6 +264,7 @@ namespace AmiIptvPlayer
                 cmbGroups.SelectedIndexChanged += new System.EventHandler(this.cmbGroups_SelectedIndexChanged);
             });
         }
+
 
         private void FinishLoadEpg(EPG_DB epg, EPGEventArgs e)
         {
@@ -438,7 +379,8 @@ namespace AmiIptvPlayer
                     {
                         channel.currentPostion = null;
                         SeenResumeChannels.Get().RemoveResume(channel.Title);
-                        RefreshListView();
+                        ClearMark(channel);
+                        //RefreshListView();
                     }
                     
                 }
@@ -638,96 +580,60 @@ namespace AmiIptvPlayer
             }
         }
         
-        private void fillChannelList()
+        
+        public void RefreshListView(Dictionary<string, List<ChannelListItem>> lstChannels)
         {
-            FillChList();
-            chList.Invoke((System.Threading.ThreadStart)delegate {
-                chList.Items.Clear();
-                chList.Items.AddRange(lstListsChannels[ALL_GROUP].Select(c => {
-                    var x = new ListViewItem(new string[] { c.Number.ToString(), c.Text });
-                    if (c.Seen)
-                        x.ImageIndex = 0;
-                    else if (c.Resume)
-                        x.ImageIndex = 1;
-                    return x;
-                }).ToArray());
-
+            txtLoadCh.Invoke((System.Threading.ThreadStart)delegate
+            {
+                txtLoadCh.Text = Strings.LOADING_CHANNELS;
+                txtLoadCh.BringToFront();
+                txtLoadCh.Visible = true;
             });
-        }
-
-        private void FillChList()
-        {
-            Channels channels = Channels.Get();
-            List<ChannelListItem> woGroup = new List<ChannelListItem>();
-            lstListsChannels.Clear();
-            lstListsChannels[ALL_GROUP] = new List<ChannelListItem>();
-            lstListsChannels[ALL_GROUP].Clear();
-            lstChannels.Clear();
-            foreach (var elem in channels.GetChannelsDic())
+            new System.Threading.Thread(delegate ()
             {
-                int chNumber = elem.Key;
-                ChannelInfo channel = elem.Value;
-                ChannelListItem chanItem = new ChannelListItem(channel.Title, channel.ChNumber);
-                chanItem.Seen = channel.seen;
-                chanItem.Resume = channel.currentPostion != null;
-                lstChannels.Add(chanItem);
-                lstListsChannels[ALL_GROUP].Add(chanItem);
-                string group = channel.TVGGroup;
-                if (string.IsNullOrEmpty(group))
+                
+                chList.Invoke((System.Threading.ThreadStart)delegate
                 {
-                    woGroup.Add(chanItem);
-                }
-                else
-                {
-                    if (!lstListsChannels.ContainsKey(group))
-                    {
-                        lstListsChannels[group] = new List<ChannelListItem>();
-                    }
-                    lstListsChannels[group].Add(chanItem);
-                }
-            }
-            if (woGroup.Count > 0)
-            {
-                lstListsChannels[EMPTY_GROUP] = woGroup;
-            }
-        }
-
-        public void RefreshListView()
-        {
-            FillChList();
-            chList.Invoke((System.Threading.ThreadStart)delegate
-            {
-                txtLoadCh.Invoke((System.Threading.ThreadStart)delegate
-                {
-                    txtLoadCh.Text = Strings.LOADING_CHANNELS;
-                    txtLoadCh.BringToFront();
-                    txtLoadCh.Visible = true;
+                    chList.Items.Clear();
                 });
-                foreach (ListViewItem item in chList.Items)
+                chList.Invoke((System.Threading.ThreadStart)delegate
                 {
-                    item.ImageIndex = -1;
-                    var channel = Channels.Get().GetChannel(int.Parse(item.SubItems[0].Text));
-                    if (channel.seen)
+                    chList.BeginUpdate();
+                    chList.Items.AddRange(lstChannels[ALL_GROUP].Select(c =>
                     {
-                        item.ImageIndex = 0;
-                    }
-                    else if (channel.currentPostion != null)
+                        var x = new ListViewItem(new string[] { c.Number.ToString(), c.Text });
+                        if (c.Seen)
+                            x.ImageIndex = 0;
+                        else if (c.Resume)
+                            x.ImageIndex = 1;
+                        return x;
+                    }).ToArray());
+                    chList.EndUpdate();
+                });
+
+
+                cmbGroups.Invoke((System.Threading.ThreadStart)delegate
+                {
+                    cmbGroups.Items.Clear();
+                    foreach (string group in lstChannels.Keys)
                     {
-                        item.ImageIndex = 1;
+                        cmbGroups.Items.Add(group);
                     }
-                    
-                }
+                });
+
                 txtLoadCh.Invoke((System.Threading.ThreadStart)delegate
                 {
                     txtLoadCh.Text = Strings.LOADING_CHANNELS;
                     txtLoadCh.Visible = false;
                 });
-            });
+
+            }).Start();
+            
         }
 
         private void quitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            System.Windows.Forms.Application.Exit();
+            Application.Exit();
         }
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
@@ -786,7 +692,22 @@ namespace AmiIptvPlayer
             }).Start();
         }
 
-        
+        public void MarkSeen(ChannelInfo channelInfo)
+        {
+            chList.Invoke((System.Threading.ThreadStart)delegate
+            {
+                chList.Items[channelInfo.ChNumber].ImageIndex = 0;
+            });
+        }
+
+        public void MarkResume(ChannelInfo channelInfo)
+        {
+            chList.Invoke((System.Threading.ThreadStart)delegate
+            {
+                chList.Items[channelInfo.ChNumber].ImageIndex = 1;
+            });
+        }
+
         private void btnClear_Click_1(object sender, EventArgs e)
         {
             new System.Threading.Thread(delegate ()
@@ -828,6 +749,7 @@ namespace AmiIptvPlayer
             RefreshChList(true);
         }
 
+        
         private void RefreshChList(bool showLoading)
         {
             Channels channels = Channels.Get();
@@ -843,18 +765,36 @@ namespace AmiIptvPlayer
             new System.Threading.Thread(delegate ()
             {
                 channels.RefreshList();
-                if (channels.NeedRefresh())
+                FillChList();
+                chList.Invoke((System.Threading.ThreadStart)delegate
                 {
-                    fillChannelList();
-                    cmbGroups.Invoke((System.Threading.ThreadStart)delegate
+                    chList.Items.Clear();
+                });
+                chList.Invoke((System.Threading.ThreadStart)delegate
+                {
+                    chList.BeginUpdate();
+                    chList.Items.AddRange(lstListsChannels[ALL_GROUP].Select(c =>
                     {
-                        cmbGroups.Items.Clear();
-                        foreach (string group in lstListsChannels.Keys)
-                        {
-                            cmbGroups.Items.Add(group);
-                        }
-                    });
-                }
+                        var x = new ListViewItem(new string[] { c.Number.ToString(), c.Text });
+                        if (c.Seen)
+                            x.ImageIndex = 0;
+                        else if (c.Resume)
+                            x.ImageIndex = 1;
+                        return x;
+                    }).ToArray());
+                    chList.EndUpdate();
+                });
+                
+                    
+                cmbGroups.Invoke((System.Threading.ThreadStart)delegate
+                {
+                    cmbGroups.Items.Clear();
+                    foreach (string group in lstListsChannels.Keys)
+                    {
+                        cmbGroups.Items.Add(group);
+                    }
+                });
+                
                 loadingPanel.Invoke((System.Threading.ThreadStart)delegate {
                     loadingPanel.Visible = false;
                 });
@@ -1104,6 +1044,7 @@ namespace AmiIptvPlayer
 
                 chList.Invoke((System.Threading.ThreadStart)delegate
                 {
+                    chList.BeginUpdate();
                     chList.Items.Clear();
                     if (string.IsNullOrEmpty(selected))
                     {
@@ -1119,6 +1060,7 @@ namespace AmiIptvPlayer
                         return x;
                     }
                     ).ToArray());
+                    chList.EndUpdate();
                 });
                 selectedList = selected;
                 txtLoadCh.Invoke((System.Threading.ThreadStart)delegate
@@ -1192,9 +1134,18 @@ namespace AmiIptvPlayer
             var channel = Channels.Get().GetChannel(int.Parse(chList.SelectedItems[0].SubItems[0].Text));
             channel.currentPostion = null;
             SeenResumeChannels.Get().RemoveResume(channel.Title);
-            RefreshListView();
+            ClearMark(channel);
         }
-
+        private void ClearMark(ChannelInfo channel)
+        {
+            chList.Invoke((System.Threading.ThreadStart)delegate
+            {
+                ListViewItem lvItem = (ListViewItem)chList.Items[channel.ChNumber].Clone();
+                lvItem.ImageIndex = -1;
+                chList.Items[channel.ChNumber] = lvItem;
+                
+            });
+        }
         private void menuItemChnSeen_Click(object sender, EventArgs e)
         {
             var channel = Channels.Get().GetChannel(int.Parse(chList.SelectedItems[0].SubItems[0].Text));
@@ -1202,13 +1153,15 @@ namespace AmiIptvPlayer
             {
                 channel.seen = false;
                 SeenResumeChannels.Get().RemoveSeen(channel.Title);
+                ClearMark(channel);
             }
             else
             {
                 channel.seen = true;
                 SeenResumeChannels.Get().UpdateOrSetSeen(channel.Title, true, channel.totalDuration==null?-1:(double)channel.totalDuration, DateTime.Now);
+                MarkSeen(channel);
             }
-            RefreshListView();
+            
         }
 
         private void requestNewVODToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1258,13 +1211,19 @@ namespace AmiIptvPlayer
         {
             ManageLists mgList = new ManageLists();
             mgList.ShowDialog();
+            var refresh = false;
             if (UrlLists.Get().Refresh)
             {
                 cmbLists.SelectedIndexChanged -= new System.EventHandler(this.cmbLists_SelectedIndexChanged);
+
+                if (cmbLists.Items.Count == 0)
+                    refresh = true;
                 FillIPTVLists();
                 UrlLists.Get().Refresh = false;
                 cmbLists.SelectedIndexChanged += new System.EventHandler(this.cmbLists_SelectedIndexChanged);
             }
+            if (refresh)
+                RefreshChList(true);
         }
 
         private void cmbLists_SelectedIndexChanged(object sender, EventArgs e)
@@ -1272,20 +1231,10 @@ namespace AmiIptvPlayer
 
             int selected = ((ComboBox)sender).SelectedIndex;
             UrlLists.Get().Selected = selected;
-            loadingPanel.Visible = true;
-
-            loadingPanel.Size = this.Size;
-            loadingPanel.BringToFront();
-            new System.Threading.Thread(delegate ()
-            {
-                LoadChannels();
-                loadingPanel.Invoke((System.Threading.ThreadStart)delegate {
-                    loadingPanel.Visible = false;
-                    loadingPanel.Size = new Size(20, 20);
-                });
-
-            }).Start();
+            LoadChannels();
             
+            Utils.GetAccountInfo();
+
         }
     }
 }

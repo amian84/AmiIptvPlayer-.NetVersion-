@@ -517,4 +517,7 @@ Thank you!</value>
   <data name="ManageLists" xml:space="preserve">
     <value>Listeleri Yönet</value>
   </data>
+  <data name="NewPortableVersion" xml:space="preserve">
+    <value>Yeni bir sürüm ($$ VERSION $$) taşınabilir, aşağıdaki bağlantıdan indirebilirsiniz. Açmak ister misin?</value>
+  </data>
 </root>

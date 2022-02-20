@@ -246,7 +246,9 @@ namespace AmiIptvPlayer
         public DateTime EXPIRE_DATE{ get; set; }
         public string HOST { get; set; }
         public int PORT { get; set; }
+        public dynamic PASS { get; internal set; }
     }
+
     public class UrlObject
     {
         public string URL { get; set; }
@@ -375,7 +377,20 @@ namespace AmiIptvPlayer
             };
         }
 #if _PORTABLE
-        public static string PORTABLE_VERSION = "1.4.2.1 (MULTILISTA BETA)";
+        public static string PORTABLE_VERSION = "1.5.1.2";
+
+        public static void CheckNewVersion()
+        {
+            var upVersion = Utils.GetUrl("http://amiansito.ddns.net:5092/amiiptv/portable.version");
+            if (upVersion != PORTABLE_VERSION)
+            {
+                DialogResult d = MessageBox.Show(Strings.NewPortableVersion.Replace("$$VERSION$$", upVersion) + "\n\n" + "https://bit.ly/2TGsPHe", "Update", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
+                if (d == DialogResult.OK)
+                {
+                    System.Diagnostics.Process.Start("https://bit.ly/2TGsPHe");
+                }
+            }
+        }
 #endif
         public static string Base64Encode(string plainText)
         {
@@ -552,7 +567,7 @@ namespace AmiIptvPlayer
                 
                 MessageBox.Show(Strings.ACCOUNT_INFO_ERROR, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
+            
         }
 
         public static DateTime UnixToDate(int Timestamp)
