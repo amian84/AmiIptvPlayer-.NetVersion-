@@ -200,6 +200,10 @@ namespace AmiIptvPlayer
                     cmbLists.Items.Add(item.Name);
 
                 }
+                if (urls.Selected >= urls.Lists.Count)
+                {
+                    urls.Selected = urls.Lists.Count-1;
+                }
                 cmbLists.SelectedIndex = urls.Selected;
             }
             
