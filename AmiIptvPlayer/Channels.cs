@@ -8,6 +8,8 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -144,19 +146,23 @@ namespace AmiIptvPlayer
             string contents;
             try
             {
-                using (var wc = new WebClient())
+                var request = new HttpRequestMessage(HttpMethod.Get, _url.URL);
+                request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("*/*"));
+                request.Headers.Add("User-Agent", "Mozilla/5.0 (X11; Linux x86_64; rv:33.0) Gecko/20100101 Firefox/33.0");
+
+                M3uPlaylist m3UList;
+                var parser = PlaylistParserFactory.GetPlaylistParser(".m3u");
+                using (var client = new HttpClient())
                 {
-                    contents = wc.DownloadString(_url.URL);
+                    var response = client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead).Result;
+                    m3UList = (M3uPlaylist)parser.GetFromStream(response.Content.ReadAsStreamAsync().Result);
                 }
 
-                var parser = PlaylistParserFactory.GetPlaylistParser(".m3u");
-                IBasePlaylist playlist = parser.GetFromString(contents);
-                M3uPlaylist m3uList = (M3uPlaylist)playlist;
                 channelsInfo.Clear();
                 groupsInfo.Clear();
                 int channelNumber = 0;
                 SeenResumeChannels src = SeenResumeChannels.Get();
-                foreach (M3uPlaylistEntry entry in m3uList.PlaylistEntries)
+                foreach (M3uPlaylistEntry entry in m3UList.PlaylistEntries)
                 {
                     if (entry.CustomProperties.Count > 0)
                     {
